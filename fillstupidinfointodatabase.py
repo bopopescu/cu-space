@@ -104,8 +104,33 @@ achievement = "hello 3 time"
 exp = "hello 3! time"
 subject = "Chompoonuch"
 video ="www.youtube.com/kokkok"
+
+#PROFILE PIC INFO
+picture = "abcdegf.jpg"
+
+#SUBJECT
+#NONE
+
+#SUBJECT GROUP
+price = "6969"
+try:
+    subjectCursor = conn.cursor()
+    subjectSQL = """INSERT INTO `subject`(`Subject_name`)
+                    VALUES ("Language"), ("Science"), ("Math"), ("Architect"), ("Psychology"), ("Business"), ("Finanace"), ("Others")"""
+    subjectCursor.execute(subjectSQL)
+    try:
+        subject_idSQL = """SELECT * FROM `subject`"""
+        subjectCursor.execute(subject_idSQL)
+        subject_id = subjectCursor.fetchall().__len__()+1
+        conn.commit()
+    except:
+        print("Cannot get last subject_id")
+except:
+    print("Cannot insert subject")
+subjectCursor.close()
 for i in range(30):
     #tutor_and_user = uuid.uuid4().hex
+    picture_id = randrange(1, 1000000)
     tutor_and_user = randrange(1,100000000)
     user_and_tutor_cursor = conn.cursor()
     email = "hello" + str(randrange(1, 10000)) + "@world.com"
@@ -119,13 +144,23 @@ for i in range(30):
             insert_tutor_SQL = """INSERT INTO `tutor`(`User_id`, `Bio`, `Skill`, `Achievement`, `Experience`, `Subject`, `Video`) 
                                   VALUES (%s,%s,%s,%s,%s,%s,%s)"""
             user_and_tutor_cursor.execute(insert_tutor_SQL,(tutor_and_user,bio,skill,achievement,exp,subject,video))
-            conn.commit()
+            try:
+                subject_grpSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`) 
+                                    VALUES (%s,%s,%s)"""
+                random_subject_id = randrange(1, subject_id)
+                user_and_tutor_cursor.execute(subject_grpSQL,(tutor_and_user,random_subject_id, price))
+                conn.commit()
+            except:
+                print("Cannot insert subject group")
         except:
             print("Cannot insert into tutor")
     except:
         print("Cannot insert into User")
 user_and_tutor_cursor.close()
 conn.close()
+
+
+
 
 
 
