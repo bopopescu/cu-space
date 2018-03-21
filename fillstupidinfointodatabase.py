@@ -115,14 +115,14 @@ picture = "abcdegf.jpg"
 price = "6969"
 try:
     subjectCursor = conn.cursor()
-    subjectSQL = """INSERT INTO `subject`(`Subject_name`)
-                    VALUES ("Language"), ("Science"), ("Math"), ("Architect"), ("Psychology"), ("Business"), ("Finanace"), ("Others")"""
-    subjectCursor.execute(subjectSQL)
+    # subjectSQL = """INSERT INTO `subject`(`Subject_name`)
+    #                 VALUES ("Language"), ("Science"), ("Math"), ("Architect"), ("Psychology"), ("Business"), ("Finanace"), ("Others")"""
+    # subjectCursor.execute(subjectSQL)
+    #conn.commit()
     try:
         subject_idSQL = """SELECT * FROM `subject`"""
         subjectCursor.execute(subject_idSQL)
         subject_id = subjectCursor.fetchall().__len__()+1
-        conn.commit()
     except:
         print("Cannot get last subject_id")
 except:
@@ -144,18 +144,26 @@ for i in range(30):
             insert_tutor_SQL = """INSERT INTO `tutor`(`User_id`, `Bio`, `Skill`, `Achievement`, `Experience`, `Subject`, `Video`) 
                                   VALUES (%s,%s,%s,%s,%s,%s,%s)"""
             user_and_tutor_cursor.execute(insert_tutor_SQL,(tutor_and_user,bio,skill,achievement,exp,subject,video))
-            try:
-                subject_grpSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`) 
-                                    VALUES (%s,%s,%s)"""
-                random_subject_id = randrange(1, subject_id)
-                user_and_tutor_cursor.execute(subject_grpSQL,(tutor_and_user,random_subject_id, price))
-                conn.commit()
-            except:
-                print("Cannot insert subject group")
+            conn.commit()
         except:
             print("Cannot insert into tutor")
     except:
         print("Cannot insert into User")
+    try:
+        subject_grpSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`) 
+                            VALUES (%s,%s,%s)"""
+        random_subject_id = randrange(1, subject_id)
+        user_and_tutor_cursor.execute(subject_grpSQL, (tutor_and_user, random_subject_id, price))
+        conn.commit()
+    except:
+        print("Cannot insert subject group")
+    try:
+        profile_picSQL = """INSERT INTO `profile_picture`(`Picture`, `User_id`) 
+                            VALUES (%s,%s)"""
+        user_and_tutor_cursor.execute(profile_picSQL,(picture,tutor_and_user))
+        conn.commit()
+    except:
+        print("Cannot insert profile picture data")
 user_and_tutor_cursor.close()
 conn.close()
 

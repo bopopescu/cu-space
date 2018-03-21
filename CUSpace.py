@@ -25,11 +25,18 @@ def index():
 def tutor():
     conn = mysql.connect()
     cursor = conn.cursor()
-    sql = """SELECT * FROM `tutor` t 
+    # sql = """SELECT * FROM `tutor` t
+    #              INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
+    #              INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id
+    #              INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id
+    #              INNER JOIN `user` ON user.User_id = t.user_id """
+    sql = """SELECT t.user_id, t.bio, prof.picture, sub_grp.subject_id,sub_grp.price, 
+             GROUP_CONCAT(sub.subject_name) as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status 
+             FROM `tutor` t 
              INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id 
              INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id 
-             INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id
-             INNER JOIN `user` ON user.User_id = t.user_id """
+             INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id 
+             INNER JOIN `user` ON user.User_id = t.user_id GROUP BY user_id"""
     try:
         cursor.execute(sql)
         tutorData = cursor.fetchall()
