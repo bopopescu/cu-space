@@ -30,8 +30,8 @@ def tutor():
     #              INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id
     #              INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id
     #              INNER JOIN `user` ON user.User_id = t.user_id """
-    sql = """SELECT t.user_id, t.bio, prof.picture, sub_grp.subject_id,sub_grp.price, 
-             GROUP_CONCAT(sub.subject_name) as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status 
+    sql = """SELECT t.user_id, t.bio, prof.picture, sub_grp.subject_id,sub_grp.price, GROUP_CONCAT(sub.subject_name) 
+             as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status, sub_grp.subject_description 
              FROM `tutor` t 
              INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id 
              INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id 
@@ -69,7 +69,7 @@ def newpost():
 @app.route('/newpost/create_new_discussion', methods=['POST'])
 def createnewpost():
     topic = request.form['topic_name']
-    categoryList = request.form.get('category_name')
+    categoryList = request.form.getlist('category_name')
     discussion = request.form['content']
     user_id = "123456" #change later
     conn = mysql.connect()
@@ -81,10 +81,11 @@ def createnewpost():
         print(cursor.lastrowid)
         dis_id = cursor.lastrowid
         try:
-            sqlPostDis_Cat_Grp = """INSERT INTO `dis_category_group`(`Dis_id`, `Dis_cat_id`) 
-                                    VALUES (%s,%s)"""
-            cursor.execute(sqlPostDis_Cat_Grp, (dis_id, categoryList))
-            conn.commit()
+            for category in categoryList:
+                sqlPostDis_Cat_Grp = """INSERT INTO `dis_category_group`(`Dis_id`, `Dis_cat_id`) 
+                                        VALUES (%s,%s)"""
+                cursor.execute(sqlPostDis_Cat_Grp, (dis_id, category))
+                conn.commit()
             cursor.close()
             conn.close()
         except:
@@ -93,9 +94,9 @@ def createnewpost():
         print("Cannot Insert value into discussion")
     return redirect(url_for("newpost"))
 
-@app.route('/registernewtutor')
+@app.route('/newtutor')
 def registernewtutor():
-    return render_template('newtutor.html')
+    return render_template('newtutor.html', cat = getCat())
 
 
 

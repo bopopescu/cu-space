@@ -72,7 +72,7 @@
             <br>
             <br>
             <br>
-            <button type="button" class="btn btn-primary" id="beatutor"><a href="registernewtutor">Be a tutor!</a></button>
+            <a type="button" class="btn btn-primary" id="beatutor" href="{{ url_for('registernewtutor') }}">Be a tutor!</a>
         </div>
 
       </div>
@@ -86,7 +86,7 @@
                 <div class="col-lg-4">
                 <img class="rounded-circle" src="/static/img/{{ tutor[2] }}" alt="Generic placeholder image" width="140" height="140">
                   <p><a href = /profile> {{ tutor[6] }} {{ tutor[7] }} </a></p>
-                <h5><b>Open courses:</b> {{ tutor[5] }}</h5>
+                <h5><b>Open courses:</b> {{ tutor[9] }}</h5>
                   <h5><b>Price:</b> {{ tutor[4] }}/Hr</h5>
                   <h5><b>Bio:</b> {{tutor[1]}}</h5>
                 </div>

@@ -113,6 +113,7 @@ picture = "abcdegf.jpg"
 
 #SUBJECT GROUP
 price = "6969"
+subject_description = "hello world"
 try:
     subjectCursor = conn.cursor()
     # subjectSQL = """INSERT INTO `subject`(`Subject_name`)
@@ -150,10 +151,10 @@ for i in range(30):
     except:
         print("Cannot insert into User")
     try:
-        subject_grpSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`) 
-                            VALUES (%s,%s,%s)"""
+        subject_grpSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`) 
+                            VALUES (%s,%s,%s,%s)"""
         random_subject_id = randrange(1, subject_id)
-        user_and_tutor_cursor.execute(subject_grpSQL, (tutor_and_user, random_subject_id, price))
+        user_and_tutor_cursor.execute(subject_grpSQL, (tutor_and_user, random_subject_id, price,subject_description))
         conn.commit()
     except:
         print("Cannot insert subject group")
