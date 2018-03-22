@@ -45,6 +45,35 @@ def tutor():
         print("Cannot query tutor data")
     return render_template('tutor2.html', tutorList = tutorData)
 
+
+@app.route('/tutor/<tutor_id>')
+def profile(tutor_id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    try:
+        tutorSQL = """SELECT t.user_id, t.bio, prof.picture, user.Firstname, user.Lastname, user.Ban_status,t.Experience, t.video 
+                      FROM `tutor` t 
+                      INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id 
+                      INNER JOIN `user` ON user.User_id = t.user_id 
+                      WHERE t.user_id = %s """
+        cursor.execute(tutorSQL, tutor_id)
+        tutor_info = cursor.fetchone()
+        try:
+            subjectSQL = """SELECT sub.Subject_name, grp.price, grp.subject_description 
+                              FROM `subject_group` grp 
+                              INNER JOIN subject sub ON sub.Subject_id = grp.Subject_id 
+                              WHERE grp.User_id = %s """
+            cursor.execute(subjectSQL, tutor_id)
+            subject_info = cursor.fetchall()
+            print(tutor_info)
+            return render_template('profile2.html', subList = subject_info, tutor = tutor_info)
+        except:
+            print("Cannot retrieve subject info")
+            return render_template('error.html')
+    except:
+        print("Cannot retrieve tutor info")
+        return render_template('error.html')
+
 @app.route('/job')
 def job():
     return render_template('job.html')
@@ -56,10 +85,6 @@ def jobProfile():
 @app.route('/company')
 def company():
     return render_template('company.html')
-
-@app.route('/tutor/<tutor_id>')
-def profile():
-    return render_template('profile2.html')
 
 @app.route('/newpost')
 def newpost():

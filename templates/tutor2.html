@@ -84,8 +84,10 @@
                 <div class="row">
               {% endif %}
                 <div class="col-lg-4">
+                <a href = "/tutor/{{ tutor[0] }}">
                 <img class="rounded-circle" src="/static/img/{{ tutor[2] }}" alt="Generic placeholder image" width="140" height="140">
-                  <p><a href = /profile> {{ tutor[6] }} {{ tutor[7] }} </a></p>
+                  <p>{{ tutor[6] }} {{ tutor[7] }}</p>
+                </a>
                 <h5><b>Open courses:</b> {{ tutor[9] }}</h5>
                   <h5><b>Price:</b> {{ tutor[4] }}/Hr</h5>
                   <h5><b>Bio:</b> {{tutor[1]}}</h5>
