@@ -15,14 +15,14 @@
     .btn-secondary{
         background-color: #6c757d;
         color: white;
-        position: absolute;
-        bottom: 0;
-
     }
     .btn-secondary:hover{
         background-color: #5a6268;
         color: white;
     }
+{#        .btn-primary{#}
+{#            float: right;#}
+{#    }#}
     .search-container {
         float: left;
         margin-top: 16px;
@@ -43,6 +43,7 @@
         font-size: 17px;
         border: none;
         cursor: pointer;
+
 }
 
 .search-container button:hover {
@@ -68,16 +69,24 @@
                     <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                 </form>
             </div>
-            <br>
-            <br>
-            <br>
-            <br>
-            <a type="button" class="btn btn-primary" id="beatutor" href="{{ url_for('registernewtutor') }}">Be a tutor!</a>
         </div>
 
       </div>
 
       <div class="container">
+            <div class="filter" align="center">
+                  <form class="form-inline">
+                    <div class="form-group">
+                        <select class="selectpicker" multiple title="All tutor">
+                            <option>English</option>
+                            <option>Math</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Filter</button>
+                      <a type="button" class="btn btn-primary" id="beatutor" href="{{ url_for('registernewtutor') }}">Become a Tutor</a>
+                  </form>
+              </div>
         <!-- Example row of columns -->
           {% for tutor in tutorList %}
               {% if loop.index %3 == 1   %}
