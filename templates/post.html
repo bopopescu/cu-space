@@ -5,7 +5,7 @@
 {#    Put additional head code here #}
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link id="theme-style" rel="stylesheet" href="/static/css/discussion/styles.css">
+    <link id="theme-style" rel="stylesheet" href="/static/css/post/styles.css">
 {% endblock %}
 {% block content %}
 {#    Put body code here #}
@@ -16,27 +16,77 @@
             <h2 class="section-title">This is my Topic</h2>
             <br>
             <p>Ralph Kimball founded the Kimball Group. Since the mid-1980s, he has been the data warehouse and business intelligence industry’s thought leader on the dimen- sional approach. He has educated tens of thousands of IT professionals. The Toolkit books written by Ralph and his colleagues have been the industry’s best sellers since 1996. Prior to working at Metaphor and founding Red Brick Systems, Ralph coinvented the Star workstation, the first commercial product with windows, icons, and a mouse, at Xerox’s Palo Alto Research Center (PARC). Ralph has a PhD in electrical engineering from Stanford University.</p>
-            <br>
-            <h6 class="section-title">Posted on 11/111/1 by natty</h6>
+{#            <h6 class="section-title">Posted on 11/111/1 by natty</h6>#}
+            <hr>
+            <div class="poster-wrapper">
+                <div class="vote">
+                    <div><a href="#" class="up"><span class="glyphicon glyphicon-thumbs-up"></span> </a></div>
+                    <div> 221 </div>
+                    <div><a href="#" class="down"><span class="glyphicon glyphicon-thumbs-down"></span> </a></div>
+                </div>
+                <div class="poster-profile-img">
+                    <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="45" height="45">
+                </div>
+                <div class="poster-info">
+                    <h5>Zlatan Niphon</h5>
+                    <h6>Posted on 11/12/13 14:15:16</h6>
+                </div>
+            </div>
         </div><!--//main-body-->
     </div>
 
     <div class="wrapper">
 {#        {% for data in discussion %}#}
         <div class="main-wrapper">
-            <div class="profile-img"><img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="45" height="45"></div>
+            <div class="vote">
+                    <div><a href="#" class="up"><span class="glyphicon glyphicon-thumbs-up"></span> </a></div>
+                    <div> 221 </div>
+                    <div><a href="#" class="down"><span class="glyphicon glyphicon-thumbs-down"></span> </a></div>
+            </div>
+            <div class="profile-img">
+                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="45" height="45">
+                <br>
+            </div>
+            <div class="content">
             <p class="section-title">So boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosd</p>
-            <h6 class="section-title">Posted on 11/111/1</h6>
+            <h6 class="section-title">Posted on 11/111/1 by Kitty</h6>
+            </div>
             <hr>
         </div>
         <div class="main-wrapper">
-            <div class="profile-img"><img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="45" height="45"></div>
-            <p class="section-title">So boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosd</p>
-            <h6 class="section-title">Posted on 11/111/1</h6>
-            <hr>
+            <div class="vote">
+                    <div><a href="#" class="up"><span class="glyphicon glyphicon-thumbs-up"></span> </a></div>
+                    <div> 221 </div>
+                    <div><a href="#" class="down"><span class="glyphicon glyphicon-thumbs-down"></span> </a></div>
+            </div>
+            <div class="profile-img">
+                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="45" height="45">
+                <br>
+            </div>
+            <div class="content">
+                <p class="section-title">So boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosdSo boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosdSo boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosdSo boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosdSo boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosd</p>
+                <h6 class="section-title">Posted on 11/111/1 by Kitty</h6>
+            </div>
         </div>
 {#        {% endfor %}#}
     </div>
+    <div class="wrapper">
+        <div class="main-wrapper">
+            <div class="profile-img">
+                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="45" height="45">
+            </div>
+            <div class="content">
+            <div class="form-inline">
+{#                <label for="comment">Comment:</label>#}
+                <textarea class="form-control" style="min-width: 100%" rows="5" id="comment" placeholder="Add Comment..."></textarea>
+                <br>
+                <br>
+                <button class="btn btn-primary">Submit</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <br>
 {#    <nav class="navPage">#}
 {#        <ul class="pagination">#}
 {#            <li class="page-item">#}
