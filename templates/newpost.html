@@ -332,6 +332,18 @@
             </div>
             <div class="col-md-6">
 
+                <label for="categorychooser">Choose category (can be multiple)</label>
+                <div class="dropdown">
+
+                    <select class="selectpicker" multiple title="Choose a category" name="category_name" id="categorychooser">
+                        {% for category in cat %}
+                        <option value="{{ category[0] }}">{{ category[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <br>
+
                 <label for="discussion">Name your discussion</label>
                 <form>
                     <input type="text" class="form-control" id="discussion" placeholder="" name="topic_name">
@@ -341,16 +353,6 @@
                     </div>
                 </form>
                 <br>
-
-                <label for="categorychooser">Choose the right category</label>
-                <div class="dropdown">
-
-                    <select class="selectpicker" multiple title="Choose a category" name="category_name" id="categorychooser">
-                        {% for category in cat %}
-                        <option value="{{ category[0] }}">{{ category[1] }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
 
                 <div id="categorystatus">
                 </div>

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Discussion -  {% endblock %}
+{% block head %}
+    {{ super() }}
+{#    Put additional head code here #}
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link id="theme-style" rel="stylesheet" href="/static/css/discussion/styles.css">
+{% endblock %}
+{% block content %}
+{#    Put body code here #}
+    <div class="top-bar">
+    </div>
+    <div class="wrapper">
+        <div class="top-main-wrapper">
+            <h2 class="section-title">This is my Topic</h2>
+            <br>
+            <p>Ralph Kimball founded the Kimball Group. Since the mid-1980s, he has been the data warehouse and business intelligence industry’s thought leader on the dimen- sional approach. He has educated tens of thousands of IT professionals. The Toolkit books written by Ralph and his colleagues have been the industry’s best sellers since 1996. Prior to working at Metaphor and founding Red Brick Systems, Ralph coinvented the Star workstation, the first commercial product with windows, icons, and a mouse, at Xerox’s Palo Alto Research Center (PARC). Ralph has a PhD in electrical engineering from Stanford University.</p>
+            <br>
+            <h6 class="section-title">Posted on 11/111/1 by natty</h6>
+        </div><!--//main-body-->
+    </div>
+
+    <div class="wrapper">
+{#        {% for data in discussion %}#}
+        <div class="main-wrapper">
+            <div class="profile-img"><img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="45" height="45"></div>
+            <p class="section-title">So boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosd</p>
+            <h6 class="section-title">Posted on 11/111/1</h6>
+            <hr>
+        </div>
+        <div class="main-wrapper">
+            <div class="profile-img"><img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="45" height="45"></div>
+            <p class="section-title">So boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosd</p>
+            <h6 class="section-title">Posted on 11/111/1</h6>
+            <hr>
+        </div>
+{#        {% endfor %}#}
+    </div>
+{#    <nav class="navPage">#}
+{#        <ul class="pagination">#}
+{#            <li class="page-item">#}
+{#                <a class="page-link" href="#">Previous</a>#}
+{#            </li>#}
+{#            {% for page in range(numofPage) %}#}
+{#            <li class="page-item">#}
+{#                <a class="page-link" href="{{ url_for('discussion',category = cat, page = loop.index) }}">{{ loop.index }}</a>#}
+{#            </li>#}
+{#            {% endfor %}#}
+{#            <li class="page-item">#}
+{#                <a class="page-link" href="#">Next</a>#}
+{#            </li>#}
+{#        </ul>#}
+{#    </nav>#}
+{% endblock %}
