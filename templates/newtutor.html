@@ -5,6 +5,7 @@
           <style>
 
 
+
         .jumbotron {
 {#        background-image: url("/static/img/job.jpg");#}
         background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('/static/img/tutor.jpg');
@@ -180,8 +181,8 @@
               padding-top: 0px;
           }
 
-          #finalbutton{
-
+          .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+              width:100px;
           }
 
       </style>
@@ -252,23 +253,206 @@
 		<label>Multiple fields contact form</label>
             <div class="course">
                 <label>Open Courses:</label>
-                    <div class="form-group multiple-form-group input-group" >
+                    <div class="form-group multiple-form-group input-group course" >
                         <div class="input-group-btn input-group-select" >
-                     <select class="selectpicker" title="Choose a category" name="category_name" id="coursecategory">
+                     <select class="form-control" type="button" data-toggle="dropdown" title="Category" name="category_name"  style="width:120px" id="coursecat">
+                     <option value="" selected disabled>Please select</option>
                         {% for category in cat %}
-                        <option value="{{ category[0] }}">{{ category[1] }}</option>
+                        <option value="{{ category[0] }}" id="coursecat">{{ category[1] }}</option>
                         {% endfor %}
                     </select>
                             <input type="hidden" class="input-group-select-val" >
                         </div>
-                        <input type="text" name="contacts['value'][]" class="form-control" id="othercourse">
-                        <span class="input-group-btn" >
-                            <button type="button" class="btn btn-success btn-add">+</button>
-                        </span>
+                        <input type="text" name="contacts['value'][]" class="form-control" id="course" style="width: 300px;" placeholder="Course">
+                        <input type="number" namec="contacts['value'][]" class="form-control" id="courseprice" style="width:100px;" placeholder="Price/hr">
+
                     </div>
                 </div>
+                            <a class="addcourse" href="#">Add further course</a>
+<script>
+    var cloneIndex = $(".course").length;
+    $('.addcourse').on('click', function(e) {
+      e.preventDefault();
+      console.log('hi');
+      $('.course').first().clone()
+          .find("input")
+        .attr("id", "courseprice" +  cloneIndex)
+        .val('').end()
+        .find("input:text")
+        .attr("id", "course" +  cloneIndex)
+        .val('').end()
+        .find("select")
+        .attr("id", "coursecat" +  cloneIndex)
+        .val('').end().insertBefore(this);
+        cloneIndex++;
+    });
+
+function checkallpost() {
+    console.log('hi');
+    var posvalue = $('#bio').val();
+    var post1value = $('#post1').val();
+    var detailvalue = $('#detail').val();
+    var $fileUpload = $("#input-image-3");
+    if (parseInt($fileUpload.get(0).files.length) > 6) {
+        alert("Can upload a maximum of 6 images");
+        return false;
+    }
+
+    if (checkpos(posvalue) == 1 ||
+        checkpost1(post1value) == 1 ||
+        checkdetail(detailvalue) == 1 ||
+        checkallform(categoryvalue) == 1
+         ) {
+        alert("Please enter all of the information");
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function checkallform() {
+        var coursecategory = 'category';
+        var cprice = 'courseprice';
+        var ccourse = 'course';
+        var myData = {};
+        var myData2 = {};
+        var myData3 = {};
+        var str1 = "$('#";
+        var str2 = ".form-control')";
+        var str3 = "')";
+        var dt = [];
+        var dt2 = [];
+        var dt3 = [];
+
+        for (i = 1; i < cloneIndex; i++) {
+            coursecategory = coursecategory + i;
+            var coursecat = str1.concat(coursecategory);
+
+            coursecat = coursecat.concat(str3);
+            coursecat = coursecat.concat('.val()');
+            var theInstructions = coursecat;
+            var F=new Function (theInstructions);
+            // return();
+            console.log('hi');
+            coursecatvalue = F();
+            console.log(coursecatvalue);
+            myData[i] = coursecatvalue;
+            if (coursecatvalue === "Course Category") {
+                document.getElementById('categorystatus').style.color = "red";
+                document.getElementById('categorystatus').innerHTML = 'X Please enter all of the category';
+                dt[i] = 1;
+            } else {
+                document.getElementById('categorystatus').innerHTML = '';
+                dt[i] = 0;
+            }
+
+            // ccourse= ccourse+i;
+            // var course = str1.concat(course);
+            // course = course.concat(str2);
+            // coursevalue = course.val();
+            // myData2[i] = coursevalue;
+            // if (coursevalue === "") {
+            //     document.getElementById('otherstatus').style.color = "red";
+            //     document.getElementById('otherstatus').innerHTML = 'X Please enter all of the course';
+            //     dt2[i] = 1;
+            // } else {
+            //     document.getElementById('otherstatus').innerHTML = '';
+            //     dt2[i] = 0;
+            // }
+            //
+            // cprice= cprice+i;
+            // var price = str1.concat(price);
+            // courseprice = price.concat(str2);
+            // courspricevalue = courseprice.val();
+            // myData3[i] = courspricevalue;
+            // dt3[i]=checkpost1(courspricevalue);
+        }
+        return allfor(myData,myData2,myData3);
+    }
+
+function allfor(value,value2,value3){
+        for (i = 0; i < cloneIndex; i++){
+            if(value[i] === 1 || value2[i] ===1 || value3[i]===1){
+            return 1;
+            }else{
+                return 0;
+            }
+        }
+
+    }
+
+function checkpos(value) {
+    document.getElementById('posstatus').style.color = "red";
+    if (value.length <= 1) {
+        console.log('hi');
+        document.getElementById('posstatus').innerHTML = 'X Please enter your bio';
+        return 1;
+    } else {
+        document.getElementById('posstatus').innerHTML = '';
+        return 0;
+    }
+}
+function checkdetail(value) {
+    document.getElementById('detailstatus').style.color = "red";
+    if (value.length <= 1) {
+        document.getElementById('detailstatus').innerHTML = 'X Please enter the video link';
+        return 1;
+    } else {
+        document.getElementById('detailstatus').innerHTML = '';
+        return 0;
+    }
+}
+function checkpost1(value) {
+    document.getElementById('post1status').style.color = "red";
+    if (value.length == 0) {
+        document.getElementById('post1status').innerHTML = 'X Pleas enter the price';
+        return 1
+    }
+    if (value < 0) {
+        document.getElementById('post1status').innerHTML = 'X Value of the price must be more than zero';
+        return 1
+    } else {
+        document.getElementById('post1status').innerHTML = '';
+        return 0
+    }
+}
+$('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').focus()
+})
+function readURL(input) {
+    document.getElementById("img0").style.display = "none";
+    document.getElementById("img1").style.display = "none";
+    document.getElementById("img2").style.display = "none";
+    document.getElementById("img3").style.display = "none";
+    document.getElementById("img4").style.display = "none";
+    document.getElementById("img5").style.display = "none";
+    if (input.files.length > 6) {
+        alert("Can upload a maximum of 6 images");
+    } else {
+        if (input.files[0]) {
+            for (i = 0; i < input.files.length; i++)
+                showImage(input, i);
+            document.getElementById("b1").innerHTML = "Change picture";
+        }
+    }
+}
+function showImage(input, n) {
+    var reader = new FileReader();
+    var str = '#img' + n;
+
+    reader.onload = function (e) {
+        $(str)
+            .attr('src', e.target.result)
+            .width(100)
+            .height(100);
+    };
+
+    reader.readAsDataURL(input.files[n]);
+    $(str).show();
+}
 
 
+</script>
                 <div id="categorystatus">
                 </div>
                 <div id="othersstatus">
@@ -297,14 +481,14 @@
     </form>
 
 </div>
-
+<script src="/static/js/verificationNewTutor.js"></script>
 <script src="/static/js/registration.js"></script>
 <script type="text/javascript">
                $(document).ready(function() {
                $('.selectpicker').selectpicker();
               });
 </script>
-<script src="/static/js/verificationNewTutor.js"></script>
+
     </body>
 
 
