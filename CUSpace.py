@@ -91,6 +91,10 @@ def newpost():
     category = getCat()
     return render_template('newpost.html' , cat = category)
 
+@app.route('/post')
+def post():
+    return render_template('post.html')
+
 @app.route('/newpost/create_new_discussion', methods=['POST'])
 def createnewpost():
     topic = request.form['topic_name']
