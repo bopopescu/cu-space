@@ -6,6 +6,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link id="theme-style" rel="stylesheet" href="/static/css/post/styles.css">
+
 {% endblock %}
 {% block content %}
 {#    Put body code here #}
@@ -78,8 +79,8 @@
             <div class="content">
             <div class="form-inline">
 {#                <label for="comment">Comment:</label>#}
-                <textarea class="form-control" style="min-width: 100%" rows="5" id="comment" placeholder="Add Comment..."></textarea>
-                <br>
+{#                <textarea class="form-control" style="min-width: 100%" rows="5" id="comment" placeholder="Add Comment..."></textarea>#}
+                    <textarea id="froala-editor"></textarea>
                 <br>
                 <button class="btn btn-primary">Submit</button>
             </div>
@@ -102,4 +103,11 @@
 {#            </li>#}
 {#        </ul>#}
 {#    </nav>#}
+          <script>
+    $(function() {
+    $('textarea#froala-editor').froalaEditor({
+      height: 200
+    })
+  });
+</script>
 {% endblock %}
