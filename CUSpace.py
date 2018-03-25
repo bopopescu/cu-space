@@ -1,3 +1,5 @@
+from random import randrange
+
 from flask import Flask, render_template, request, redirect, url_for
 import math
 #NOTE!!
@@ -127,8 +129,15 @@ def createnewpost():
 def registernewtutor():
     return render_template('newtutor.html', cat = getCat())
 
-
-
+@app.route('/newtutor/create_new_tutor', methods = ['POST'])
+def create_tutor():
+    #trong me input pen user id duay
+    user_id = str(randrange(1,10000000))
+    #bio = request.form['bio']
+    #category = request.form.get('category_name')
+    #youtube_link = request.form["link"]
+    # price = request.form["price"]
+    return redirect(url_for("registernewtutor"))
 @app.route('/discussion/<category>/', defaults={'page':1})
 @app.route('/discussion/<category>/<page>')
 def discussion(category, page):

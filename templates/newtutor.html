@@ -200,7 +200,7 @@
       </div>
 <div class="container wrap">
     <!-- Content here -->
-    <form method="POST" enctype=multipart/form-data  id="submitTutor" onsubmit="return checkallpost()">
+    <form method="POST" enctype=multipart/form-data  id="submitTutor" onsubmit="return checkallpost()" action="{{ url_for("create_tutor") }}">
         {#         add form here#}
         <div class="row">
             <div class="col-md-6">
@@ -233,42 +233,25 @@
                 <br>
 
                 <label for="coursecategory">Choose your open course category</label>
-{#                <div class="dropdown">#}
-{##}
-{#                    <select name ='category'  class="selectpicker" id ="category" multiple title="Choose course category">#}
-{#                            <option value="selected" selected>Category : </option>#}
-{#                        >#}
-{#                        <option value="Language">Language</option>#}
-{#                        <option value="Science">Science</option>#}
-{#                        <option value="Math">Math</option>#}
-{#                        <option value="Architect">Architect</option>#}
-{#                        <option value="Psychology">Psychology</option>#}
-{#                        <option value="Business">Business</option>#}
-{#                        <option value="Finance">Finance</option>#}
-{#                        <option value="Others">Others</option>#}
-{#                        </select>#}
-{#                </div>#}
+                <label>Multiple fields contact form</label>
+                    <div class="course">
+                        <label>Open Courses:</label>
+                            <div class="form-group multiple-form-group input-group course " required/>
+                                <div class="input-group-btn input-group-select " required/>
+                             <select class="form-control required" type="button" data-toggle="dropdown" title="Category" name="category_name"  style="width:120px" id="coursecat" required/>
+                             <option value="" selected disabled>Please select</option>
+                                {% for category in cat %}
+                                <option value="{{ category[0] }}" id="coursecat">{{ category[1] }}</option>
+                                {% endfor %}
+                            </select>
+                                    <input type="hidden" class="input-group-select-val " >
+                                </div>
+                                <input type="text" name="contacts['value'][]" class="form-control " id="course" style="width: 300px;" placeholder="Course" required/>
+                                <input type="number" namec="contacts['value'][]" class="form-control " id="courseprice" style="width:100px;" placeholder="Price/hr" required/>
 
-
-		<label>Multiple fields contact form</label>
-            <div class="course">
-                <label>Open Courses:</label>
-                    <div class="form-group multiple-form-group input-group course " required/>
-                        <div class="input-group-btn input-group-select " required/>
-                     <select class="form-control required" type="button" data-toggle="dropdown" title="Category" name="category_name"  style="width:120px" id="coursecat" required/>
-                     <option value="" selected disabled>Please select</option>
-                        {% for category in cat %}
-                        <option value="{{ category[0] }}" id="coursecat">{{ category[1] }}</option>
-                        {% endfor %}
-                    </select>
-                            <input type="hidden" class="input-group-select-val " >
+                            </div>
                         </div>
-                        <input type="text" name="contacts['value'][]" class="form-control " id="course" style="width: 300px;" placeholder="Course" required/>
-                        <input type="number" namec="contacts['value'][]" class="form-control " id="courseprice" style="width:100px;" placeholder="Price/hr" required/>
-
-                    </div>
-                </div>
-                            <a class="addcourse" href="#">Add further course</a>
+                        <a class="addcourse" href="#">Add further course</a>
 
 
 <script>
@@ -462,7 +445,7 @@ function showImage(input, n) {
 
                 <br>
                 <label for="post">Enter your youtube video self-introduction</label>
-                <textarea class="form-control" rows="5" id="detail" name="info"></textarea>
+                <input type="text" class="form-control" id="detail" name="link">
                 <input type="hidden" name="status">
 
                 <div id="detailstatus">
