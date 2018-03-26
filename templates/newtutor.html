@@ -238,7 +238,7 @@
                         <label>Open Courses:</label>
                             <div class="form-group multiple-form-group input-group course " required/>
                                 <div class="input-group-btn input-group-select " required/>
-                             <select class="form-control required" type="button" data-toggle="dropdown" title="Category" name="category_name"  style="width:120px" id="coursecat" required/>
+                             <select class="form-control required" type="button" data-toggle="dropdown" title="Category" name="coursecat"  style="width:120px" id="coursecat" required/>
                              <option value="" selected disabled>Please select</option>
                                 {% for category in cat %}
                                 <option value="{{ category[0] }}" id="coursecat">{{ category[1] }}</option>
@@ -246,8 +246,8 @@
                             </select>
                                     <input type="hidden" class="input-group-select-val " >
                                 </div>
-                                <input type="text" name="contacts['value'][]" class="form-control " id="course" style="width: 300px;" placeholder="Course" required/>
-                                <input type="number" namec="contacts['value'][]" class="form-control " id="courseprice" style="width:100px;" placeholder="Price/hr" required/>
+                                <input type="text" name="course" class="form-control " id="course" style="width: 300px;" placeholder="Course" required/>
+                                <input type="number" namec="courseprice" class="form-control " id="courseprice" style="width:100px;" placeholder="Price/hr" required/>
 
                             </div>
                         </div>
@@ -261,13 +261,13 @@
       console.log('hi');
       $('.course').first().clone()
           .find("input")
-        .attr("id", "courseprice" +  cloneIndex)
+        .attr("id", "courseprice" +  cloneIndex).attr("name", "courseprice" +  cloneIndex)
         .val('').end()
         .find("input:text")
-        .attr("id", "course" +  cloneIndex)
+        .attr("id", "course" +  cloneIndex).attr("name", "course" +  cloneIndex)
         .val('').end()
         .find("select")
-        .attr("id", "coursecat" +  cloneIndex)
+        .attr("id", "coursecat" +  cloneIndex).attr("name", "coursecat" +  cloneIndex)
         .val('').end().insertBefore(this);
         cloneIndex++;
     });
