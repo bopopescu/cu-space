@@ -129,6 +129,15 @@ $("#post1").focus(function () {
 $("#detail").focus(function () {
     $(this).css("border-color", "#0080ff");
 });
+$("#course").focus(function () {
+    $(this).css("border-color", "#0080ff");
+});
+$("#coursecat").focus(function () {
+    $(this).css("border-color", "#0080ff");
+});
+$("#courseprice").focus(function () {
+    $(this).css("border-color", "#0080ff");
+});
 $("#bio").focusout(function () {
     var value = $(this).val()
     if (checkpos(value) == 1) {
@@ -136,7 +145,15 @@ $("#bio").focusout(function () {
     } else {
         $(this).css("border-color", "#00CD00");
     }
-})
+});
+$.each(("#courseprice").focusout(function () {
+    var value = $(this).val()
+    if (checkprice(value) == 1) {
+        $(this).css("border-color", "#FF0000");
+    } else {
+        $(this).css("border-color", "#00CD00");
+    }
+}));
 $("#post1").focusout(function () {
     var value = $(this).val()
     if (checkpost1(value) == 1) {
@@ -144,7 +161,7 @@ $("#post1").focusout(function () {
     } else {
         $(this).css("border-color", "#00CD00");
     }
-})
+});
 $("#post").focusout(function () {
     var value = $(this).val()
     if (checkpost(value) == 1) {
@@ -152,7 +169,7 @@ $("#post").focusout(function () {
     } else {
         $(this).css("border-color", "#00CD00");
     }
-})
+});
 $("#detail").focusout(function () {
     var value = $(this).val()
     if (checkdetail(value) == 1) {
@@ -160,7 +177,7 @@ $("#detail").focusout(function () {
     } else {
         $(this).css("border-color", "#00CD00");
     }
-})
+});
 
 $("#coursecategory").focusout(function () {
     var value = $(this).text().trim()
@@ -234,6 +251,16 @@ function checkpos(value) {
         return 1;
     } else {
         document.getElementById('posstatus').innerHTML = '';
+        return 0;
+    }
+}
+function checkprice(value) {
+    document.getElementById('pricestatus').style.color = "red";
+    if (value.length <= 1) {
+        document.getElementById('pricestatus').innerHTML = "X Please correct price, can't be negative";
+        return 1;
+    } else {
+        document.getElementById('pricestatus').innerHTML = '';
         return 0;
     }
 }
@@ -368,66 +395,41 @@ $(function () {
 });
 })(jQuery);
 
-    var cloneIndex = $(".course").length;
+    // var cloneIndex = $(".course").length;
+    // $('.addcourse').on('click', function(e) {
+    //   e.preventDefault();
+    //   console.log('hi');
+    //   $('.course').first().clone()
+    //       .find("input")
+    //     .attr("id", "courseprice" +  cloneIndex).attr("name", "courseprice" +  cloneIndex)
+    //     .val('').end()
+    //     .find("input:text")
+    //     .attr("id", "course" +  cloneIndex).attr("name", "course" +  cloneIndex)
+    //     .val('').end()
+    //     .find("select")
+    //     .attr("id", "coursecat" +  cloneIndex).attr("name", "coursecat" +  cloneIndex)
+    //     .val('').end().insertBefore(this);
+    //     cloneIndex++;
+    // });
+ //
+ var cloneIndex = $(".course").length;
     $('.addcourse').on('click', function(e) {
       e.preventDefault();
       console.log('hi');
+      $('#hiddenvalue').val(cloneIndex);
       $('.course').first().clone()
           .find("input")
-        .attr("id", "courseprice" +  cloneIndex).attr("name", "courseprice" +  cloneIndex)
+        .attr("id", "courseprice" ).attr("name", "courseprice" +  cloneIndex).attr("class", "form-control courseprice" )
         .val('').end()
         .find("input:text")
-        .attr("id", "course" +  cloneIndex).attr("name", "course" +  cloneIndex)
+        .attr("id", "course" ).attr("name", "course" +  cloneIndex).attr("class", "form-control course" )
         .val('').end()
         .find("select")
-        .attr("id", "coursecat" +  cloneIndex).attr("name", "coursecat" +  cloneIndex)
+        .attr("id", "coursecat" ).attr("name", "coursecat" +  cloneIndex).attr("class", "form-control coursecat" )
         .val('').end().insertBefore(this);
         cloneIndex++;
+
     });
 
-function checkallform() {
-    var coursecategory = 'category';
-    var cprice = 'courseprice';
-    var ccourse = 'course';
-    var myData = {};
-    var myData2 = {};
-    var myData3 = {};
-    var str1 = "$('#";
-    var str2 = ".form-control')";
-    var str3 = "')";
-    var dt = [];
-    var dt2 = [];
-    var dt3 = [];
 
-    for (i = 1; i < cloneIndex; i++) {
-        coursecategory = coursecategory + i;
-        var coursecat = str1.concat(coursecategory);
 
-        coursecat = coursecat.concat(str3);
-        coursecat = coursecat.concat('.val()');
-        var theInstructions = coursecat;
-        var F = new Function(theInstructions);
-        console.log('hi');
-        coursecatvalue = F();
-        console.log(coursecatvalue);
-        myData[i] = coursecatvalue;
-        if (coursecatvalue === "Course Category") {
-            document.getElementById('categorystatus').style.color = "red";
-            document.getElementById('categorystatus').innerHTML = 'X Please enter all of the category';
-            dt[i] = 1;
-        } else {
-            document.getElementById('categorystatus').innerHTML = '';
-            dt[i] = 0;
-        }
-        return allfor(myData, myData2, myData3);
-    }
-}
-function allfor(value, value2, value3) {
-    for (i = 0; i < cloneIndex; i++) {
-        if (value[i] === 1 || value2[i] === 1 || value3[i] === 1) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-}

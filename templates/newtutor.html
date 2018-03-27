@@ -204,10 +204,6 @@
         {#         add form here#}
         <div class="row">
             <div class="col-md-6">
-
-{#                <br>#}
-{#                <h2>Post a discussion</h2>#}
-{#                <br>#}
                 <p>Upload Images(Maximum of 6 images)</p>
                 <br>
                 <img id="img0" src="#" alt="" style="display: none"/>
@@ -220,59 +216,52 @@
                 <input id="input-image-3" name="input-image" type="file" class="btn btn-secondary btn-lg" onchange="readURL(this) ;" accept="image/*"
                        multiple style="display: none">
                 <br>
-
-
             </div>
             <div class="col-md-6">
-
                 <label for="bio">Enter your Bio</label>
                 <textarea form="submitTutor" class="form-control" rows="5" id="bio" name="bio" placeholder="Write something about yourself..."></textarea>
                 <div id="posstatus">
-
                 </div>
                 <br>
-
                 <label for="coursecategory">Choose your open course category</label>
                 <label>Multiple fields contact form</label>
                     <div class="course">
                         <label>Open Courses:</label>
                             <div class="form-group multiple-form-group input-group course " required/>
                                 <div class="input-group-btn input-group-select " required/>
-                             <select class="form-control required" type="button" data-toggle="dropdown" title="Category" name="coursecat"  style="width:120px" id="coursecat" required/>
+                             <select class="form-control coursecat" type="button" data-toggle="dropdown" title="Category" name="coursecat"  style="width:120px" id="coursecat" required/>
                                 <option value="" selected disabled>Please select</option>
+                    <option value="a">a</option>
                                 {% for category in cat %}
                                 <option value="{{ category[0] }}" id="coursecat">{{ category[1] }}</option>
                                 {% endfor %}
                             </select>
-                                </div>
-                                <input type="text" name="course" class="form-control " id="course" style="width: 300px;" placeholder="Course" required/>
-                                <input type="number" name="courseprice" class="form-control " id="courseprice" style="width:100px;" placeholder="Price/hr" required/>
 
+                                <input type="text" name="course" class="form-control course" id="course" style="width: 300px;" placeholder="Course" required/>
+                                <input type="number" name="courseprice" class="form-control courseprice" min="0" id="courseprice" style="width:100px;" placeholder="Price/hr" required/>
                             </div>
                         </div>
+        </div>
                         <a class="addcourse" href="#">Add further course</a>
                 <div id="categorystatus">
                 </div>
                 <div id="othersstatus">
                 </div>
-
+                <div id="pricestatus">
+                </div>
                 <br>
                 <label for="post">Enter your youtube video self-introduction</label>
                 <input type="text" class="form-control" id="detail" name="link">
                 <input type="hidden" name="status">
-
                 <div id="detailstatus">
                 </div>
-
-
-
                 <br>
                 <input id="finalbutton" type="submit" class="btn btn-primary" value="Create a discussion"></input>
-            </div>
+                <input type="hidden" name="hiddenvalue" value="" id="hiddenvalue">
+            </form>
         </div>
-    </form>
+{#</div>#}
 
-</div>
 <script src="/static/js/verificationNewTutor.js"></script>
 <script src="/static/js/registration.js"></script>
 <script type="text/javascript">
