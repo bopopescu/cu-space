@@ -45,12 +45,17 @@
     }
     .job-item-footer {
         color: darkgray;
+        position: relative;
+        margin-bottom: 50px;
     }
     .job-cat{
         float:left;
+        width: 50%
     }
     .job-date{
         float: right;
+        text-align: right;
+        width: 50%
     }
     .search-box {
         float: left;
@@ -118,8 +123,9 @@
                             <option>Operation Management</option>
                         </select>
                     </div>
+                      <label>From</label>
                     <div class="form-group">
-                        <label>From</label>
+{#                        <label>From</label>#}
 {#                        <input type="text" class="form-control" id="company-name-search" placeholder="All company">#}
                         <select class="selectpicker" data-live-search="true" multiple title="All company">
                             <option data-tokens="agoda services">Agoda Services Co., Ltd.</option>
