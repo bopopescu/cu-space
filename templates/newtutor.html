@@ -185,6 +185,10 @@
               width:100px;
           }
 
+          #phonenumberstatus{
+              color: red;
+          }
+
       </style>
 {% endblock %}
 {% block content %}
@@ -231,6 +235,7 @@
                                 <div class="input-group-btn input-group-select " required/>
                              <select class="form-control coursecat" type="button" data-toggle="dropdown" title="Category" name="coursecat"  style="width:120px" id="coursecat" required/>
                                 <option value="" selected disabled>Please select</option>
+                    <option value = "a">a</option>
                                 {% for subject in sub %}
                                 <option value="{{ subject[0] }}" id="coursecat">{{ subject[1] }}</option>
                                 {% endfor %}
@@ -250,28 +255,37 @@
                 <br>
                 <label for="post">Enter your youtube video self-introduction</label>
                 <input type="text" class="form-control" id="detail" name="link">
+                <div id="detailstatus">
+                </div>
 
                 <br>
                 <label for="post">Enter your Facebook</label>
                 <input type="text" class="form-control" id="facebook" name="facebook">
+                <div id="facebookstatus">
+                </div>
 
-                <br>
-                <label for="post">Enter your Phone number</label>
-                <input type="text" class="form-control" id="phone" name="phone">
 
                 <br>
                 <label for="post">Enter your LINE ID</label>
                 <input type="text" class="form-control" id="line" name="line">
+                <div id="linestatus">
+                </div>
+
+                <br>
+                <label for="post">Enter your Phonenumber</label>
+                <input type="tel" class="form-control" id="phonenumber" name="facebook">
+                <div id="phonenumberstatus">
+                </div>
 
 
                 <input type="hidden" name="status">
-                <div id="detailstatus">
-                </div>
+
                 <br>
                 <input id="finalbutton" type="submit" class="btn btn-primary" value="Create your tutor profile"></input>
                 <input type="hidden" name="hiddenvalue" value="" id="hiddenvalue">
             </form>
         </div>
+
 
 <script src="/static/js/verificationNewTutor.js"></script>
 <script src="/static/js/registration.js"></script>
