@@ -146,14 +146,7 @@ $("#bio").focusout(function () {
         $(this).css("border-color", "#00CD00");
     }
 });
-$.each(("#courseprice").focusout(function () {
-    var value = $(this).val()
-    if (checkprice(value) == 1) {
-        $(this).css("border-color", "#FF0000");
-    } else {
-        $(this).css("border-color", "#00CD00");
-    }
-}));
+
 $("#post1").focusout(function () {
     var value = $(this).val()
     if (checkpost1(value) == 1) {
