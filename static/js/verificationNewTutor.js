@@ -405,24 +405,24 @@ $(function () {
     //     cloneIndex++;
     // });
  //
- var cloneIndex = $(".course").length;
-    $('.addcourse').on('click', function(e) {
-      e.preventDefault();
-      console.log('hi');
-      $('#hiddenvalue').val(cloneIndex);
-      $('.course').first().clone()
-          .find("input")
-        .attr("id", "courseprice" ).attr("name", "courseprice" +  cloneIndex).attr("class", "form-control courseprice" )
-        .val('').end()
-        .find("input:text")
-        .attr("id", "course" ).attr("name", "course" +  cloneIndex).attr("class", "form-control course" )
-        .val('').end()
-        .find("select")
-        .attr("id", "coursecat" ).attr("name", "coursecat" +  cloneIndex).attr("class", "form-control coursecat" )
-        .val('').end().insertBefore(this);
-        cloneIndex++;
+ var cloneIndex = $("#course").length+1;
+$('.addcourse').on('click', function(e) {
+  e.preventDefault();
+  console.log('hi');
+  $('#hiddenvalue').val(cloneIndex);
+  $('.course').first().clone()
+      .find("input")
+    .attr("id", "courseprice" ).attr("name", "courseprice" +  cloneIndex).attr("class", "form-control courseprice" )
+    .val('').end()
+    .find("input:text")
+    .attr("id", "course" ).attr("name", "course" +  cloneIndex).attr("class", "form-control course" )
+    .val('').end()
+    .find("select")
+    .attr("id", "coursecat" ).attr("name", "coursecat" +  cloneIndex).attr("class", "form-control coursecat" )
+    .val('').end().insertBefore(this);
+    cloneIndex++;
 
-    });
+});
 
 
 

@@ -29,8 +29,17 @@
         }
         .navigation{
             float: right;
-            margin-top: 8px;
+            margin-top: 15px;
             margin-right: 2%;
+            font-size: 14px;
+            word-spacing: 14px;
+        }
+        .navigation a:hover{
+            text-decoration: none;
+            color: #3d3b3c;
+        }
+        .navigation .signin{
+            word-spacing: 0px
         }
         #menu{
           margin-top: -8px;
@@ -73,7 +82,6 @@
 
 
 
-
         </style>
     {% endblock %}
 </head>
@@ -81,26 +89,14 @@
     <div id="header" class="header">
         {% block header %}
         <div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-					</button> <a class="navbar-brand" href="{{ url_for("index") }}"> CU Space</a>
+				<div>
+                    <a class="navbar-brand" href="{{ url_for("index") }}"> CU Space</a>
 				</div>
                 <div class="navigation">
-                    <ul class="nav navbar-nav" id ="menu">
-                        <li>
-                            <a href="/">Home</a>
-                        </li>
-                        <li>
-                            <a href="/tutor">Tutors</a>
-                        </li>
-                        <li>
-                            <a href="/job">Jobs</a>
-                        </li>
-                        <li>
-                            <a href="#" type="button" id="myBtn">Sign In</a>
-                        </li>
-                    </ul>
+                    <a href="/">Home</a>
+                    <a href="/tutor">Tutors</a>
+                    <a href="/job">Jobs</a>
+                    <a href="#" type="button" id="myBtn" class="signin">Sign In</a>
                 </div>
         </div>
 
