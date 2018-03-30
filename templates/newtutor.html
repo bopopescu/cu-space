@@ -231,12 +231,10 @@
                                 <div class="input-group-btn input-group-select " required/>
                              <select class="form-control coursecat" type="button" data-toggle="dropdown" title="Category" name="coursecat"  style="width:120px" id="coursecat" required/>
                                 <option value="" selected disabled>Please select</option>
-                    <option value="a"></option>
-                                {% for category in cat %}
-                                <option value="{{ category[0] }}" id="coursecat">{{ category[1] }}</option>
+                                {% for subject in sub %}
+                                <option value="{{ subject[0] }}" id="coursecat">{{ subject[1] }}</option>
                                 {% endfor %}
                             </select>
-
                                 <input type="text" name="course" class="form-control course" id="course" style="width: 300px;" placeholder="Course" required/>
                                 <input type="number" name="courseprice" class="form-control courseprice" min="0" id="courseprice" style="width:100px;" placeholder="Price/hr" required/>
                             </div>
@@ -255,15 +253,15 @@
 
                 <br>
                 <label for="post">Enter your Facebook</label>
-                <input type="text" class="form-control" id="detail" name="link">
+                <input type="text" class="form-control" id="facebook" name="facebook">
 
                 <br>
                 <label for="post">Enter your Phone number</label>
-                <input type="text" class="form-control" id="detail" name="link">
+                <input type="text" class="form-control" id="phone" name="phone">
 
                 <br>
                 <label for="post">Enter your LINE ID</label>
-                <input type="text" class="form-control" id="detail" name="link">
+                <input type="text" class="form-control" id="line" name="line">
 
 
                 <input type="hidden" name="status">

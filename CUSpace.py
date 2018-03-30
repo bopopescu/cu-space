@@ -87,12 +87,16 @@ def profile(tutor_id):
 
 @app.route('/newtutor')
 def registernewtutor():
-    return render_template('newtutor.html', cat = getCat())
+    return render_template('newtutor.html', sub = getSub())
 
 @app.route('/newtutor/create_new_tutor', methods = ['POST'])
 def create_tutor():
     #trong me input pen user id duay
     user_id = str(randrange(1,10000000))
+    numberOfCourse = request.form.get("hiddenvalue")
+
+    #for i in range(numberOfCourse):
+
     #bio = request.form['bio']
     #category = request.form.get('category_name')
     #youtube_link = request.form["link"]
