@@ -21,7 +21,7 @@ def index():
     cursor.execute(sql)
     data = cursor.fetchall()
     categoryList = [ i[1] for i in data]
-    return render_template('index3.html', catlist = categoryList)
+    return render_template('index4.html', catlist = categoryList)
 
 @app.route('/tutor/' , defaults={'page':1})
 @app.route('/tutor/<page>')
