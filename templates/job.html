@@ -7,6 +7,8 @@
     .jumbotron {
 {#        background-image: url("/static/img/job.jpg");#}
         background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('/static/img/job.jpg');
+        background-repeat: no-repeat;
+        background-size: 100% Auto;
         color: white;
     }
     .btn-secondary{
@@ -96,6 +98,13 @@
 
     a{
         color: white;
+    }
+
+    @media screen and (max-width: 600px) {
+        .jumbotron {
+            background: #1e5cab;
+            background-size: Auto 100%;
+        }
     }
 
     </style>
@@ -195,8 +204,6 @@
             </div>
 
         </div>
-
-        <hr>
 
       </div> <!-- /container -->
 {% endblock %}

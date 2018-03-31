@@ -4,11 +4,29 @@
     {{ super() }}
 {#    Put additional head code here #}
     <style>
-
     .jumbotron {
 {#        background-image: url("/static/img/job.jpg");#}
-        background:  url('/static/img/bg8.jpg');
+        background:  url('/static/img/home-bg.jpg');
+        background-repeat: no-repeat;
+        background-size: 100% Auto;
+        color: black;
+        font-size: 2vw;
+    }
+    .btn-outline, .btn-outline:hover {
+    border-color: currentcolor;
+    }
+
+    .btn-outline {
+        border-radius: var(--border-radius);
+        background-color: transparent;
+        border-radius: 2px;
+    }
+
+    .btn-outline:hover {
+{#        box-shadow: inset 0 0 0 20rem var(--darken-1);#}
         color: white;
+        background-color: black;
+        border-color: black;
     }
     .btn-secondary{
         background-color: #6c757d;
@@ -101,11 +119,10 @@
 
 }
 .hoverbutton {
-    border-radius: 10px;
-    box-shadow: 0 9px #999;
+    border-radius: 5px;
     position: relative;
     appearance: none;
-    background: #5fb764;
+    background: #c46c5f;
     padding: 1em 2em;
     border: none;
     color: white;
@@ -116,13 +133,12 @@
     width: 100%;
     height: 120px;
     font-size: 20px;
-    transition: all 0.25s;
     }
 
     .hoverbutton span {
         position: relative;
         pointer-events: none;
-        transition: 0.5s;
+        transition: 0.25s;
 
     }
     .hoverbutton:hover
@@ -130,21 +146,7 @@
 background-image:none !important;
 background-color:black !important;
         color:#fdce86;
-        {#font-size: 20px;#}
-}
-    .hoverbutton span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-        {#font-size: 20px;#}
-}
 
-.hoverbutton:hover span {
-  padding-right: 25px;
-    {#font-size: 20px;#}
 }
 
 .hoverbutton:hover span:after {
@@ -155,45 +157,66 @@ background-color:black !important;
 
 
           #hoverbuttwo{
-              background-color: #973d51;
-          }
-          #hoverbutthree{
-              background-color: #f67249;
-          }
-          #hoverbutfour{
-              background-color: #9d4f82;
-          }
-          #hoverbutfive{
-              background-color: #347aa9;
-          }
-          #hoverbutsix{
-              background-color: #645b7d;
-          }
-          #hoverbutseven{
-              background-color: #e97734;
-          }
-          #hoverbuteight{
               background-color: #647a90;
           }
-          #hoverbutnine{
+          #hoverbutthree{
+              background-color: #40adcf;
+          }
+          #hoverbutfour{
+              background-color: #347aa9;
+          }
+          #hoverbutfive{
+              background-color: #e97734;
+          }
+          #hoverbutsix{
+              background-color: #df535b;
+          }
+          #hoverbutseven{
               background-color: #c28ed2;
+          }
+          #hoverbuteight{
+              background-color: #e3992b;
+          }
+          #hoverbutnine{
+              background-color: #5fb764;
+          }
+          #hoverbutten{
+              background-color: #27898b;
           }
 
     .col-md-4{
         margin-bottom: 20px;
+    }
+    @media screen and (max-width: 600px) {
+        .jumbotron {
+            background: #eeeeee;
+            background-size: Auto 100%;
+        }
     }
 
     </style>
 {% endblock %}
 {% block content %}
       <div class="jumbotron">
-        <div class="container">
-          <h1 class="display-3" style="text-align: center">Welcome to CU SPACE!</h1>
-          <p style="text-align: center">Your all in one website for university life!</p>
+        <div class="container" align="center">
+            <br>
+            <br>
+            <br>
+          <h1 class="display-3">Learn, Share, Explore.</h1>
+          <p>Your all in one community for university life!</p>
+            <br>
+            <br>
+            <button class="btn btn-outline btn-lg">View All Discussion</button>
+            <br>
+            <br>
+            <br>
+
 
         </div>
       </div>
-      <div class="container">
+      <div class="container" align="center">
+          <h3>View Discussion By Faculty</h3>
+          <br>
         <div class="row">
             <div class="col-md-4">
                 <a  href="{{ url_for('discussion', category = catlist[0]) }}">
@@ -206,6 +229,7 @@ background-color:black !important;
             <div class="col-md-4">
                 <a href="{{ url_for('discussion', category = catlist[1]) }}">
                   <button class="button hoverbutton" id="hoverbuttwo">
+                      <i class="fas fa-file-alt" style="font-size: 35px;"></i><br>
                 <span>ARTS</span>
                 </button>
                  </a>
@@ -264,22 +288,28 @@ background-color:black !important;
 
 
         </div>
+          <br>
 
-        <hr>
+          <h3>Other Discussion</h3>
+                    <br>
+          <div class="row">
       <div class="col-md-4">
                 <a href="{{ url_for('discussion', category = catlist[8]) }}">
                 <button class="button hoverbutton" id="hoverbutnine">
-                    <span>Hover me I'm awesome</span>
+                    <i class="fab fa-leanpub"style="font-size: 35px;"></i><br>
+                    <span>GENERAL EDUCATION</span>
                 </button>
                  </a>
             </div>
       <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[8]) }}">
-                <button class="button hoverbutton" id="hoverbutnine">
-                    <span>Hover me I'm awesome</span>
+                <a href="{{ url_for('discussion', category = catlist[9]) }}">
+                <button class="button hoverbutton" id="hoverbutten">
+                    <i class="fas fa-futbol"style="font-size: 35px;"></i><br>
+                    <span>ACTIVITY</span>
                 </button>
                  </a>
             </div>
+          </div>
 
       </div> <!-- /container -->
 {% endblock %}
