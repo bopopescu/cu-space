@@ -131,10 +131,7 @@
         }
 
         .hoverbutton:active {
-            background-color: #3e8e41;
-            box-shadow: 0 5px #666;
-            transform: translateY(4px);
-
+            transform: translateY(2px);
         }
 
         .hoverbutton {
@@ -153,23 +150,10 @@
             font-size: 20px;
         }
 
-        .hoverbutton span {
-            position: relative;
-            pointer-events: none;
-            transition: 0.25s;
-        }
-
         .hoverbutton:hover {
             background-image: none !important;
             background-color: black !important;
             color: #fdce86;
-
-        }
-
-        .hoverbutton:hover span:after {
-            opacity: 1;
-            right: 0;
-        {#font-size: 20px;#}
         }
 
         #hoverbuttwo {
@@ -254,7 +238,7 @@
             <div class="col-md-4">
                 <a href="{{ url_for('discussion', category = catlist[1]) }}">
                     <button class="button hoverbutton" id="hoverbuttwo">
-                        <i class="fas fa-file-alt" style="font-size: 35px;"></i><br>
+                        <i class="fas fa-book" style="font-size: 35px;"></i><br>
                         <span>ARTS</span>
                     </button>
                 </a>
