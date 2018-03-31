@@ -1,10 +1,9 @@
+import math
 from random import randrange
 
 from flask import Flask, render_template, request, redirect, url_for
-import math
-#NOTE!!
-#install flask-mysql first by writing in terminal "pip install flask-mysql" in order to use
 from flaskext.mysql import MySQL
+
 app = Flask(__name__)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -13,6 +12,7 @@ app.config['MYSQL_DATABASE_DB'] = 'cuspace'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
+
 @app.route('/')
 def index():
     conn = mysql.connect()
@@ -20,14 +20,15 @@ def index():
     sql = """SELECT * FROM `dis_category`"""
     cursor.execute(sql)
     data = cursor.fetchall()
-    categoryList = [ i[1] for i in data]
-    return render_template('index4.html', catlist = categoryList)
+    categoryList = [i[1] for i in data]
+    return render_template('index4.html', catlist=categoryList)
 
-@app.route('/tutor/' , defaults={'page':1})
-@app.route('/tutor/page/<page>')
+
+@app.route('/tutor/', defaults={'page': 1})
+@app.route('/tutor/<page>')
 def tutor(page):
     numDataStart = ((int(page) - 1) * 18)
-    #numDataEnd = int(page) * 18
+    # numDataEnd = int(page) * 18
     conn = mysql.connect()
     cursor = conn.cursor()
     subjectList = getSub()
@@ -54,7 +55,7 @@ def tutor(page):
         print(tutorData)
     except:
         print("Cannot query tutor data")
-    return render_template('tutor2.html', tutorList = tutorData, numofPage = numPage, subList = subjectList)
+    return render_template('tutor2.html', tutorList=tutorData, numofPage=numPage, subList=subjectList)
 
 
 @app.route('/tutor/<tutor_id>')
@@ -77,7 +78,7 @@ def profile(tutor_id):
             cursor.execute(subjectSQL, tutor_id)
             subject_info = cursor.fetchall()
             print(tutor_info)
-            return render_template('profile2.html', subList = subject_info, tutor = tutor_info)
+            return render_template('profile2.html', subList=subject_info, tutor=tutor_info)
         except:
             print("Cannot retrieve subject info")
             return render_template('error.html')
@@ -85,71 +86,59 @@ def profile(tutor_id):
         print("Cannot retrieve tutor info")
         return render_template('error.html')
 
+
 @app.route('/newtutor')
 def registernewtutor():
-    return render_template('newtutor.html', sub = getSub())
+    return render_template('newtutor.html', sub=getSub())
 
-@app.route('/newtutor/create_new_tutor', methods = ['POST'])
+
+@app.route('/newtutor/create_new_tutor', methods=['POST'])
 def create_tutor():
-    #trong me input pen user id duay
-    user_id = str(randrange(1,10000000))
-    numberOfCourse = int(request.form["hiddenvalue"])
-    link = request.form["link"]
-    facebook = request.form["facebook"]
-    bio = request.form['bio']
-    phone = request.form["phone"]
-    line = request.form["line"]
-    subject = request.form.getlist('coursecat')
-    course = request.form.getlist('course')
-    price = request.form.getlist("courseprice")
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    subjectList = getSub()
-    for i in range(numberOfCourse):
-        subjectName = subjectList[int(subject[i])-1][1]
-        print(subjectName)
-        tutorSQL = """INSERT INTO `tutor`(`User_id`, `Bio`, `Skill`, `Achievement`, `Experience`, 
-                      `Subject`, `Video`, `Facebook`, `Line`, `Phone`) 
-                      VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-        # try:
-        #     cursor.execute(tutorSQL, (user_id, bio, skil  l, acheivement, experience, subjectName, link, facebook, line, phone))
-        #     subjectSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`)
-        #                     VALUES (%s,%s,%s,%s)"""
-        #     try:
-        #         cursor.execute(subjectSQL, (user_id,subject[i], price[i], subjectName))
-        #     except:
-        #         print("Cannot insert subject")
-        # except:
-        #     print("Cannot insert tutor")
+    # trong me input pen user id duay
+    user_id = str(randrange(1, 10000000))
+    numberOfCourse = request.form.get("hiddenvalue")
+
+    # for i in range(numberOfCourse):
+
+    # bio = request.form['bio']
+    # category = request.form.get('category_name')
+    # youtube_link = request.form["link"]
+    # price = request.form["price"]
     return redirect(url_for("registernewtutor"))
+
 
 @app.route('/job')
 def job():
     return render_template('job.html')
 
+
 @app.route('/job-profile')
 def jobProfile():
     return render_template('job-profile.html')
+
 
 @app.route('/company')
 def company():
     return render_template('company.html')
 
+
 @app.route('/newpost')
 def newpost():
     category = getCat()
-    return render_template('newpost.html' , cat = category)
+    return render_template('newpost.html', cat=category)
+
 
 @app.route('/post')
 def post():
     return render_template('post.html')
+
 
 @app.route('/newpost/create_new_discussion', methods=['POST'])
 def createnewpost():
     topic = request.form['topic_name']
     categoryList = request.form.getlist('category_name')
     discussion = request.form['content']
-    user_id = "123456" #change later
+    user_id = "123456"  # change later
     conn = mysql.connect()
     cursor = conn.cursor()
     try:
@@ -172,15 +161,16 @@ def createnewpost():
         print("Cannot Insert value into discussion")
     return redirect(url_for("newpost"))
 
-@app.route('/discussion/<category>/', defaults={'page':1})
+
+@app.route('/discussion/<category>/', defaults={'page': 1})
 @app.route('/discussion/<category>/<page>')
 def discussion(category, page):
-    numDataStart = ((int(page)-1)*15)
-    numDataEnd = int(page)*15
+    numDataStart = ((int(page) - 1) * 15)
+    numDataEnd = int(page) * 15
     conn = mysql.connect()
     categoryList = getCat()
     categoryName = [i[1] for i in categoryList]
-    if(category in categoryName):
+    if (category in categoryName):
         cursor = conn.cursor()
         # sqlListed = """SELECT catgrp.dis_cat_group_id
         #         ,catgrp.dis_id
@@ -199,7 +189,7 @@ def discussion(category, page):
                        INNER JOIN dis_category cat ON dis.dis_cat_id = cat.Dis_cat_id 
                        WHERE cat.Dis_cat_name =  %s"""
         try:
-            cursor.execute(numOfDataSQL,category)
+            cursor.execute(numOfDataSQL, category)
             numOfData = cursor.fetchone()
             print(numOfData)
         except:
@@ -218,15 +208,15 @@ def discussion(category, page):
                 INNER JOIN `discussion` dis ON dis.Dis_id = catgrp.dis_id 
                 WHERE cat.Dis_cat_name = %s ORDER BY dis.create_time DESC LIMIT %s,%s """
         try:
-            cursor.execute(sqlWanted, (category,numDataStart,numDataEnd))
+            cursor.execute(sqlWanted, (category, numDataStart, numDataEnd))
             dataWanted = cursor.fetchall()
-            numPage = int(math.ceil(float(numOfData[0])/float(15)))
+            numPage = int(math.ceil(float(numOfData[0]) / float(15)))
             print(numPage)
         except:
-            print("Cannot query the data in Category: "+category)
+            print("Cannot query the data in Category: " + category)
         cursor.close()
         conn.close()
-        return render_template('discussion.html',cat = category, discussion = dataWanted, numofPage = numPage)
+        return render_template('discussion.html', cat=category, discussion=dataWanted, numofPage=numPage)
 
 
 def getCat():
@@ -241,6 +231,7 @@ def getCat():
         print("Cannot query category name")
     conn.close()
 
+
 def getSub():
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -252,6 +243,7 @@ def getSub():
     except:
         print("Cannot query subject name")
     conn.close()
+
 
 if __name__ == '__main__':
     app.run()
