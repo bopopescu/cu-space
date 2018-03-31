@@ -13,6 +13,22 @@
 
         .col-lg-4 {
             text-align: center;
+            margin-bottom: 20px;
+        }
+        .col-lg-4 h6{
+            color: #878787;
+            font-size: 14px;
+            font-weight: 300;
+        }
+        .col-lg-4 a{
+            color: black;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .col-lg-4 a:hover{
+            color: #377bb5;
+            text-decoration: none;
         }
 
         .btn-secondary {
@@ -165,9 +181,8 @@
                      height="140">
                 <p>{{ tutor[6] }} {{ tutor[7] }}</p>
             </a>
-            <h5><b>Open courses:</b> {{ tutor[9] }}</h5>
-            <h5><b>Price:</b> {{ tutor[4] }}/Hr</h5>
-            <h5><b>Bio:</b> {{ tutor[1] }}</h5>
+            <h6>{{ tutor[9] }}</h6>
+            <h6>{{ tutor[4] }}/Hr</h6>
         </div>
         {% if loop.index % 3 ==0 and loop.index != 0 %}
             </div>
