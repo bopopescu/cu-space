@@ -185,6 +185,11 @@
               width:100px;
           }
 
+          #phonenumberstatus{
+              color: red;
+          }
+
+
       </style>
 {% endblock %}
 {% block content %}
@@ -250,23 +255,28 @@
                 <br>
                 <label for="post">Enter your youtube video self-introduction</label>
                 <input type="text" class="form-control" id="detail" name="link">
+                <div id="detailstatus">
+                </div>
 
                 <br>
                 <label for="post">Enter your Facebook</label>
                 <input type="text" class="form-control" id="facebook" name="facebook">
-
-                <br>
-                <label for="post">Enter your Phone number</label>
-                <input type="text" class="form-control" id="phone" name="phone">
+                <div id="facebookstatus">
+                </div>
 
                 <br>
                 <label for="post">Enter your LINE ID</label>
                 <input type="text" class="form-control" id="line" name="line">
-
-
-                <input type="hidden" name="status">
-                <div id="detailstatus">
+                <div id="linestatus">
                 </div>
+
+                <br>
+                <label for="post">Enter your Phone number</label>
+                <input type="text" class="form-control" id="phone" name="phone">
+                <input type="hidden" name="status">
+                <div id="phonenumberstatus">
+                </div>
+
                 <br>
                 <input id="finalbutton" type="submit" class="btn btn-primary" value="Create your tutor profile"></input>
                 <input type="hidden" name="hiddenvalue" value="" id="hiddenvalue">
