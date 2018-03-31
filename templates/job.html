@@ -5,7 +5,6 @@
 {#    Put additional head code here #}
     <style>
     .jumbotron {
-{#        background-image: url("/static/img/job.jpg");#}
         background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('/static/img/job.jpg');
         background-repeat: no-repeat;
         background-size: 100% Auto;
@@ -38,6 +37,11 @@
         color: #377bb5;
         text-decoration: none;
     }
+    .company-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
     .company-name a {
         color:black;
     }
@@ -52,37 +56,87 @@
     }
     .job-cat{
         float:left;
-        width: 50%
+        width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .job-date{
         float: right;
         text-align: right;
-        width: 50%
+        width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
-    .search-box {
+    .search-container {
         float: left;
         margin-top: 16px;
         color: black;
     }
-    .search-box input[type=text] {
+    .search-container input[type=text] {
+        background-color: transparent;
+        border: 2px solid;;
+        border-right: none;
+        border-color: white;
+        border-radius: 5px;
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
         padding: 6px;
         margin-top: 8px;
         font-size: 17px;
-        border: none;
+        color: white;
     }
-    .search-box button {
+    .search-container input::-moz-placeholder {
+        color: white;
+    }
+    .search-container input::-webkit-input-placeholder {
+        color: white;
+    }
+    .search-container input:-ms-input-placeholder {
+        color: white;
+    }
+    .search-container button {
         float: right;
         padding: 6px 10px;
         margin-top: 8px;
         margin-right: 16px;
-        background: #ddd;
         font-size: 17px;
-        border: none;
         cursor: pointer;
+        background-color: transparent;
+        border: 2px solid;;
+        border-left: none;
+        border-color: white;
+        border-radius: 5px;
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 0px;
+        color: white;
+
+}
+
+    .search-container button:hover {
+        color: #ddd;
     }
 
-    .search-box button:hover {
-     background: #ccc;
+    .search-container .btn-outline {
+        background-color: transparent;
+        border: 2px solid;;
+        border-color: #b6ecff;
+        border-radius: 5px;
+        padding: 6px;
+        margin-top: 8px;
+        font-size: 17px;
+        color: #b6ecff;
+    }
+    .search-container .btn-outline:hover {
+        background-color: transparent;
+        border: 2px solid;;
+        border-color: #9bd0ff;
+        border-radius: 5px;
+        padding: 6px;
+        margin-top: 8px;
+        font-size: 17px;
+        color: #9bd0ff;
     }
 
     @font-face {
@@ -90,17 +144,17 @@
         src: url("static/fonts/Nunito-Regular.ttf");
         }
 
-    h4 {
-        font-family: 'Nunito-Regular', "Helvetica Neue", sans-serif;
-        font-weight:normal;
-        font-style:normal;
-    }
+{#    h4 {#}
+{#        font-family: 'Nunito-Regular', "Helvetica Neue", sans-serif;#}
+{#        font-weight:normal;#}
+{#        font-style:normal;#}
+{#    }#}
 
     a{
         color: white;
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 767px) {
         .jumbotron {
             background: #1e5cab;
             background-size: Auto 100%;
@@ -112,12 +166,17 @@
 {% block content %}
       <div class="jumbotron">
         <div class="container">
-          <h1 class="display-3">Kickstart on your career!</h1>
+          <h1 class="display-3">Kickstart on Your Career</h1>
           <p>Our filtering system can help you find the right job for you.</p>
-            <div class="search-box">
-                <form action="#">
-                    <input type="text" placeholder="Search jobs..." name="search" size="35">
-                    <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            <div class="search-container">
+                <form class="form-inline" action="#">
+                    <div class="form-group">
+                        <input type="text" placeholder="SEARCH JOBS" name="search">
+                        <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </div>
+                    <div class="form-group">
+                        <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('registernewtutor') }}">POST A JOB</a>
+                    </div>
                 </form>
             </div>
         </div>
