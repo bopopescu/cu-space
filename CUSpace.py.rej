@@ -1,0 +1,50 @@
+diff a/CUSpace.py b/CUSpace.py	(rejected hunks)
+@@ -23,29 +23,38 @@
+     categoryList = [ i[1] for i in data]
+     return render_template('index3.html', catlist = categoryList)
+ 
+-@app.route('/tutor')
+-def tutor():
++@app.route('/tutor/' , defaults={'page':1})
++@app.route('/tutor/<page>')
++def tutor(page):
++    numDataStart = ((int(page) - 1) * 18)
++    #numDataEnd = int(page) * 18
+     conn = mysql.connect()
+     cursor = conn.cursor()
+-    # sql = """SELECT * FROM `tutor` t
+-    #              INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
+-    #              INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id
+-    #              INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id
+-    #              INNER JOIN `user` ON user.User_id = t.user_id """
++    subjectList = getSub()
++    numOfDataSQL = """SELECT COUNT(*) 
++                              FROM `tutor`"""
++    try:
++        cursor.execute(numOfDataSQL)
++        numOfData = cursor.fetchone()
++        print(numOfData)
++    except:
++        print("Cannot get number of data in tutor")
++
+     sql = """SELECT t.user_id, t.bio, prof.picture, sub_grp.subject_id,sub_grp.price, GROUP_CONCAT(sub.subject_name) 
+              as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status, sub_grp.subject_description 
+              FROM `tutor` t 
+              INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id 
+              INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id 
+              INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id 
+-             INNER JOIN `user` ON user.User_id = t.user_id GROUP BY user_id"""
++             INNER JOIN `user` ON user.User_id = t.user_id GROUP BY sub_grp.user_id LIMIT %s OFFSET %s"""
+     try:
+-        cursor.execute(sql)
++        cursor.execute(sql, (18, numDataStart))
++        numPage = int(math.ceil(float(numOfData[0]) / float(18)))
+         tutorData = cursor.fetchall()
+         print(tutorData)
+     except:
+         print("Cannot query tutor data")
+-    return render_template('tutor2.html', tutorList = tutorData)
++    return render_template('tutor2.html', tutorList = tutorData, numofPage = numPage, subList = subjectList)
+ 
+ 
+ @app.route('/tutor/<tutor_id>')

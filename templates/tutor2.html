@@ -2,129 +2,256 @@
 {% block title %}Tutors - {% endblock %}
 {% block head %}
     {{ super() }}
-{#    Put additional head code here #}
+    {#    Put additional head code here #}
     <style>
+        .row {
+            margin-left: 1%;
+        }
+
         .jumbotron {
-{#        background-image: url("/static/img/job.jpg");#}
-            background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url("/static/img/tutor.jpg");
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("/static/img/tutor.jpg");
             background-repeat: no-repeat;
             background-size: 100% Auto;
             color: white;
-    }
-    .col-lg-4 {
-        text-align: center;
-    }
-    .btn-secondary{
-        background-color: #6c757d;
-        color: white;
-    }
-    .btn-secondary:hover{
-        background-color: #5a6268;
-        color: white;
-    }
-{#        .btn-primary{#}
-{#            float: right;#}
-{#    }#}
-    .search-container {
-        float: left;
-        margin-top: 16px;
-        color: black;
-    }
-    .search-container input[type=text] {
-        padding: 6px;
-        margin-top: 8px;
-        font-size: 17px;
-        border: none;
-    }
-    .search-container button {
-        float: right;
-        padding: 6px 10px;
-        margin-top: 8px;
-        margin-right: 16px;
-        background: #ddd;
-        font-size: 17px;
-        border: none;
-        cursor: pointer;
-
-}
-
-.search-container button:hover {
-  background: #ccc;
-}
-
-
-    #beatutor a{
-        color: white;
-    }
-    @media screen and (max-width: 600px) {
-        .jumbotron {
-            background: #4c2105;
-            background-size: Auto 100%;
         }
-    }
+
+        .col-lg-4 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .col-lg-4 p {
+            padding-top: 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .col-lg-4 h6 {
+            padding-top: 0px;
+            margin-top: 0px;
+            color: #606060;
+            font-size: 14px;
+            font-weight: 400;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .col-lg-4 a {
+            color: black;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .col-lg-4 a:hover {
+            text-decoration: none;
+        }
+
+        .tutor-info {
+            margin-top: 0px;
+        }
+
+        .tutor-card {
+            padding: 20px;
+            padding-left: 30px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: #f3f1f2;
+            -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+            -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutor-card:hover {
+            -webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            -moz-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .tutor-card:active {
+            transform: translateY(2px);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            color: white;
+        }
+
+        {#        .btn-primary{#}
+        {#            float: right;#}
+        {#    }#}
+        .search-container {
+            float: left;
+            margin-top: 16px;
+            color: black;
+        }
+
+        .search-container input[type=text] {
+            background-color: transparent;
+            border: 2px solid;;
+            border-right: none;
+            border-color: white;
+            border-radius: 5px;
+            border-bottom-right-radius: 0px;
+            border-top-right-radius: 0px;
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            color: white;
+        }
+
+        .search-container input::-moz-placeholder {
+            color: white;
+        }
+
+        .search-container input::-webkit-input-placeholder {
+            color: white;
+        }
+
+        .search-container input:-ms-input-placeholder {
+            color: white;
+        }
+
+        .search-container button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            font-size: 17px;
+            cursor: pointer;
+            background-color: transparent;
+            border: 2px solid;;
+            border-left: none;
+            border-color: white;
+            border-radius: 5px;
+            border-bottom-left-radius: 0px;
+            border-top-left-radius: 0px;
+            color: white;
+
+        }
+
+        .search-container button:hover {
+            color: #ddd;
+        }
+
+        .search-container .btn-outline {
+            background-color: transparent;
+            border: 2px solid;;
+            border-color: #ffd699;
+            border-radius: 5px;
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            color: #ffd699;
+        }
+
+        .search-container .btn-outline:hover {
+            background-color: transparent;
+            border: 2px solid;;
+            border-color: #ffc66f;
+            border-radius: 5px;
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            color: #ffc66f;
+        }
+
+        #beatutor a {
+            color: #ffa11e;
+        }
+
+        @media screen and (max-width: 767px) {
+            .jumbotron {
+                background: #4c2105;
+                background-size: Auto 100%;
+            }
+        }
 
 
     </style>
 {% endblock %}
 {% block content %}
-      <div class="jumbotron">
+    <div class="jumbotron">
         <div class="container">
-          <h1 class="display-3">Find a tutor</h1>
-          <p>Our filtering system can help you find a tutor for you.</p>
+            <h1 class="display-3">Never Stop Learning</h1>
+            <p>Our filtering system can help you find a private tutor for you.</p>
             <div class="search-container">
-                <form action="#">
-                    <input type="text" placeholder="Find tutors..." name="search" size="35">
-                    <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                <form class="form-inline" action="#">
+                    <div class="form-group">
+                        <input type="text" placeholder="FIND A TUTOR" name="search">
+                        <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('registernewtutor') }}">BECOME
+                            A TUTOR</a>
+                    </div>
                 </form>
             </div>
         </div>
 
-      </div>
-      <div class="filter" align="center">
-          <form class="form-inline">
+    </div>
+    <div class="filter" align="center">
+        <form class="form-inline">
             <div class="form-group">
                 <select class="selectpicker" multiple title="All tutor">
                     {% for subject in subList %}
-                    <option value="{{ subject[0] }}">{{ subject[1] }}</option>
+                        <option value="{{ subject[0] }}">{{ subject[1] }}</option>
                     {% endfor %}
                 </select>
             </div>
             <button type="submit" class="btn btn-secondary">Filter</button>
-              <a type="button" class="btn btn-primary" id="beatutor" href="{{ url_for('registernewtutor') }}">Become a Tutor</a>
-          </form>
-      </div>
+        </form>
+    </div>
     <br>
-      <div class="container">
+    <div class="container">
 
         <!-- Example row of columns -->
-          {% for tutor in tutorList %}
-              {% if loop.index %3 == 1   %}
+        {% for tutor in tutorList %}
+            {% if loop.index %3 == 1 %}
                 <div class="row">
-              {% endif %}
-                <div class="col-lg-4">
-                <a href = "/tutor/{{ tutor[0] }}">
-                <img class="rounded-circle" src="/static/img/{{ tutor[2] }}" alt="Generic placeholder image" width="140" height="140">
-                  <p>{{ tutor[6] }} {{ tutor[7] }}</p>
+            {% endif %}
+        <div class="col-lg-4">
+            <div class="tutor-card">
+                <a href="/tutor/{{ tutor[0] }}">
+                    <div class="tutor-name">
+                        <img class="rounded-circle" src="/static/img/{{ tutor[2] }}" alt="Generic placeholder image"
+                             width="120"
+                             height="120">
+                        <br>
+                        <p>{{ tutor[6] }} {{ tutor[7] }}</p>
+                        {#                        <p>Supachai Wongyos</p>#}
+                    </div>
+                    <div class="tutor-info">
+                        <h6>{{ tutor[9] }}</h6>
+                        <h6>{{ tutor[4] }} Baht/hr</h6>
+                        {#                        <h6>English, Math, Music</h6>#}
+                        {#                        <h6>300 - 750 Baht/hr</h6>#}
+                    </div>
                 </a>
-                <h5><b>Open courses:</b> {{ tutor[9] }}</h5>
-                  <h5><b>Price:</b> {{ tutor[4] }}/Hr</h5>
-                  <h5><b>Bio:</b> {{tutor[1]}}</h5>
-                </div>
-            {% if loop.index % 3 ==0 and loop.index != 0 %}
-                </div>
-              {% endif %}
-      {% endfor %}
 
-      </div> <!-- /container -->
-    <nav class="navPage" style ="text-align: center">
+            </div>
+        </div>
+        {% if loop.index % 3 ==0 and loop.index != 0 %}
+            </div>
+        {% endif %}
+        {% endfor %}
+
+    </div> <!-- /container -->
+    <nav class="navPage" style="text-align: center">
         <ul class="pagination">
             <li class="page-item">
                 <a class="page-link" href="#">Previous</a>
             </li>
             {% for page in range(numofPage) %}
-            <li class="page-item">
-                <a class="page-link" href="{{ url_for('tutor', page = loop.index) }}">{{ loop.index }}</a>
-            </li>
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('tutor', page = loop.index) }}">{{ loop.index }}</a>
+                </li>
             {% endfor %}
             <li class="page-item">
                 <a class="page-link" href="#">Next</a>
