@@ -113,7 +113,6 @@ $("#coursecategory").focus(function () {
         $(this).css("border-color", "#00CD00");
     }
 });
-
 $("#othercourse").focus(function () {
     $(this).css("border-color", "#0080ff");
 });
@@ -123,7 +122,6 @@ $("#bio").focus(function () {
 $("#post").focus(function () {
     $(this).css("border-color", "#0080ff");
 });
-
 $("#post1").focus(function () {
     $(this).css("border-color", "#0080ff");
 });
@@ -139,6 +137,14 @@ $("#coursecat").focus(function () {
 $("#courseprice").focus(function () {
     $(this).css("border-color", "#0080ff");
 });
+$("#phone").focus(function () {
+    $(this).css("border-color", "#0080ff");
+});
+$("#skills").focus(function () {
+    $(this).css("border-color", "#0080ff");
+});
+
+
 $("#bio").focusout(function () {
     var value = $(this).val()
     if (checkpos(value) == 1) {
@@ -147,7 +153,6 @@ $("#bio").focusout(function () {
         $(this).css("border-color", "#00CD00");
     }
 });
-
 $("#post1").focusout(function () {
     var value = $(this).val()
     if (checkpost1(value) == 1) {
@@ -164,10 +169,6 @@ $("#post").focusout(function () {
         $(this).css("border-color", "#00CD00");
     }
 });
-
-
-
-
 $("#detail").focusout(function () {
     var value = $(this).val()
     if (checkdetail(value) == 1) {
@@ -176,7 +177,6 @@ $("#detail").focusout(function () {
         $(this).css("border-color", "#00CD00");
     }
 });
-
 $("#coursecategory").focusout(function () {
     var value = $(this).text().trim()
     if (checkcategory2(value) == 1) {
@@ -184,7 +184,6 @@ $("#coursecategory").focusout(function () {
     } else {
         $(this).css("border-color", "#00CD00");
     }});
-
 $("#othercourse").focusout(function () {
     var value = $(this).val()
     if (checkothers(value) == 1) {
@@ -193,6 +192,52 @@ $("#othercourse").focusout(function () {
         $(this).css("border-color", "#00CD00");
     }
 });
+$("#experience").focusout(function () {
+    var value = $(this).val();
+    if (checkexperience(value) == 1) {
+        $(this).css("border-color", "#FF0000");
+    } else {
+        $(this).css("border-color", "#00CD00");
+    }
+});
+$("#skills").focusout(function () {
+    var value = $(this).val();
+    if (checkskills(value) == 1) {
+        $(this).css("border-color", "#FF0000");
+    } else {
+        $(this).css("border-color", "#00CD00");
+    }
+});
+$("#experience").focusout(function () {
+    var value = $(this).val();
+    if (checkexperience(value) == 1) {
+        $(this).css("border-color", "#FF0000");
+    } else {
+        $(this).css("border-color", "#00CD00");
+    }
+});
+$('#facebook').focusout(function (){
+     $(this).css("border-color", "#00CD00");
+});
+$('#line').focusout(function (){
+     $(this).css("border-color", "#00CD00");
+});
+$('#achievement').focusout(function (){
+     $(this).css("border-color", "#00CD00");
+});
+$("#phonenumber" ).focusout(function() {
+        var value = $(this).val();
+        console.log('hi');
+        console.log(checkphone(value));
+        if (checkphone(value) == 1) {
+            $(this).css("border-color", "#FF0000");document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number';
+        } else if (checkphone(value) == 2) {
+            $(this).css("border-color", "#FF0000");document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number';
+
+        } else{
+            $(this).css("border-color", "#00CD00");document.getElementById('phonenumberstatus').innerHTML ='';
+        }
+    });
 
 
 
@@ -200,8 +245,8 @@ function checkallpost() {
     console.log('hi');
     var posvalue = $('#bio').val();
     var detailvalue = $('#detail').val();
-    var facebookvalue = $('#facebook').val();
-    var linevalue = $('#line').val();
+    var skillvalue = $('#skills').val();
+    var experiencevalue = $('#experience').val();
     var phonevalue = $('#phonenumber').val();
     var $fileUpload = $("#input-image-3");
     if (parseInt($fileUpload.get(0).files.length) > 6) {
@@ -211,8 +256,8 @@ function checkallpost() {
 
     if (checkpos(posvalue) == 1 ||
         checkdetail(detailvalue) == 1 ||
-        checkfacebook(facebookvalue) ==1 ||
-        checkline(linevalue) ==1 ||
+        checkskills(skillvalue) ==1 ||
+        checkexperience(experiencevalue) ==1 ||
         checkphone(phonevalue) == 1 || checkphone(phonevalue) == 2
          ) {
         alert("Please enter all of the information");
@@ -439,44 +484,9 @@ $('.addcourse').on('click', function(e) {
 
 
 
-$("#facebook").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#phone").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#line").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#facebook").focusout(function () {
-    var value = $(this).val();
-    if (checkfacebook(value) == 1) {
-        $(this).css("border-color", "#FF0000");
-    } else {
-        $(this).css("border-color", "#00CD00");
-    }
-});
-$("#line").focusout(function () {
-    var value = $(this).val();
-    if (checkline(value) == 1) {
-        $(this).css("border-color", "#FF0000");
-    } else {
-        $(this).css("border-color", "#00CD00");
-    }
-});
-$("#phonenumber" ).focusout(function() {
-        var value = $(this).val();
-        console.log('hi');
-        console.log(checkphone(value));
-        if (checkphone(value) == 1) {
-            $(this).css("border-color", "#FF0000");document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number';
-        } else if (checkphone(value) == 2) {
-            $(this).css("border-color", "#FF0000");document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number';
 
-        } else{
-            $(this).css("border-color", "#00CD00");document.getElementById('phonenumberstatus').innerHTML ='';
-        }
-    });
+
+
 function checkfacebook(value) {
     document.getElementById('facebookstatus').style.color = "red";
     if (value.length <= 1) {
@@ -487,52 +497,61 @@ function checkfacebook(value) {
         return 0;
     }
 }
-function checkline(value) {
+function checkskills(value) {
 
-    document.getElementById('linestatus').style.color = "red";
+    document.getElementById('skillstatus').style.color = "red";
     if (value.length <= 1) {
-        document.getElementById('linestatus').innerHTML = 'X Please enter your LINE account';
+        document.getElementById('skillstatus').innerHTML = 'X Please enter your skills!';
         return 1;
     } else {
-        document.getElementById('linestatus').innerHTML = '';
+        document.getElementById('skillstatus').innerHTML = '';
         return 0;
     }
 }
+function checkexperience(value) {
 
-
+    document.getElementById('experiencestatus').style.color = "red";
+    if (value.length <= 1) {
+        document.getElementById('experiencestatus').innerHTML = 'X Please enter your experience!';
+        return 1;
+    } else {
+        document.getElementById('experiencestatus').innerHTML = '';
+        return 0;
+    }
+}
 function checkphone(value){
       console.log("enter leawwww");
       document.getElementById('phonenumberstatus').style.color="red";
       if(value.length == 0){
           console.log("enter leawwww");
-          document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number';
+          document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number!';
           return 2
       }
       if(value.length !=10) {
           if(value.indexOf(' ')>=0 && !hasNumber(value)) {
 
-              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly';
+              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly!';
               return 1
           } else if(value.indexOf(' ')>=0) {
-              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly';
+              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly!';
                return 1
           }else if(!hasNumber(value)){
-              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly';
+              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly!';
               return 1
           } else {
-              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly';
+              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly!';
               return 1
           }
       } else {
           if(value.indexOf(' ')>=0 && !hasNumber(value)) {
-              document.getElementById('phonenumberstatus').innerHTML ='X Wrong phone number format';
+              document.getElementById('phonenumberstatus').innerHTML ='X Wrong phone number format!';
               return 1
           } else if(value.indexOf(' ')>=0) {
                alert("Phonenumber must not contain whitespaces")
-              document.getElementById('phonenumberstatus').innerHTML ='X Wrong phone number format';
+              document.getElementById('phonenumberstatus').innerHTML ='X Wrong phone number format!';
                return 1
           }else if(!hasNumber(value)){
-              document.getElementById('phonenumberstatus').innerHTML ='X Wrong phone number format';
+              document.getElementById('phonenumberstatus').innerHTML ='X Wrong phone number format1';
               return 1
           } else {
               document.getElementById('phonenumberstatus').innerHTML ='';
@@ -543,7 +562,4 @@ function checkphone(value){
 function hasNumber(myString) {
     console.log(/^[0-9]+$/.test(myString));
     return /^[0-9]+$/.test(myString);
-}
-function hasAlphabet(myString) {
-    return /[a-zA-Z]/.test(myString)
 }

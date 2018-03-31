@@ -215,7 +215,11 @@
                            onchange="readURL(this) ;" accept="image/*"
                            multiple style="display: none">
                     <br>
+
                 </div>
+
+
+
                 <div class="col-md-6">
                     <label for="bio">Enter your Bio</label>
                     <textarea form="submitTutor" class="form-control" rows="5" id="bio" name="bio"
@@ -232,7 +236,7 @@
                         <select class="form-control coursecat" type="button" data-toggle="dropdown" title="Category"
                                 name="coursecat" style="width:120px" id="coursecat" required/>
                         <option value="" selected disabled>Please select</option>
-                        <option value="a">a</option>
+
                         {% for subject in sub %}
                             <option value="{{ subject[0] }}" id="coursecat">{{ subject[1] }}</option>
                         {% endfor %}
@@ -259,21 +263,39 @@
 
             <br>
             <label for="post">Enter your Facebook</label>
-            <input type="text" class="form-control" id="facebook" name="facebook">
+            <input type="text" class="form-control" id="facebook" name="facebook" placeholder="This field is optional">
             <div id="facebookstatus">
             </div>
 
 
             <br>
             <label for="post">Enter your LINE ID</label>
-            <input type="text" class="form-control" id="line" name="line">
+            <input type="text" class="form-control" id="line" name="line" placeholder="This field is optional">
             <div id="linestatus">
             </div>
 
             <br>
-            <label for="post">Enter your Phonenumber</label>
+            <label for="post">Enter your Phonenumber</label><br><span style="color:#FF9900">Please enter in the format of ex: 0812345678 with no "-" in between</span>
             <input type="tel" class="form-control" id="phonenumber" name="facebook">
             <div id="phonenumberstatus">
+            </div>
+
+            <br>
+            <label for="post">Enter your skills</label>
+            <input type="text" class="form-control" id="skills" name="link">
+            <div id="skillstatus">
+            </div>
+
+            <br>
+            <label for="post">Enter your achievement</label>
+            <input type="text" class="form-control" id="achievement" name="link" placeholder="This field is optional">
+            <div id="achievementstatus">
+            </div>
+
+            <br>
+            <label for="post">Enter your past experience</label>
+            <input type="text" class="form-control" id="experience" name="link">
+            <div id="experiencestatus">
             </div>
 
 
