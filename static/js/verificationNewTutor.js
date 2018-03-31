@@ -412,13 +412,13 @@ $('.addcourse').on('click', function(e) {
   $('#hiddenvalue').val(cloneIndex);
   $('.course').first().clone()
       .find("input")
-    .attr("id", "courseprice" ).attr("name", "courseprice" +  cloneIndex).attr("class", "form-control courseprice" )
+    .attr("id", "courseprice" ).attr("name", "courseprice").attr("class", "form-control courseprice" )
     .val('').end()
     .find("input:text")
-    .attr("id", "course" ).attr("name", "course" +  cloneIndex).attr("class", "form-control course" )
+    .attr("id", "course" ).attr("name", "course").attr("class", "form-control course" )
     .val('').end()
     .find("select")
-    .attr("id", "coursecat" ).attr("name", "coursecat" +  cloneIndex).attr("class", "form-control coursecat" )
+    .attr("id", "coursecat" ).attr("name", "coursecat").attr("class", "form-control coursecat" )
     .val('').end().insertBefore(this);
     cloneIndex++;
 

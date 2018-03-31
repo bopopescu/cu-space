@@ -104,11 +104,10 @@ ban_status ="0"
 #TUTOR INFO
 bio = "OH MY WORLD"
 skill = "helloingworld"
-achievement = "hello 3 time"
 exp = "hello 3! time"
 subject = "Chompoonuch"
 video ="www.youtube.com/kokkok"
-
+phone ="0123456789"
 #PROFILE PIC INFO
 picture = "abcdegf.jpg"
 
@@ -148,9 +147,9 @@ for i in range(100):
         user_and_tutor_cursor.execute(insert_user__SQL, (tutor_and_user,email,username,user_key,firstname,lastname,dateOfbirth,role
                                           ,ban_status))
         try:
-            insert_tutor_SQL = """INSERT INTO `tutor`(`User_id`, `Bio`, `Skill`, `Achievement`, `Experience`, `Subject`, `Video`)
+            insert_tutor_SQL = """INSERT INTO `tutor`(`User_id`, `Bio`, `Skill`, `Experience`, `Subject`, `Video`,`Phone`)
                                   VALUES (%s,%s,%s,%s,%s,%s,%s)"""
-            user_and_tutor_cursor.execute(insert_tutor_SQL,(tutor_and_user,bio,skill,achievement,exp,subject,video))
+            user_and_tutor_cursor.execute(insert_tutor_SQL,(tutor_and_user,bio,skill,exp,subject,video, phone))
             conn.commit()
         except:
             print("Cannot insert into tutor")

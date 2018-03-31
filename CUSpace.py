@@ -24,7 +24,7 @@ def index():
     return render_template('index3.html', catlist = categoryList)
 
 @app.route('/tutor/' , defaults={'page':1})
-@app.route('/tutor/<page>')
+@app.route('/tutor/page/<page>')
 def tutor(page):
     numDataStart = ((int(page) - 1) * 18)
     #numDataEnd = int(page) * 18
@@ -93,14 +93,34 @@ def registernewtutor():
 def create_tutor():
     #trong me input pen user id duay
     user_id = str(randrange(1,10000000))
-    numberOfCourse = request.form.get("hiddenvalue")
-
-    #for i in range(numberOfCourse):
-
-    #bio = request.form['bio']
-    #category = request.form.get('category_name')
-    #youtube_link = request.form["link"]
-    # price = request.form["price"]
+    numberOfCourse = int(request.form["hiddenvalue"])
+    link = request.form["link"]
+    facebook = request.form["facebook"]
+    bio = request.form['bio']
+    phone = request.form["phone"]
+    line = request.form["line"]
+    subject = request.form.getlist('coursecat')
+    course = request.form.getlist('course')
+    price = request.form.getlist("courseprice")
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    subjectList = getSub()
+    for i in range(numberOfCourse):
+        subjectName = subjectList[int(subject[i])-1][1]
+        print(subjectName)
+        tutorSQL = """INSERT INTO `tutor`(`User_id`, `Bio`, `Skill`, `Achievement`, `Experience`, 
+                      `Subject`, `Video`, `Facebook`, `Line`, `Phone`) 
+                      VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+        # try:
+        #     cursor.execute(tutorSQL, (user_id, bio, skill, acheivement, experience, subjectName, link, facebook, line, phone))
+        #     subjectSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`)
+        #                     VALUES (%s,%s,%s,%s)"""
+        #     try:
+        #         cursor.execute(subjectSQL, (user_id,subject[i], price[i], subjectName))
+        #     except:
+        #         print("Cannot insert subject")
+        # except:
+        #     print("Cannot insert tutor")
     return redirect(url_for("registernewtutor"))
 
 @app.route('/job')
