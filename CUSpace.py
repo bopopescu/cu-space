@@ -112,7 +112,7 @@ def create_tutor():
                       `Subject`, `Video`, `Facebook`, `Line`, `Phone`) 
                       VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         # try:
-        #     cursor.execute(tutorSQL, (user_id, bio, skill, acheivement, experience, subjectName, link, facebook, line, phone))
+        #     cursor.execute(tutorSQL, (user_id, bio, skil  l, acheivement, experience, subjectName, link, facebook, line, phone))
         #     subjectSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`)
         #                     VALUES (%s,%s,%s,%s)"""
         #     try:
