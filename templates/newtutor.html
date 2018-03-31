@@ -2,25 +2,24 @@
 {% block title %}{% endblock %}
 {% block head %}
     {{ super() }}
-          <style>
-
+    <style>
 
 
         .jumbotron {
-{#        background-image: url("/static/img/job.jpg");#}
-        background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('/static/img/tutor.jpg');
-        color: white;
-    }
-        .col-sm-4{
-          margin-bottom: 5px;
+        {#        background-image: url("/static/img/job.jpg");#} background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/tutor.jpg');
+            color: white;
         }
 
-        .col-md-10{
+        .col-sm-4 {
+            margin-bottom: 5px;
+        }
+
+        .col-md-10 {
             margin-left: 10%;
         }
 
-        #activitiesimgcontainer{
-          margin-left: 15px;
+        #activitiesimgcontainer {
+            margin-left: 15px;
         }
 
         .text-block {
@@ -29,48 +28,51 @@
             left: 50%;
             background-color: black;
             color: white;
-            {#opacity: 1;#}
+        {#opacity: 1;#}
         }
 
-            .btn-secondary{
-        background-color: #6c757d;
-        color: white;
-        position: absolute;
-        bottom: 0;
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            bottom: 0;
 
-    }
-    .btn-secondary:hover{
-        background-color: #5a6268;
-        color: white;
-    }
-    .search-container {
-        float: left;
-        margin-top: 16px;
-        color: black;
-    }
-    .search-container input[type=text] {
-        padding: 6px;
-        margin-top: 8px;
-        font-size: 17px;
-        border: none;
-    }
-    .search-container button {
-        float: right;
-        padding: 6px 10px;
-        margin-top: 8px;
-        margin-right: 16px;
-        background: #ddd;
-        font-size: 17px;
-        border: none;
-        cursor: pointer;
-}
+        }
 
-.search-container button:hover {
-  background: #ccc;
-}
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            color: white;
+        }
 
+        .search-container {
+            float: left;
+            margin-top: 16px;
+            color: black;
+        }
 
-        .col-sm-2{
+        .search-container input[type=text] {
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: none;
+        }
+
+        .search-container button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            background: #ddd;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background: #ccc;
+        }
+
+        .col-sm-2 {
             width: 170px;
         }
 
@@ -82,39 +84,37 @@
             font-size: 1.5em;
             font-family: "Helvetica Neue";
             color: white;
-            white-space:nowrap;
+            white-space: nowrap;
         }
 
-
-        .facultytext span{
-           color: white;
-           letter-spacing: -1px;
-           background: rgb(0,0,0); /* fallback color */
-           background: rgba(0,0,0, 0.7);
-           padding: 10px;
+        .facultytext span {
+            color: white;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0); /* fallback color */
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
             opacity: 1;
             border-radius: 25px;
-             -webkit-transition: .3s linear;
+            -webkit-transition: .3s linear;
             transition: .3s linear;
 
         }
 
-        .facultytext:hover span{
-           color: black;
-           letter-spacing: -1px;
-           background: rgb(0,0,0);
-           background: rgba(255, 204, 0, 1);
-           padding: 10px;
+        .facultytext:hover span {
+            color: black;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0);
+            background: rgba(255, 204, 0, 1);
+            padding: 10px;
             opacity: 1;
             border-radius: 25px;
-             -webkit-transition: .3s linear;
+            -webkit-transition: .3s linear;
             transition: .3s linear;
 
         }
 
-
-        #firstcol{
-          margin-right:  240px;
+        #firstcol {
+            margin-right: 240px;
         }
 
         .activitiestext {
@@ -123,38 +123,35 @@
             left: 42%;
             font-size: 2.5em;
             font-family: "Helvetica Neue";
-            {#opacity: 0.5;#}
+        {#opacity: 0.5;#} color: white;
+            white-space: nowrap;
+        }
+
+        .activitiestext span {
             color: white;
-            white-space:nowrap;
-        }
-
-
-        .activitiestext span{
-           color: white;
-           letter-spacing: -1px;
-           background: rgb(0,0,0); /* fallback color */
-           background: rgba(0,0,0, 0.7);
-           padding: 10px;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0); /* fallback color */
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
             opacity: 1;
             border-radius: 25px;
-             -webkit-transition: .3s linear;
+            -webkit-transition: .3s linear;
             transition: .3s linear;
 
         }
 
-        .activitiestext:hover span{
-           color: black;
-           letter-spacing: -1px;
-           background: rgb(0,0,0); /* fallback color */
-           background: rgba(255, 204, 0, 1);
-           padding: 10px;
+        .activitiestext:hover span {
+            color: black;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0); /* fallback color */
+            background: rgba(255, 204, 0, 1);
+            padding: 10px;
             opacity: 1;
             border-radius: 25px;
-             -webkit-transition: .3s linear;
+            -webkit-transition: .3s linear;
             transition: .3s linear;
 
         }
-
 
         .btnn {
             background-color: cornflowerblue;
@@ -163,137 +160,139 @@
             width: 40%
         }
 
-
         h1 {
             font-size: 20px;
             font-family: Helvetica Neue;
         }
-
-
-
 
         .btn.btn-secondary.dropdown-toggle {
             border-radius: 0;
 
         }
 
-          .container{
-              padding-top: 0px;
-          }
+        .container {
+            padding-top: 0px;
+        }
 
-          .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
-              width:100px;
-          }
+        .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+            width: 100px;
+        }
 
-          #phonenumberstatus{
-              color: red;
-          }
+        #phonenumberstatus {
+            color: red;
+        }
 
-      </style>
+    </style>
 {% endblock %}
 {% block content %}
 
     <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
-<div class="jumbotron">
+    <div class="jumbotron">
         <div class="container">
-          <h1 class="display-3">Become a Tutor</h1>
-          <p>Share your knowledges with other people</p>
+            <h1 class="display-3">Become a Tutor</h1>
+            <p>Share your knowledges with other people</p>
 
         </div>
-      </div>
-<div class="container wrap">
-    <!-- Content here -->
-    <form method="POST" enctype=multipart/form-data  id="submitTutor" onsubmit="return checkallpost()" action="{{ url_for("create_tutor") }}">
-        {#         add form here#}
-        <div class="row">
-            <div class="col-md-6">
-                <p>Upload Images(Maximum of 6 images)</p>
-                <br>
-                <img id="img0" src="#" alt="" style="display: none"/>
-                <img id="img1" src="#" alt="" style="display: none"/>
-                <img id="img2" src="#" alt="" style="display: none"/>
-                <img id="img3" src="#" alt="" style="display: none"/>
-                <img id="img4" src="#" alt="" style="display: none"/>
-                <img id="img5" src="#" alt="" style="display: none"/>
-                <button id="b1" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">+</button>
-                <input id="input-image-3" name="input-image" type="file" class="btn btn-secondary btn-lg" onchange="readURL(this) ;" accept="image/*"
-                       multiple style="display: none">
-                <br>
-            </div>
-            <div class="col-md-6">
-                <label for="bio">Enter your Bio</label>
-                <textarea form="submitTutor" class="form-control" rows="5" id="bio" name="bio" placeholder="Write something about yourself..."></textarea>
-                <div id="posstatus">
+    </div>
+    <div class="container wrap">
+        <!-- Content here -->
+        <form method="POST" enctype=multipart/form-data id="submitTutor" onsubmit="return checkallpost()"
+              action="{{ url_for("create_tutor") }}">
+            {#         add form here#}
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Upload Images(Maximum of 6 images)</p>
+                    <br>
+                    <img id="img0" src="#" alt="" style="display: none"/>
+                    <img id="img1" src="#" alt="" style="display: none"/>
+                    <img id="img2" src="#" alt="" style="display: none"/>
+                    <img id="img3" src="#" alt="" style="display: none"/>
+                    <img id="img4" src="#" alt="" style="display: none"/>
+                    <img id="img5" src="#" alt="" style="display: none"/>
+                    <button id="b1" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">+</button>
+                    <input id="input-image-3" name="input-image" type="file" class="btn btn-secondary btn-lg"
+                           onchange="readURL(this) ;" accept="image/*"
+                           multiple style="display: none">
+                    <br>
                 </div>
-                <br>
-                <label for="coursecategory">Choose your open course category</label>
-                <label>Multiple fields contact form</label>
+                <div class="col-md-6">
+                    <label for="bio">Enter your Bio</label>
+                    <textarea form="submitTutor" class="form-control" rows="5" id="bio" name="bio"
+                              placeholder="Write something about yourself..."></textarea>
+                    <div id="posstatus">
+                    </div>
+                    <br>
+                    <label for="coursecategory">Choose your open course category</label>
+                    <label>Multiple fields contact form</label>
                     <div class="course">
                         <label>Open Courses:</label>
-                            <div class="form-group multiple-form-group input-group course " required/>
-                                <div class="input-group-btn input-group-select " required/>
-                             <select class="form-control coursecat" type="button" data-toggle="dropdown" title="Category" name="coursecat"  style="width:120px" id="coursecat" required/>
-                                <option value="" selected disabled>Please select</option>
-                    <option value = "a">a</option>
-                                {% for subject in sub %}
-                                <option value="{{ subject[0] }}" id="coursecat">{{ subject[1] }}</option>
-                                {% endfor %}
-                            </select>
-                                <input type="text" name="course" class="form-control course" id="course" style="width: 300px;" placeholder="Course" required/>
-                                <input type="number" name="courseprice" class="form-control courseprice" min="0" id="courseprice" style="width:100px;" placeholder="Price/hr" required/>
-                            </div>
-                        </div>
-        </div>
-                        <a class="addcourse" href="#">Add further course</a>
-                <div id="categorystatus">
+                        <div class="form-group multiple-form-group input-group course " required/>
+                        <div class="input-group-btn input-group-select " required/>
+                        <select class="form-control coursecat" type="button" data-toggle="dropdown" title="Category"
+                                name="coursecat" style="width:120px" id="coursecat" required/>
+                        <option value="" selected disabled>Please select</option>
+                        <option value="a">a</option>
+                        {% for subject in sub %}
+                            <option value="{{ subject[0] }}" id="coursecat">{{ subject[1] }}</option>
+                        {% endfor %}
+                        </select>
+                        <input type="text" name="course" class="form-control course" id="course" style="width: 300px;"
+                               placeholder="Course" required/>
+                        <input type="number" name="courseprice" class="form-control courseprice" min="0"
+                               id="courseprice" style="width:100px;" placeholder="Price/hr" required/>
+                    </div>
                 </div>
-                <div id="othersstatus">
-                </div>
-                <div id="pricestatus">
-                </div>
-                <br>
-                <label for="post">Enter your youtube video self-introduction</label>
-                <input type="text" class="form-control" id="detail" name="link">
-                <div id="detailstatus">
-                </div>
+            </div>
+            <a class="addcourse" href="#">Add further course</a>
+            <div id="categorystatus">
+            </div>
+            <div id="othersstatus">
+            </div>
+            <div id="pricestatus">
+            </div>
+            <br>
+            <label for="post">Enter your youtube video self-introduction</label>
+            <input type="text" class="form-control" id="detail" name="link">
+            <div id="detailstatus">
+            </div>
 
-                <br>
-                <label for="post">Enter your Facebook</label>
-                <input type="text" class="form-control" id="facebook" name="facebook">
-                <div id="facebookstatus">
-                </div>
-
-
-                <br>
-                <label for="post">Enter your LINE ID</label>
-                <input type="text" class="form-control" id="line" name="line">
-                <div id="linestatus">
-                </div>
-
-                <br>
-                <label for="post">Enter your Phonenumber</label>
-                <input type="tel" class="form-control" id="phonenumber" name="facebook">
-                <div id="phonenumberstatus">
-                </div>
+            <br>
+            <label for="post">Enter your Facebook</label>
+            <input type="text" class="form-control" id="facebook" name="facebook">
+            <div id="facebookstatus">
+            </div>
 
 
-                <input type="hidden" name="status">
+            <br>
+            <label for="post">Enter your LINE ID</label>
+            <input type="text" class="form-control" id="line" name="line">
+            <div id="linestatus">
+            </div>
 
-                <br>
-                <input id="finalbutton" type="submit" class="btn btn-primary" value="Create your tutor profile"></input>
-                <input type="hidden" name="hiddenvalue" value="" id="hiddenvalue">
-            </form>
-        </div>
+            <br>
+            <label for="post">Enter your Phonenumber</label>
+            <input type="tel" class="form-control" id="phonenumber" name="facebook">
+            <div id="phonenumberstatus">
+            </div>
 
 
-<script src="/static/js/verificationNewTutor.js"></script>
-<script src="/static/js/registration.js"></script>
-<script type="text/javascript">
-               $(document).ready(function() {
-               $('.selectpicker').selectpicker();
-              });
-</script>
+            <input type="hidden" name="status">
+
+            <br>
+            <input id="finalbutton" type="submit" class="btn btn-primary" value="Create your tutor profile"></input>
+            <input type="hidden" name="hiddenvalue" value="" id="hiddenvalue">
+        </form>
+    </div>
+
+
+    <script src="/static/js/verificationNewTutor.js"></script>
+    <script src="/static/js/registration.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker();
+        });
+    </script>
 
     </body>
 
