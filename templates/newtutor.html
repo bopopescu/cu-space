@@ -4,10 +4,15 @@
     {{ super() }}
     <style>
 
+        .jumbotron .container{
+            max-width: 100%;
+        }
 
         .jumbotron {
-        {#        background-image: url("/static/img/job.jpg");#} background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/tutor.jpg');
+        {#        background-image: url("/static/img/job.jpg");#} background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/tutor5.jpg');
             color: white;
+            background-size: 100% Auto;
+            background-repeat: no-repeat;
         }
 
         .col-sm-4 {
@@ -189,9 +194,18 @@
     <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
     <div class="jumbotron">
-        <div class="container">
-            <h1 class="display-3">Become a Tutor</h1>
-            <p>Share your knowledges with other people</p>
+        <div class="container" align="center">
+            <br>
+            <br>
+            <br>
+            <h1 class="display-3">Become a Tutor!</h1>
+            <p>Share your knowledges to others and make the world a better place!</p>
+            <br>
+
+            <br>
+            <br>
+            <br>
+
 
         </div>
     </div>
@@ -238,6 +252,8 @@
             <label for="post">Enter your youtube video self-introduction</label>
             <input type="text" class="form-control" id="detail" name="link">
             <div id="detailstatus">
+            </div>
+            <div id="youtubelinkinformation" style="color: #FF9900"> Please copy the embed link by clicking button under the youtube video Share > Embed > Copy just the attribute in the src="" into this form.
             </div>
 
             <br>

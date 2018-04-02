@@ -78,7 +78,7 @@ def profile(tutor_id):
             cursor.execute(subjectSQL, tutor_id)
             subject_info = cursor.fetchall()
             print(tutor_info)
-            return render_template('profile2.html', subList = subject_info, tutor = tutor_info)
+            return render_template('profile3.html', subList = subject_info, tutor = tutor_info)
         except:
             print("Cannot retrieve subject info")
             return render_template('error.html')
