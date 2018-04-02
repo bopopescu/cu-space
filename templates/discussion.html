@@ -53,7 +53,7 @@
                 <div class="profile-img"><img class="rounded-circle"
                                               src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
                                               alt="Generic placeholder image" width="45" height="45"></div>
-                <h4 class="section-title"><a href="/newpost">{{ data[5] }}</a></h4>
+                <h4 class="section-title"><a href="{{url_for('discussion_post', category = cat, dis_id = data[1]) }}">{{ data[5] }}</a></h4>
                 <h6 class="section-title">Posted on {{ data[7] }}</h6>
                 <hr>
             </div>

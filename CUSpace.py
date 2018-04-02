@@ -141,8 +141,8 @@ def newpost():
     category = getCat()
     return render_template('newpost.html' , cat = category)
 
-@app.route('/post')
-def post():
+@app.route('/discussion/<category>/<dis_id>')
+def discussion_post(category,dis_id):
     return render_template('post.html')
 
 @app.route('/newpost/create_new_discussion', methods=['POST'])
@@ -174,7 +174,7 @@ def createnewpost():
     return redirect(url_for("newpost"))
 
 @app.route('/discussion/<category>/', defaults={'page':1})
-@app.route('/discussion/<category>/<page>')
+@app.route('/discussion/<category>/page/<page>')
 def discussion(category, page):
     numDataStart = ((int(page)-1)*15)
     numDataEnd = int(page)*15
