@@ -29,8 +29,8 @@ cursor = conn.cursor()
 # cursor.close()
 
 #---------------------------------------------------INSERTING RANDOM DATA INTO CATEGORY DATA -------------------------------------------
-# content = "hello world"
-# topic = "hello"
+# content = "Why are we still here? Just to suffer? Every night, I can feel my leg… and my arm… even my fingers. The body I’ve lost… the comrades I’ve lost… won’t stop hurting… It’s like they’re all still there. You feel it, too, don’t you? "
+# topic = "What is the answer of life and death"
 #
 # for i in range(100):
 #     user_id = randrange(1,10000)
@@ -94,19 +94,17 @@ user_key = hashlib.md5()
 user_key.update(password)
 user_key= user_key.hexdigest()
 print(user_key)
-firstname = "hello"
-lastname = "world"
+firstname = "John"
+lastname = "Cena"
 dateOfbirth = datetime.datetime.today().strftime('%Y-%m-%d')
 print(dateOfbirth)
-role ="helloing"
+role ="Wrestler"
 ban_status ="0"
 
 #TUTOR INFO
-bio = "OH MY WORLD"
-skill = "helloingworld"
-exp = "hello 3! time"
-subject = "Chompoonuch"
-video ="www.youtube.com/kokkok"
+info = "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham, the Dark Knight must accept one of the greatest psychological and physical tests of his ability to fight injustice. "
+subject = "Psychology"
+video ="https://www.youtube.com/embed/c0sGiqOWt1w"
 phone ="0123456789"
 #PROFILE PIC INFO
 picture = "abcdegf.jpg"
@@ -115,8 +113,8 @@ picture = "abcdegf.jpg"
 #NONE
 
 #SUBJECT GROUP
-price = "6969"
-subject_description = "hello world"
+price = "500"
+subject_description = "Fighting Crime"
 try:
     subjectCursor = conn.cursor()
     # sql = """ALTER TABLE `subject` AUTO_INCREMENT = 1"""
@@ -147,9 +145,9 @@ for i in range(100):
         user_and_tutor_cursor.execute(insert_user__SQL, (tutor_and_user,email,username,user_key,firstname,lastname,dateOfbirth,role
                                           ,ban_status))
         try:
-            insert_tutor_SQL = """INSERT INTO `tutor`(`User_id`, `Bio`, `Skill`, `Experience`, `Subject`, `Video`,`Phone`)
-                                  VALUES (%s,%s,%s,%s,%s,%s,%s)"""
-            user_and_tutor_cursor.execute(insert_tutor_SQL,(tutor_and_user,bio,skill,exp,subject,video, phone))
+            insert_tutor_SQL = """INSERT INTO `tutor`(`User_id`, `Information`, `Subject`, `Video`,`Phone`)
+                                  VALUES (%s,%s,%s,%s,%s)"""
+            user_and_tutor_cursor.execute(insert_tutor_SQL,(tutor_and_user,info,subject,video, phone))
             conn.commit()
         except:
             print("Cannot insert into tutor")

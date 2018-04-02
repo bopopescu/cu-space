@@ -40,7 +40,7 @@ def tutor(page):
     except:
         print("Cannot get number of data in tutor")
 
-    sql = """SELECT t.user_id, t.bio, prof.picture, sub_grp.subject_id,sub_grp.price, GROUP_CONCAT(sub.subject_name)
+    sql = """SELECT t.user_id, t.information, prof.picture, sub_grp.subject_id,sub_grp.price, GROUP_CONCAT(sub.subject_name)
              as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status, sub_grp.subject_description
              FROM `tutor` t
              INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
@@ -62,7 +62,8 @@ def profile(tutor_id):
     conn = mysql.connect()
     cursor = conn.cursor()
     try:
-        tutorSQL = """SELECT t.user_id, t.bio, prof.picture, user.Firstname, user.Lastname, user.Ban_status,t.Experience, t.video
+        tutorSQL = """SELECT t.user_id, t.information, prof.picture, user.Firstname, user.Lastname, user.Ban_status,
+                      t.video, t.line, t.facebook, t.phone
                       FROM `tutor` t
                       INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
                       INNER JOIN `user` ON user.User_id = t.user_id
@@ -96,7 +97,7 @@ def create_tutor():
     numberOfCourse = int(request.form["hiddenvalue"])
     link = request.form["link"]
     facebook = request.form["facebook"]
-    bio = request.form['bio']
+    bio = request.form['info']
     phone = request.form["phone"]
     line = request.form["line"]
     subject = request.form.getlist('coursecat')

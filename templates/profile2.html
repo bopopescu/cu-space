@@ -139,45 +139,21 @@
                         26
                     </li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong
-                            class="">LINE ID</strong></span> Playooth
+                            class="">LINE ID</strong></span> {{ tutor[7] }}
                     </li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong
-                            class="">Facebook</strong></span> Playooth Chanochaya
+                            class="">Facebook</strong></span> {{ tutor[8] }}
                     </li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong class="">Tel.</strong></span>
-                        0888888888
+                        {{ tutor[9] }}
                     </li>
                 </ul>
-
-                <ul class="list-group">
-                <li class="list-group-item text-muted list" contenteditable="false" id="skills" style="background-color: #ffc25a; color:white;">Achievement</li>
-                 <div class="panel panel-default">
-                     <div class="panel-body"> Won hackathon competition
-                </div>
-                 </div>
-            </ul>
-
-            <ul class="list-group">
-                <li class="list-group-item text-muted list" contenteditable="false" id="skills" style="background-color: #f67a5b; color:white;">Experience</li>
-                 <div class="panel panel-default">
-                     <div class="panel-body"> 3 years of working at IBM
-                </div>
-                 </div>
-            </ul>
-
-            <ul class="list-group">
-                <li class="list-group-item text-muted list" contenteditable="false" id="skills" style="background-color: #c4e160; color:white;">Skills</li>
-                 <div class="panel panel-default">
-                     <div class="panel-body"> JAVA, HTML, CSS, Javascript
-                </div>
-                 </div>
-            </ul>
 
             </div>
             <!--/col-3-->
             <div class="col-sm-9" style="" contenteditable="false">
                 <div class="panel panel-default">
-                    <div class="panel-heading" id="profiletext">{{ tutor[3] }}'s Profile</div>
+                    <div class="panel-heading" id="profiletext">Information of {{ tutor[3] }} {{ tutor[4] }}</div>
                     <div class="panel-body">
                         {{ tutor[1] }}
                     </div>
@@ -252,7 +228,8 @@
         <div class="panel panel-default">
             <div class="panel-heading" id="profiletext">Video Introduction</div>
             <div class="panel-body">
-                <iframe width="527" height="315" src="{{ tutor[7] }}"></iframe>
+                <object style="width:100%;height:100%;width: 820px; height: 461.25px; float: none; clear: both; margin: 2px auto;" data="https://www.youtube.com/embed/c0sGiqOWt1w">
+                </object>
             </div>
         </div>
 

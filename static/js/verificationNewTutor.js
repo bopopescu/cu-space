@@ -1,109 +1,3 @@
-function myFunction() {
-
-    var x = document.getElementById('b2');
-    var y = document.getElementById('img1');
-    var z = document.getElementById('b1');
-
-    if (x.style.display == 'none') {
-        x.style.display = 'block';
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        x.style.display = 'none';
-
-    }
-
-}
-function myFunction1() {
-    var x = document.getElementById('b3');
-    var y = document.getElementById('img2');
-    var z = document.getElementById('b2');
-
-    if (x.style.display == 'none') {
-        x.style.display = 'block';
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        x.style.display = 'none';
-
-    }
-
-}
-function myFunction2() {
-    var x = document.getElementById('b4');
-    var y = document.getElementById('img3');
-    var z = document.getElementById('b3');
-
-    if (x.style.display == 'none') {
-        x.style.display = 'block';
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        x.style.display = 'none';
-
-    }
-
-}
-function myFunction3() {
-    var x = document.getElementById('b5');
-    var y = document.getElementById('img4');
-    var z = document.getElementById('b4');
-
-    if (x.style.display == 'none') {
-        x.style.display = 'block';
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        x.style.display = 'none';
-
-    }
-
-}
-function myFunction4() {
-    var x = document.getElementById('b6');
-    var y = document.getElementById('img5');
-    var z = document.getElementById('b5');
-
-    if (x.style.display == 'none') {
-        x.style.display = 'block';
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        x.style.display = 'none';
-
-    }
-
-}
-function myFunction5() {
-    var y = document.getElementById('img6');
-    var z = document.getElementById('b6');
-
-    if (z.onclick) {
-
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        z.style.display = 'block';
-
-    }
-
-}
-function btnClick() {
-    $("#input-image-3").trigger('click');
-}
-
 $("#coursecategory").focus(function () {
     var value = $(this).text().trim()
     $(this).css("border-color", "#0080ff");
@@ -116,7 +10,7 @@ $("#coursecategory").focus(function () {
 $("#othercourse").focus(function () {
     $(this).css("border-color", "#0080ff");
 });
-$("#bio").focus(function () {
+$("#info").focus(function () {
     $(this).css("border-color", "#0080ff");
 });
 $("#post").focus(function () {
@@ -140,12 +34,9 @@ $("#courseprice").focus(function () {
 $("#phone").focus(function () {
     $(this).css("border-color", "#0080ff");
 });
-$("#skills").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
 
 
-$("#bio").focusout(function () {
+$("#info").focusout(function () {
     var value = $(this).val()
     if (checkpos(value) == 1) {
         $(this).css("border-color", "#FF0000");
@@ -192,37 +83,11 @@ $("#othercourse").focusout(function () {
         $(this).css("border-color", "#00CD00");
     }
 });
-$("#experience").focusout(function () {
-    var value = $(this).val();
-    if (checkexperience(value) == 1) {
-        $(this).css("border-color", "#FF0000");
-    } else {
-        $(this).css("border-color", "#00CD00");
-    }
-});
-$("#skills").focusout(function () {
-    var value = $(this).val();
-    if (checkskills(value) == 1) {
-        $(this).css("border-color", "#FF0000");
-    } else {
-        $(this).css("border-color", "#00CD00");
-    }
-});
-$("#experience").focusout(function () {
-    var value = $(this).val();
-    if (checkexperience(value) == 1) {
-        $(this).css("border-color", "#FF0000");
-    } else {
-        $(this).css("border-color", "#00CD00");
-    }
-});
+
 $('#facebook').focusout(function (){
      $(this).css("border-color", "#00CD00");
 });
 $('#line').focusout(function (){
-     $(this).css("border-color", "#00CD00");
-});
-$('#achievement').focusout(function (){
      $(this).css("border-color", "#00CD00");
 });
 $("#phonenumber" ).focusout(function() {
@@ -243,10 +108,8 @@ $("#phonenumber" ).focusout(function() {
 
 function checkallpost() {
     console.log('hi');
-    var posvalue = $('#bio').val();
+    var posvalue = $('#info').val();
     var detailvalue = $('#detail').val();
-    var skillvalue = $('#skills').val();
-    var experiencevalue = $('#experience').val();
     var phonevalue = $('#phonenumber').val();
     var $fileUpload = $("#input-image-3");
     if (parseInt($fileUpload.get(0).files.length) > 6) {
@@ -256,8 +119,6 @@ function checkallpost() {
 
     if (checkpos(posvalue) == 1 ||
         checkdetail(detailvalue) == 1 ||
-        checkskills(skillvalue) ==1 ||
-        checkexperience(experiencevalue) ==1 ||
         checkphone(phonevalue) == 1 || checkphone(phonevalue) == 2
          ) {
         alert("Please enter all of the information");
@@ -268,18 +129,6 @@ function checkallpost() {
     }
 }
 
-function checkcategory(value) {
-    var ddl = document.getElementById("coursecategory");
-    var selectedValue = ddl.text();
-    document.getElementById('categorystatus').style.color = "red";
-    if (selectedValue == "") {
-        document.getElementById('categorystatus').innerHTML = 'X Please enter the right category';
-        return 1
-    } else {
-        document.getElementById('categorystatus').innerHTML = '';
-        return 0
-    }
-}
 function checkcategory2(value) {
 
     document.getElementById('categorystatus').style.color = "red";
@@ -295,23 +144,14 @@ function checkcategory2(value) {
 function checkpos(value) {
     document.getElementById('posstatus').style.color = "red";
     if (value.length <= 1) {
-        document.getElementById('posstatus').innerHTML = 'X Please enter your bio';
+        document.getElementById('posstatus').innerHTML = 'X Please enter your info';
         return 1;
     } else {
         document.getElementById('posstatus').innerHTML = '';
         return 0;
     }
 }
-function checkprice(value) {
-    document.getElementById('pricestatus').style.color = "red";
-    if (value.length <= 1) {
-        document.getElementById('pricestatus').innerHTML = "X Please correct price, can't be negative";
-        return 1;
-    } else {
-        document.getElementById('pricestatus').innerHTML = '';
-        return 0;
-    }
-}
+
 function checkothers(value) {
     document.getElementById('othersstatus').style.color = "red";
     if (value.length <= 1) {
@@ -348,41 +188,6 @@ function checkpost1(value) {
         document.getElementById('post1status').innerHTML = '';
         return 0
     }
-}
-
-$('#myModal').on('shown.bs.modal', function () {
-    $('#myInput').focus()
-})
-function readURL(input) {
-    document.getElementById("img0").style.display = "none";
-    document.getElementById("img1").style.display = "none";
-    document.getElementById("img2").style.display = "none";
-    document.getElementById("img3").style.display = "none";
-    document.getElementById("img4").style.display = "none";
-    document.getElementById("img5").style.display = "none";
-    if (input.files.length > 6) {
-        alert("Can upload a maximum of 6 images");
-    } else {
-        if (input.files[0]) {
-            for (i = 0; i < input.files.length; i++)
-                showImage(input, i);
-            document.getElementById("b1").innerHTML = "Change picture";
-        }
-    }
-}
-function showImage(input, n) {
-    var reader = new FileReader();
-    var str = '#img' + n;
-
-    reader.onload = function (e) {
-        $(str)
-            .attr('src', e.target.result)
-            .width(100)
-            .height(100);
-    };
-
-    reader.readAsDataURL(input.files[n]);
-    $(str).show();
 }
 
 (function ($) {
@@ -446,23 +251,6 @@ $(function () {
 });
 })(jQuery);
 
-    // var cloneIndex = $(".course").length;
-    // $('.addcourse').on('click', function(e) {
-    //   e.preventDefault();
-    //   console.log('hi');
-    //   $('.course').first().clone()
-    //       .find("input")
-    //     .attr("id", "courseprice" +  cloneIndex).attr("name", "courseprice" +  cloneIndex)
-    //     .val('').end()
-    //     .find("input:text")
-    //     .attr("id", "course" +  cloneIndex).attr("name", "course" +  cloneIndex)
-    //     .val('').end()
-    //     .find("select")
-    //     .attr("id", "coursecat" +  cloneIndex).attr("name", "coursecat" +  cloneIndex)
-    //     .val('').end().insertBefore(this);
-    //     cloneIndex++;
-    // });
- //
  var cloneIndex = $("#course").length+1;
 $('.addcourse').on('click', function(e) {
   e.preventDefault();
@@ -482,43 +270,6 @@ $('.addcourse').on('click', function(e) {
 
 });
 
-
-
-
-
-
-function checkfacebook(value) {
-    document.getElementById('facebookstatus').style.color = "red";
-    if (value.length <= 1) {
-        document.getElementById('facebookstatus').innerHTML = 'X Please enter your Facebook account';
-        return 1;
-    } else {
-        document.getElementById('facebookstatus').innerHTML = '';
-        return 0;
-    }
-}
-function checkskills(value) {
-
-    document.getElementById('skillstatus').style.color = "red";
-    if (value.length <= 1) {
-        document.getElementById('skillstatus').innerHTML = 'X Please enter your skills!';
-        return 1;
-    } else {
-        document.getElementById('skillstatus').innerHTML = '';
-        return 0;
-    }
-}
-function checkexperience(value) {
-
-    document.getElementById('experiencestatus').style.color = "red";
-    if (value.length <= 1) {
-        document.getElementById('experiencestatus').innerHTML = 'X Please enter your experience!';
-        return 1;
-    } else {
-        document.getElementById('experiencestatus').innerHTML = '';
-        return 0;
-    }
-}
 function checkphone(value){
       console.log("enter leawwww");
       document.getElementById('phonenumberstatus').style.color="red";
