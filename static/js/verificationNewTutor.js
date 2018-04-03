@@ -111,11 +111,6 @@ function checkallpost() {
     var posvalue = $('#info').val();
     var detailvalue = $('#detail').val();
     var phonevalue = $('#phonenumber').val();
-    var $fileUpload = $("#input-image-3");
-    if (parseInt($fileUpload.get(0).files.length) > 6) {
-        alert("Can upload a maximum of 6 images");
-        return false;
-    }
 
     if (checkpos(posvalue) == 1 ||
         checkdetail(detailvalue) == 1 ||
