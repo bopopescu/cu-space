@@ -106,6 +106,7 @@ $("#phonenumber" ).focusout(function() {
 
 
 
+
 function checkallpost() {
     console.log('hi');
     var posvalue = $('#info').val();

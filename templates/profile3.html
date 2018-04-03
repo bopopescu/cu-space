@@ -75,8 +75,8 @@
                         <img src="/static/img/{{ tutor[2] }}" style="width:100%" alt="Avatar">
                         <div class="w3-display-bottomright w3-container w3-text-black">
                             <button class="btn btn-primary btn-md" data-title="Edit" data-toggle="modal"
-                                data-target="#editpicture"><span class="glyphicon glyphicon-pencil"></span>
-                        </button>
+                                    data-target="#editpicture"><span class="glyphicon glyphicon-pencil"></span>
+                            </button>
                         </div>
                     </div>
                     <div class="w3-container">
@@ -380,128 +380,276 @@
             </div>
 
             {#            Edit Name Dialog#}
-            <div class="modal fade" id="editname" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            {#            <div class="modal fade" id="editname" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">#}
+            {#                <div class="modal-dialog">#}
+            {#                    <div class="modal-content">#}
+            {#                        <div class="modal-header">#}
+            {#                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span#}
+            {#                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>#}
+            {#                            <h4 class="modal-title custom_align" id="Heading">Edit Your Name</h4>#}
+            {#                        </div>#}
+            {#                        <div class="modal-body">#}
+            {#                            <div class="form-group">#}
+            {#                                <input class="form-control " type="text"#}
+            {#                                       placeholder="Edit your Name here">#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                        <div class="modal-footer ">#}
+            {#                            <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span#}
+            {#                                    class="glyphicon glyphicon-ok-sign"></span> Update#}
+            {#                            </button>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+            <div id="editname" class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
-                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                            <h4 class="modal-title custom_align" id="Heading">Edit Your Name</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Edit your name</h4>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input class="form-control " type="text"
-                                       placeholder="Edit your Name here">
-                            </div>
-                        </div>
-                        <div class="modal-footer ">
-                            <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
-                                    class="glyphicon glyphicon-ok-sign"></span> Update
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <div class="modal-body form-horizontal">
 
-           {#            Edit Age Dialog NO VALIDATION YET#}
-            <div class="modal fade" id="editage" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                            <div id="endorsement-form-container" class="">
+
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <div>
+                                            {#                                            <label>LINE ID:</label>#}
+                                            <input type="text" class="form-control" id="age" min="0"
+                                                   placeholder="Edit your name here" required/>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Update</button>
+
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            {#                       Edit Age Dialog NO VALIDATION YET#}
+            {#            <div class="modal fade" id="editage" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">#}
+            {#                <div class="modal-dialog">#}
+            {#                    <div class="modal-content">#}
+            {#                        <div class="modal-header">#}
+            {#                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span#}
+            {#                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>#}
+            {#                            <h4 class="modal-title custom_align" id="Heading">Edit Your Age</h4>#}
+            {#                        </div>#}
+            {#                        <div class="modal-body">#}
+            {#                            <div class="form-group">#}
+            {#                                #}
+            {#                                <input type="number" size="4" name="age" min="0"  placeholder="Edit your age here" style="width: 100%;" required />#}
+            {#                                <input type="number" name="age" class="form-control courseprice" min="0"#}
+            {#                               id="age" style="width:20%;" placeholder="Edit your age here" required/>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                        <div class="modal-footer ">#}
+            {#                            <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span#}
+            {#                                    class="glyphicon glyphicon-ok-sign"></span> Update#}
+            {#                            </button>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+
+            <div id="editage" class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
-                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                            <h4 class="modal-title custom_align" id="Heading">Edit Your Name</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Edit your age here</h4>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-{#                                <input class="form-control " type="text"#}
-{#                                       placeholder="Edit your Name here">#}
-                                <input type="number" size="4" name="age" min="0"  placeholder="Edit your age here" style="width: 100%;" required />
+                        <div class="modal-body form-horizontal">
+                            <div id="endorsement-form-container" class="">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <div>
+                                            {#                                            <label for=>Age:</label>#}
+                                            <input type="number" class="form-control" id="age" min="0"
+                                                   placeholder="Edit your age here" required/>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Update</button>
+
+                                </form>
+
                             </div>
                         </div>
-                        <div class="modal-footer ">
-                            <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
-                                    class="glyphicon glyphicon-ok-sign"></span> Update
-                            </button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
 
             {#            Edit Line Dialog#}
-            <div class="modal fade" id="editline" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            <div id="editline" class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
-                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                            <h4 class="modal-title custom_align" id="Heading">Edit Your Line ID</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Edit your LINE ID</h4>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input class="form-control " type="text"
-                                       placeholder="Edit your LINE ID here">
+                        <div class="modal-body form-horizontal">
+
+                            <div id="endorsement-form-container" class="">
+
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <div>
+                                            {#                                            <label>LINE ID:</label>#}
+                                            <input type="text" class="form-control" id="age" min="0"
+                                                   placeholder="Edit your LINE ID here" required/>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Update</button>
+
+                                </form>
+
                             </div>
                         </div>
-                        <div class="modal-footer ">
-                            <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
-                                    class="glyphicon glyphicon-ok-sign"></span> Update
-                            </button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 
             {#            Edit Facebook Dialog#}
-            <div class="modal fade" id="editfacebook" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            {#            <div class="modal fade" id="editfacebook" tabindex="-1" role="dialog" aria-labelledby="edit"#}
+            {#                 aria-hidden="true">#}
+            {#                <div class="modal-dialog">#}
+            {#                    <div class="modal-content">#}
+            {#                        <div class="modal-header">#}
+            {#                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span#}
+            {#                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>#}
+            {#                            <h4 class="modal-title custom_align" id="Heading">Edit Your Facebook</h4>#}
+            {#                        </div>#}
+            {#                        <div class="modal-body">#}
+            {#                            <div class="form-group">#}
+            {#                                <input class="form-control " type="text"#}
+            {#                                       placeholder="Edit your Facebook here">#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                        <div class="modal-footer ">#}
+            {#                            <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span#}
+            {#                                    class="glyphicon glyphicon-ok-sign"></span> Update#}
+            {#                            </button>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+            <div id="editfacebook" class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
-                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                            <h4 class="modal-title custom_align" id="Heading">Edit Your Facebook</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Edit your Facebook</h4>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input class="form-control " type="text"
-                                       placeholder="Edit your Facebook here">
+                        <div class="modal-body form-horizontal">
+
+                            <div id="endorsement-form-container" class="">
+
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <div>
+                                            {#                                            <label>Facebook:</label>#}
+                                            <input type="text" class="form-control" id="age" min="0"
+                                                   placeholder="Edit your Facebook here" required/>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Update</button>
+
+                                </form>
+
                             </div>
                         </div>
-                        <div class="modal-footer ">
-                            <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
-                                    class="glyphicon glyphicon-ok-sign"></span> Update
-                            </button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
 
             {#            Edit Telephone Dialog#}
-            <div class="modal fade" id="edittelephone" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            {#            <div class="modal fade" id="edittelephone" tabindex="-1" role="dialog" aria-labelledby="edit"#}
+            {#                 aria-hidden="true">#}
+            {#                <div class="modal-dialog">#}
+            {#                    <div class="modal-content">#}
+            {#                        <div class="modal-header">#}
+            {#                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span#}
+            {#                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>#}
+            {#                            <h4 class="modal-title custom_align" id="Heading">Edit Your Telephone</h4>#}
+            {#                        </div>#}
+            {#                        <div class="modal-body">#}
+            {#                            <div class="form-group">#}
+            {#                                <input class="form-control " type="number"#}
+            {#                                       placeholder="Edit your Telephone here">#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                        <div class="modal-footer ">#}
+            {#                            <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span#}
+            {#                                    class="glyphicon glyphicon-ok-sign"></span> Update#}
+            {#                            </button>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+            <div id="edittelephone" class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
-                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                            <h4 class="modal-title custom_align" id="Heading">Edit Your Telephone</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Edit your Telephone</h4>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input class="form-control " type="number"
-                                       placeholder="Edit your Telephone here">
+                        <div class="modal-body form-horizontal">
+
+                            <div id="endorsement-form-container" class="">
+
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <div>
+                                            {#                                            <label>LINE ID:</label>#}
+                                            {#                                            <input type="tel" class="form-control" id="age" min="0"#}
+                                            {#                                                   placeholder="Edit your telephone here" required/>#}
+                                            <input type="tel" class="form-control" id="phonenumber" name="telephone"
+                                                   min="0"
+                                                   placeholder="Edit your telephone here" required/>
+                                            <div id="phonenumberstatus">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Update</button>
+
+                                </form>
+
                             </div>
                         </div>
-                        <div class="modal-footer ">
-                            <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
-                                    class="glyphicon glyphicon-ok-sign"></span> Update
-                            </button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 
             {#            Edit picture Dialog#}
-            <div class="modal fade" id="editpicture" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            <div class="modal fade" id="editpicture" tabindex="-1" role="dialog" aria-labelledby="edit"
+                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -512,22 +660,24 @@
                         <div class="modal-body">
                             <div>
 
-                    <p>Edit your profile picture</p>
-                    <br>
-                    <img id="img0" src="#" alt="" style="display: none"/>
-                    <img id="img1" src="#" alt="" style="display: none"/>
-                    <img id="img2" src="#" alt="" style="display: none"/>
-                    <img id="img3" src="#" alt="" style="display: none"/>
-                    <img id="img4" src="#" alt="" style="display: none"/>
-                    <img id="img5" src="#" alt="" style="display: none"/>
-                    <button id="b1" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">+</button>
-                    <input id="input-image-3" name="input-image" type="file" class="btn btn-secondary btn-lg"
-                           onchange="readURL(this) ;" accept="image/*"
-                           multiple style="display: none">
-                    <br>
+                                <p>Edit your profile picture</p>
+                                <br>
+                                <img id="img0" src="#" alt="" style="display: none"/>
+                                <img id="img1" src="#" alt="" style="display: none"/>
+                                <img id="img2" src="#" alt="" style="display: none"/>
+                                <img id="img3" src="#" alt="" style="display: none"/>
+                                <img id="img4" src="#" alt="" style="display: none"/>
+                                <img id="img5" src="#" alt="" style="display: none"/>
+                                <button id="b1" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">+
+                                </button>
+                                <input id="input-image-3" name="input-image" type="file"
+                                       class="btn btn-secondary btn-lg"
+                                       onchange="readURL(this) ;" accept="image/*"
+                                       multiple style="display: none">
+                                <br>
 
 
-                </div>
+                            </div>
                         </div>
                         <div class="modal-footer ">
                             <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
@@ -539,44 +689,45 @@
             </div>
 
 
-        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
-                                class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                        <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are
-                            you sure you want to delete this Record?
+            <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
+                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                            <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
                         </div>
+                        <div class="modal-body">
 
+                            <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are
+                                you sure you want to delete this Record?
+                            </div>
+
+                        </div>
+                        <div class="modal-footer ">
+                            <button type="button" class="btn btn-success"><span
+                                    class="glyphicon glyphicon-ok-sign"></span> Yes
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                    class="glyphicon glyphicon-remove"></span> No
+                            </button>
+                        </div>
                     </div>
-                    <div class="modal-footer ">
-                        <button type="button" class="btn btn-success"><span
-                                class="glyphicon glyphicon-ok-sign"></span> Yes
-                        </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><span
-                                class="glyphicon glyphicon-remove"></span> No
-                        </button>
-                    </div>
+                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-content -->
+                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal-dialog -->
+
+            <!-- End Grid -->
         </div>
 
-        <!-- End Grid -->
-    </div>
-
-    <!-- End Page Container -->
+        <!-- End Page Container -->
     </div>
 
     </body>
-    <script src="/static/js/verificationNewPost.js"></script>
+    <script src="/static/js/verificationEditTutor.js"></script>
 
+    <script src="/static/js/verificationNewTutor.js"></script>
 
 
 
