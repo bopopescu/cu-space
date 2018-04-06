@@ -90,6 +90,10 @@ def profile(tutor_id):
 def registernewtutor():
     return render_template('newtutor.html', sub = getSub())
 
+@app.route('/newjob')
+def registernewjob():
+    return render_template('newjob.html', sub = getSub())
+
 @app.route('/newtutor/create_new_tutor', methods = ['POST'])
 def create_tutor():
     #trong me input pen user id duay

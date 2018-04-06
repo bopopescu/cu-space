@@ -168,6 +168,7 @@
               return 1;
           }
   }
+
 function hasNumber(myString) {
     return /\d+/.test(myString);
 }
@@ -184,6 +185,17 @@ function hasDot(myString) {
 }
 function hasAlphabet(myString) {
     return /[a-zA-Z]/.test(myString)
+}
+function hasWWW(myString) {
+    // alert('emb');
+    // console.log('embed');
+    substring = "www.";
+    if (myString.includes(substring) == true) {
+        return 1;
+    } else {
+        return 0;
+    }
+
 }
 function checkall() {
   var firstnamevalue = $('#firstname').val();

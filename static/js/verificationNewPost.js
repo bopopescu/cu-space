@@ -154,15 +154,12 @@ function checkallpost() {
     var postvalue = $('#post').val();
     var post1value = $('#post1').val();
     var detailvalue = $('#detail').val();
-     var categoryvalue = $('.selectpicker :selected').text();
-
+    var categoryvalue = $('.selectpicker :selected').text();
     var $fileUpload = $("#input-image-3");
     if (parseInt($fileUpload.get(0).files.length) > 6) {
         alert("Can upload a maximum of 6 images");
         return false;
-
     }
-
     if (checkpos(posvalue) == 1 ||
         checkdetail(detailvalue) == 1  ||
             checkcategory2(categoryvalue) == 1)

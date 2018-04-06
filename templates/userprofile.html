@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" xmlns="http://www.w3.org/1999/html">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <style>
+        .search-container input[type=text] {
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: none;
+        }
+
+        .search-container button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            background: #ddd;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background: #ccc;
+        }
+
+        html, body, h1, h2, h3, h4, h5, h6 {
+            font-family: "Roboto", sans-serif
+        }
+
+        .w3-text-teal, .w3-hover-text-teal:hover {
+            color: #347aa9 !important;
+        }
+
+        .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+            background-color: white;
+        }
+
+        .button, html [type=button], [type=reset], [type=submit] {
+            -webkit-appearance: none;
+
+        }
+
+        .form-control {
+            display: inline;
+            width: 100%;
+            margin-left: 5%;
+        }
+
+        label {
+            margin-left: 5%;
+        }
+
+        .modal-header, .close {
+            background-color: #337ab7;
+        }
+
+        .modal-body {
+            width: 90%;
+        }
+
+        .w3-padding-16 {
+            padding-bottom: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+    </style>
+
+
+{% endblock %}
+{% block content %}
+
+
+
+
+    <body class="w3-light-grey">
+
+    <!-- Page Container -->
+    <div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+        <!-- The Grid -->
+        <div class="w3-row-padding">
+
+            <!-- Left Column -->
+            <div class="w3-third">
+
+                <div class="w3-white w3-text-grey w3-card-4">
+                    <div class="w3-display-container">
+                        <img src="/static/img/abcdegf.JPG" style="width:100%" alt="Avatar">
+                        <div class="w3-display-bottomright w3-container w3-text-black">
+                            <button style="margin-bottom: 10%;" class="btn btn-primary btn-md" data-title="Edit"
+                                    data-toggle="modal"
+                                    data-target="#editpicture"><span
+                                    class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+
+                <!-- End Left Column -->
+            </div>
+
+            <div class="w3-twothird">
+
+                <div class="w3-container w3-card w3-white">
+                    <h2 class="w3-text-grey w3-padding-16"><i
+                            class="fas fa-info fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>My Profile
+                    </h2>
+                    <div class="w3-container">
+
+                        <p><i class="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"
+                              style="margin-top: 5%; "></i><b>Name:</b> Nattapol Choo
+
+                        </p>
+
+
+                        <p style="margin-top: 5%;"><i
+                                class="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"></i><b>Age:</b> 25
+
+                        </p>
+                        <p style="margin-top: 5%;"><i
+                                class="fab fa-line fa-fw w3-margin-right w3-large w3-text-teal"></i><b>E-mail
+                            :</b> NattyChooChoo@gmail.com
+
+                        </p>
+
+                        <hr>
+                        <button type="button" data-toggle="modal" data-title="Edit" class="btn btn-primary"
+                                data-target="#editprofile" style="margin-bottom: 5%;">Edit Profile
+                        </button>
+                    </div>
+                </div>
+                <!-- End Right Column -->
+            </div>
+
+
+            <div id="editprofile" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Edit your profile here</h4>
+                        </div>
+                        <div class="modal-body form-horizontal">
+                            <div id="endorsement-form-container" class="">
+                                <form class="form-horizontal" onsubmit="return checkalledit()" method="POST">
+
+
+                                    <div>
+                                        <label for=>Name:</label><br>
+                                        <input type="text" class="form-control" id="name"
+                                               placeholder="Edit your name here" required/>
+                                    </div>
+                                    <div id="namestatus" style="margin-left: 5%;">
+                                    </div>
+                                    <div>
+                                        <label for=>Age:</label><br>
+                                        <input type="number" class="form-control" id="age" min="0"
+                                               placeholder="Edit your age here" required/>
+                                    </div>
+                                    <div id="agestatus" style="margin-left: 5%;">
+                                    </div>
+                                    <div>
+                                        <label for=>Email :</label><br>
+                                        <input type="email" class="form-control" id="emailvalue"
+                                               placeholder="Edit your Email here" style="margin-bottom: 2%;">
+                                    </div>
+                                    <div id="emailstatuses" style="margin-left: 5%;">
+                                    </div>
+
+
+                                    <button type="submit" class="btn btn-default" style="margin-left: 2%;">Update
+                                    </button>
+
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+
+            {#            Edit picture Dialog#}
+            <div class="modal fade" id="editpicture" tabindex="-1" role="dialog" aria-labelledby="edit"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
+                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                            <h4 class="modal-title custom_align" id="Heading">Edit Your Profile Picture</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+
+                                <p>Edit your profile picture</p>
+                                <br>
+                                <img id="img0" src="#" alt="" style="display: none"/>
+                                <button id="b1" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">+
+                                </button>
+                                <input id="input-image-3" name="input-image" type="file"
+                                       class="btn btn-secondary btn-lg"
+                                       onchange="readURL(this) ;" accept="image/*"
+                                       multiple style="display: none">
+                                <br>
+                            </div>
+                        </div>
+                        <div class="modal-footer ">
+                            <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
+                                    class="glyphicon glyphicon-ok-sign"></span> Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
+                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                            <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are
+                                you sure you want to delete this Record?
+                            </div>
+
+                        </div>
+                        <div class="modal-footer ">
+                            <button type="button" class="btn btn-success"><span
+                                    class="glyphicon glyphicon-ok-sign"></span> Yes
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                    class="glyphicon glyphicon-remove"></span> No
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- End Grid -->
+        </div>
+
+        <!-- End Page Container -->
+    </div>
+
+    </body>
+    {#    <script src="/static/js/verificationEditTutor.js"></script>#}
+
+    <script src="/static/js/verificationNewPost.js"></script>
+    <script src="/static/js/verificationNewTutor.js"></script>
+{#        <script src="/static/js/registration.js"></script>#}
+
+    <script>
+        function checkalledit() {
+            console.log('checkedit');
+            var emailvalue = $('#emailvalue').val();
+            var namevalue = $('#name').val();
+            var agevalue = $('#age').val();
+
+            if (checkemail(emailvalue) == 1 ||
+                    checkage(agevalue) ==1 ||
+                checkname(namevalue) == 1
+            ) {
+                alert("Please enter all of the information");
+                console.log(phonevalue)
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+
+        function checkname(value) {
+            document.getElementById('namestatus').style.color = "red";
+            if (value.length <= 1) {
+                document.getElementById('namestatus').innerHTML = 'X Please enter your name';
+                return 1;
+            } else {
+                document.getElementById('namestatus').innerHTML = '';
+                return 0;
+            }
+        }
+
+        function checkage(value) {
+            document.getElementById('agestatus').style.color = "red";
+            if (value <= 0) {
+                document.getElementById('agestatus').innerHTML = 'X Please enter your age';
+                return 1;
+            } else {
+                document.getElementById('agestatus').innerHTML = '';
+                return 0;
+            }
+        }
+        function checkemail(value){
+      document.getElementById('emailstatuses').style.color="red";
+          if(hasAt(value) && hasDot(value)){
+              document.getElementById('emailstatuses').innerHTML ='';
+              return 0
+          }else{
+              document.getElementById('emailstatuses').innerHTML ="X Invalid email address";
+              return 1;
+          }
+  }
+
+         $("#emailvalue" ).focusout(function() {
+        var value = $(this).val()
+        if (checkemail(value) == 1) {
+            $(this).css("border-color", "#FF0000");
+        } else {
+            $(this).css("border-color", "#00CD00");
+        }
+    });
+
+        $("#name").focusout(function () {
+            var value = $(this).val()
+            if (checkname(value) == 1) {
+                $(this).css("border-color", "#FF0000");
+            } else {
+                $(this).css("border-color", "#00CD00");
+            }
+        });
+        $("#age").focusout(function () {
+            var value = $(this).val()
+            if (checkage(value) == 1) {
+                $(this).css("border-color", "#FF0000");
+            } else {
+                $(this).css("border-color", "#00CD00");
+            }
+        });
+
+        function hasAt(myString) {
+    if((myString.split("@").length-1)>1){
+        return false
+    } //Check how many "@"
+    var att = new RegExp("@");
+    return att.test(myString);
+}
+function hasDot(myString) {
+    return /\./.test(myString)
+
+}
+
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,405 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+    <style>
+
+
+        .jumbotron .container {
+            max-width: 100%;
+        }
+
+        .jumbotron {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/job2.jpg');
+            background-position: 50% 62%;
+            color: white;
+            background-size: 100% Auto;
+            background-repeat: no-repeat;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            bottom: 0;
+
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            color: white;
+        }
+
+        .search-container {
+            float: left;
+            margin-top: 16px;
+            color: black;
+        }
+
+        .search-container input[type=text] {
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: none;
+        }
+
+        .search-container button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            background: #ddd;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background: #ccc;
+        }
+
+        .col-sm-2 {
+            width: 170px;
+        }
+
+        .facultytext {
+            position: inherit;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5em;
+            font-family: "Helvetica Neue";
+            color: white;
+            white-space: nowrap;
+        }
+
+        .facultytext span {
+            color: white;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0); /* fallback color */
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            opacity: 1;
+            border-radius: 25px;
+            -webkit-transition: .3s linear;
+            transition: .3s linear;
+
+        }
+
+        .facultytext:hover span {
+            color: black;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0);
+            background: rgba(255, 204, 0, 1);
+            padding: 10px;
+            opacity: 1;
+            border-radius: 25px;
+            -webkit-transition: .3s linear;
+            transition: .3s linear;
+
+        }
+
+        #firstcol {
+            margin-right: 240px;
+        }
+
+        .activitiestext {
+            position: absolute;
+            top: 50%;
+            left: 42%;
+            font-size: 2.5em;
+            font-family: "Helvetica Neue";
+        {#opacity: 0.5;#} color: white;
+            white-space: nowrap;
+        }
+
+        .activitiestext span {
+            color: white;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0); /* fallback color */
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            opacity: 1;
+            border-radius: 25px;
+            -webkit-transition: .3s linear;
+            transition: .3s linear;
+
+        }
+
+        .activitiestext:hover span {
+            color: black;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0); /* fallback color */
+            background: rgba(255, 204, 0, 1);
+            padding: 10px;
+            opacity: 1;
+            border-radius: 25px;
+            -webkit-transition: .3s linear;
+            transition: .3s linear;
+
+        }
+
+        .btnn {
+            background-color: cornflowerblue;
+            color: #ffffff;
+            border: none;
+            width: 40%
+        }
+
+        h1 {
+            font-size: 20px;
+            font-family: Helvetica Neue;
+        }
+
+        .btn.btn-secondary.dropdown-toggle {
+            border-radius: 0;
+
+        }
+
+        .container {
+            padding-top: 0px;
+        }
+
+        #finalbutton {
+
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+
+    <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+
+    <script>
+
+        function myFunction() {
+
+            var x = document.getElementById('b2');
+            var y = document.getElementById('img1');
+            var z = document.getElementById('b1');
+
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                x.style.display = 'none';
+
+            }
+
+        }
+
+        function myFunction1() {
+            var x = document.getElementById('b3');
+            var y = document.getElementById('img2');
+            var z = document.getElementById('b2');
+
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                x.style.display = 'none';
+
+            }
+
+        }
+
+        function myFunction2() {
+            var x = document.getElementById('b4');
+            var y = document.getElementById('img3');
+            var z = document.getElementById('b3');
+
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                x.style.display = 'none';
+
+            }
+
+        }
+
+        function myFunction3() {
+            var x = document.getElementById('b5');
+            var y = document.getElementById('img4');
+            var z = document.getElementById('b4');
+
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                x.style.display = 'none';
+
+            }
+
+        }
+
+        function myFunction4() {
+            var x = document.getElementById('b6');
+            var y = document.getElementById('img5');
+            var z = document.getElementById('b5');
+
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                x.style.display = 'none';
+
+            }
+
+        }
+
+        function myFunction5() {
+            var y = document.getElementById('img6');
+            var z = document.getElementById('b6');
+
+            if (z.onclick) {
+
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                z.style.display = 'block';
+
+            }
+
+        }
+
+    </script>
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Post a job</h1>
+            <p>If you are looking to hire our students, post it here!</p><br>
+            <br>
+            <br><br><br>
+
+        </div>
+    </div>
+    <div class="container wrap">
+        <!-- Content here -->
+        <form method="POST" enctype=multipart/form-data onsubmit="return checkallpost()"
+              action="{{ url_for("createnewpost") }}">
+            {#         add form here#}
+            <div class="row">
+                <div class="col-md-6">
+
+                    <p>Upload the job description in pdf format</p>
+                    <div>
+
+
+                        <br>
+                        <img id="img0" src="#" alt="" style="display: none"/>
+                        <button id="b1" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">+
+                        </button>
+                        <input id="input-image-3" name="input-image" type="file"
+                               class="btn btn-secondary btn-lg"
+                               onchange="readURL(this) ;" accept="image/*"
+                               multiple style="display: none">
+                        <br>
+
+
+                    </div>
+                </div>
+                {#            </div>#}
+                <div class="col-md-6">
+                    <label for="discussion">Job Name</label>
+                    {#                    <form>#}
+                    <input type="text" class="form-control" id="jobname" placeholder="" name="jobname" required/>
+                    <div id="jobnamestatus">
+                    </div>
+                    {#                    </form>#}
+
+                    <br>
+                    <label for="jobcategory">Job Category</label>
+                    <div class="form-group">
+                        <select class="form-control" id="jobcategory" required/>
+                        <option value="" disabled selected>Select your category</option>
+                        <option>HR</option>
+                        <option>Sales</option>
+                        <option>Marketing</option>
+                        <option>IT</option>
+                        <option>Finance</option>
+                        </select>
+                    </div>
+
+                    <div id="categorystatus">
+                    </div>
+                    <br>
+
+                    <label for="jobcategory">Job Information</label>
+                    <input type="text" class="form-control" id="jobinfo" placeholder="" name="jobinfo" required/>
+                    <div id="jobinfostatus">
+                    </div>
+                    <br>
+
+                    <label for="jobcategory">Email</label>
+                    <input type="text" class="form-control" id="emailvalue" placeholder="" name="email" required/>
+                    <div id="emailstatuses">
+                    </div>
+                    <br>
+
+                    <label for="jobcategory">Phone number</label><br><span style="color:#FF9900">Please enter in the format of ex: 0812345678 with no "-" in between</span>
+                    <input type="tel" class="form-control" id="phonenumber" placeholder="" name="phonenumber" required/>
+                    <div id="phonenumberstatus">
+                    </div>
+                    <br>
+
+                    <label for="jobcategory">Website</label>
+                    <input type="text" class="form-control" id="website" placeholder="" name="website" required/>
+                    <div id="websitestatus">
+                    </div>
+                    <br>
+
+
+                    <form method="post" action="/post-views-counter/">
+                        <label for="jobcategory">Application Start Date</label><br>
+                        <div><input type="text" id="datepicker" name="date1" required/></div>
+                        <br>
+                        <label for="jobcategory">Application End Date</label><br>
+                        <input type="text" id="datepicker2" name="date2" required/>
+                        <br/><br/>
+
+                    </form>
+                    <div id="datestatuses">
+                    </div>
+
+                    <br>
+                    <input id="finalbutton" type="submit" class="btn btn-primary" value="Create a discussion"></input>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    </body>
+    <script src="/static/js/verificationNewPost.js"></script>
+    <script src="/static/js/verificationNewJob.js"></script>
+    <script>
+        $(function () {
+        $("#datepicker").datepicker();
+        $("#datepicker2").datepicker();
+    });
+    </script>
+
+
+{% endblock %}

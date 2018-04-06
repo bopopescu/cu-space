@@ -1,64 +1,63 @@
-$("#telephone" ).focusout(function() {
-        var value = $(this).val();
-        console.log('hi');
-        console.log(checkphone(value));
-        if (checkphone(value) == 1) {
-            $(this).css("border-color", "#FF0000");document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number';
-            return false;
-        } else if (checkphone(value) == 2) {
-            $(this).css("border-color", "#FF0000");document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number';
-            return false;
 
-        } else{
-            $(this).css("border-color", "#00CD00");document.getElementById('phonenumberstatus').innerHTML ='';
-            return true;
-        }
-    });
+        function checkalledit() {
+           console.log('checkedit');
+    var posvalue = $('#info').val();
+        var namevalue = $('#name').val();
+        var agevalue = $('#age').val();
+
+    var detailvalue = $('#detail').val();
+    var phonevalue = $('#phonenumber').val();
 
 
+    if (checkpos(posvalue) == 1 ||
+        checkdetail(detailvalue) == 1 ||
+        checkphone(phonevalue) == 1 ||
+        checkphone(phonevalue) == 2 ||
+            checkname(namevalue)== 1
+         ) {
+        alert("Please enter all of the information");
+         console.log(phonevalue)
+        return false;
+    } else {
+        return true;
+    }
 
-function checkphone(value){
-      console.log("enter leawwww");
-      document.getElementById('phonenumberstatus').style.color="red";
-      if(value.length == 0){
-          console.log("enter leawwww");
-          document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number!';
-          return 2
-      }
-      if(value.length !=10) {
-          if(value.indexOf(' ')>=0 && !hasNumber(value)) {
-
-              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly!';
-              return 1
-          } else if(value.indexOf(' ')>=0) {
-              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly!';
-               return 1
-          }else if(!hasNumber(value)){
-              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly!';
-              return 1
-          } else {
-              document.getElementById('phonenumberstatus').innerHTML ='X Please enter your phone number correctly!';
-              return 1
-          }
-      } else {
-          if(value.indexOf(' ')>=0 && !hasNumber(value)) {
-              document.getElementById('phonenumberstatus').innerHTML ='X Wrong phone number format!';
-              return 1
-          } else if(value.indexOf(' ')>=0) {
-               alert("Phonenumber must not contain whitespaces")
-              document.getElementById('phonenumberstatus').innerHTML ='X Wrong phone number format!';
-               return 1
-          }else if(!hasNumber(value)){
-              document.getElementById('phonenumberstatus').innerHTML ='X Wrong phone number format1';
-              return 1
-          } else {
-              document.getElementById('phonenumberstatus').innerHTML ='';
-              return 0
-          }
-      }
-  }
-  function hasNumber(myString) {
-    console.log(/^[0-9]+$/.test(myString));
-    return /^[0-9]+$/.test(myString);
 }
 
+function checkname(value) {
+    document.getElementById('namestatus').style.color = "red";
+    if (value.length <= 1) {
+        document.getElementById('namestatus').innerHTML = 'X Please enter your name';
+        return 1;
+    } else {
+        document.getElementById('namestatus').innerHTML = '';
+        return 0;
+    }
+}
+function checkage(value) {
+    document.getElementById('agestatus').style.color = "red";
+    if (value.length <= 1) {
+        document.getElementById('agestatus').innerHTML = 'X Please enter your age';
+        return 1;
+    } else {
+        document.getElementById('agestatus').innerHTML = '';
+        return 0;
+    }
+}
+
+$("#name").focusout(function () {
+    var value = $(this).val()
+    if (checkname(value) == 1) {
+        $(this).css("border-color", "#FF0000");
+    } else {
+        $(this).css("border-color", "#00CD00");
+    }
+});
+        $("#age").focusout(function () {
+    var value = $(this).val()
+    if (checkage(value) == 1) {
+        $(this).css("border-color", "#FF0000");
+    } else {
+        $(this).css("border-color", "#00CD00");
+    }
+});
