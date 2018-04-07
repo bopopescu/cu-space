@@ -1,4 +1,5 @@
-import datetime
+from datetime import date
+from datetime import datetime
 from random import randrange
 
 from flask import Flask, render_template, request, redirect, url_for
@@ -16,8 +17,6 @@ mysql.init_app(app)
 
 @app.route('/')
 def index():
-    conn = mysql.connect()
-    cursor = conn.cursor()
     categoryList = getCat()
     facultyList = [faculty for faculty in categoryList if faculty[4] == 1]
     otherList = [faculty for faculty in categoryList if faculty[4] == 0]
@@ -56,7 +55,7 @@ def tutor(page):
         print(tutorData)
     except:
         print("Cannot query tutor data")
-    return render_template('tutor2.html', tutorList = tutorData, numofPage = numPage, subList = subjectList)
+    return render_template('tutor2.html', tutorList = tutorData, numofPage = numPage, subList = subjectList, page = int(page))
 
 
 @app.route('/tutor/<tutor_id>')
@@ -65,7 +64,7 @@ def profile(tutor_id):
     cursor = conn.cursor()
     try:
         tutorSQL = """SELECT t.user_id, t.information, prof.picture, user.Firstname, user.Lastname, user.Ban_status,
-                      t.video, t.line, t.facebook, t.phone
+                      t.video, t.line, t.facebook, t.phone, user.dateofbirth
                       FROM `tutor` t
                       INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
                       INNER JOIN `user` ON user.User_id = t.user_id
@@ -80,7 +79,9 @@ def profile(tutor_id):
             cursor.execute(subjectSQL, tutor_id)
             subject_info = cursor.fetchall()
             print(tutor_info)
-            return render_template('profile3.html', subList = subject_info, tutor = tutor_info)
+            age = calculate_age(datetime.combine(tutor_info[10], datetime.min.time()))
+            print(age)
+            return render_template('profile3.html', subList = subject_info, tutor = tutor_info, birthday = age)
         except:
             print("Cannot retrieve subject info")
             return render_template('error.html')
@@ -240,10 +241,12 @@ def discussion(category, page):
                 ,dis.Create_Time
                 ,`user`.firstname
                 ,`user`.lastname
+                , pic.picture
                 FROM `dis_category_group` catgrp
                 INNER JOIN `dis_category` cat ON catgrp.dis_cat_id = cat.Dis_cat_id
                 INNER JOIN `discussion` dis ON dis.Dis_id = catgrp.dis_id
                 INNER JOIN `user` ON `user`.user_id = dis.user_id 
+                INNER JOIN `profile_picture`pic ON pic.user_id = dis.user_id
                 WHERE cat.Dis_cat_name = %s ORDER BY dis.create_time DESC LIMIT %s OFFSET %s """
         try:
             cursor.execute(sqlWanted, (category,15,numDataStart))
@@ -258,7 +261,9 @@ def discussion(category, page):
         print(numOfCommentinDiscussion)
         cursor.close()
         conn.close()
-        return render_template('discussion.html',cat = category, discussion = dataWanted, numofPage = numPage)
+        return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage,
+                               catDetail = categoryDetail, catList = categoryList, comment = numOfCommentinDiscussion, page = int(page))
+
 
 
 def getCat():
@@ -296,6 +301,10 @@ def getComment(dis_id):
     except:
         print("Cannot query category name")
     conn.close()
+
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
 if __name__ == '__main__':
     app.run()
