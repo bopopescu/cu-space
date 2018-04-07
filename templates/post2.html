@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Discussion - {% endblock %}
+{% block head %}
+    {{ super() }}
+    {#    Put additional head code here #}
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link id="theme-style" rel="stylesheet" href="/static/css/post/styles2.css">
+{% endblock %}
+{% block content %}
+    <div class="top-bar">
+        <div class="top-title">
+            <i class="fas fa-briefcase" style="font-size: 35px;"></i><br>
+            <a type="button" id="catBtn" class="dropdown">Category</a>
+            <div id="myDropdown" class="dropdown-content" align="center">
+                <a href="#">Engineer</a>
+                <a href="#">Arts</a>
+                <a href="#">Science</a>
+            </div>
+        </div>
+    </div>
+    <div class="container-body">
+
+        <div class="wrapper">
+            <div class="main-wrapper">
+{#                <div class="profile-img"><img class="rounded-circle"#}
+{#                                              src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="#}
+{#                                              alt="Generic placeholder image" width="45" height="45"></div>#}
+                <h2 class="section-title">What is the best gened</h2>
+                <p>Ralph Kimball founded the Kimball Group. Since the mid-1980s, he has been the data warehouse and business
+                intelligence industry’s thought leader on the dimen- sional approach. He has educated tens of thousands
+                of IT professionals. The Toolkit books written by Ralph and his colleagues have been the industry’s best
+                sellers since 1996. Prior to working at Metaphor and founding Red Brick Systems, Ralph coinvented the
+                Star workstation, the first commercial product with windows, icons, and a mouse, at Xerox’s Palo Alto
+                Research Center (PARC). Ralph has a PhD in electrical engineering from Stanford University.</p>
+                <h6 class="section-title">Posted on 12/04/12</h6>
+                <hr>
+            </div>
+            {#            {% for data in discussion %}#}
+            {#                <div class="main-wrapper">#}
+            {#                    <div class="profile-img"><img class="rounded-circle"#}
+            {#                                                  src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="#}
+            {#                                                  alt="Generic placeholder image" width="45" height="45"></div>#}
+            {#                    <h4 class="section-title"><a href="/newpost">dlskdjasd</a></h4>#}
+            {#                    <h6 class="section-title">Posted on .laks</h6>#}
+            {#                    <hr>#}
+            {#                </div>#}
+            {#            {% endfor %}#}
+        </div>
+        <nav class="navPage">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#">Previous</a>
+                </li>
+                {#                {% for page in range(numofPage) %}#}
+                {#                    <li class="page-item">#}
+                {#                        <a class="page-link"#}
+                {#                           href="{{ url_for('discussion',category = cat, page = loop.index) }}">{{ loop.index }}</a>#}
+                {#                    </li>#}
+                {#                {% endfor %}#}
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        window.onclick = function (event) {
+            if (event.target.matches('.dropdown') || event.target.matches('#dropdown-icon')) {
+                if (document.getElementById("myDropdown").style.display == "none") {
+                    document.getElementById("myDropdown").style.display = "block";
+                } else {
+                    document.getElementById("myDropdown").style.display = "none";
+                }
+            } else {
+                document.getElementById("myDropdown").style.display = "none";
+                document.getElementById("catBtn").innerHTML = "category";
+            }
+        }
+        $(document).ready(function () {
+            $("#catBtn").hover(function () {
+                $(this).html('category <i class="fas fa-caret-down" id="dropdown-icon"></i>');
+            }, function () {
+                if ($('#myDropdown').css('display') == 'block') {
+                    $("#catBtn").html('category <i class="fas fa-caret-down" id="dropdown-icon"></i>');
+                } else {
+                    $(this).html('category');
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,353 @@
+/*   
+ * Template Name: Orbit - Responsive Resume/CV Template for Developers
+ * Version: 1.0
+ * Author: Xiaoying Riley
+ * Twitter: @3rdwave_themes
+ * License: Creative Commons Attribution 3.0 License
+ * Website: http://themes.3rdwavemedia.com/
+*/
+/* styles.css */
+/* ======= Base ======= */
+body {
+    /*font-family: 'Roboto', sans-serif;*/
+    color: #000;
+    background: #fff;
+    font-size: 14px;
+    /*padding: 30px;*/
+    /*-webkit-font-smoothing: antialiased;*/
+    /*-moz-osx-font-smoothing: grayscale;*/
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+p {
+    line-height: 1.5;
+}
+
+.container-body {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.header {
+    background-color: white;
+}
+
+.top-bar {
+    text-align: center;
+    width: 100%;
+    background-color: #347aa9;
+    padding: 30px;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    color: #fff;
+}
+
+.top-search-bar {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.top-bar .top-info {
+    color: #fff;
+    margin-top: 18px;
+    font-weight: 400;
+    padding-left: 2px;
+    margin-bottom: 18px;
+}
+
+.dropdown {
+    font-weight: 500;
+    font-size: 32px;
+    color: #fff;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+
+.dropdown:hover {
+    border-bottom: 4px solid;
+    color: #fff;
+    opacity: 0.9;
+}
+
+.btn-apply {
+    background-color: #242d34;
+    color: white;
+    /*float: right;*/
+}
+
+.btn-apply:hover {
+    background-color: #cea316;
+    color: white;
+}
+
+.wrapper {
+    background: transparent;
+    max-width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;
+    position: relative;
+    /*-webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);*/
+    /*-moz-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);*/
+    /*box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);*/
+}
+
+.top-main-wrapper {
+    background: #fff;
+    padding: 40px;
+}
+
+.main-wrapper {
+    background: #fff;
+    padding: 20px;
+}
+
+.main-wrapper h6 {
+    color: #858789;
+}
+
+.main-wrapper hr {
+    padding: 0px;
+    margin-top: 40px;
+    margin-bottom: 0px;
+}
+
+.search-main-wrapper {
+    background: transparent;
+    margin-top: 20px;
+    color: #797979;
+}
+
+.job-description {
+    width: 100%;
+    /*min-height: 800px;*/
+}
+
+.section-title {
+    font-weight: 500;
+    color: #3d3b3c;
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.newpost {
+    font-weight: 500;
+    color: #3d3b3c;
+    position: relative;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+.newpost a {
+    color: #3d3b3c;
+}
+
+.newpost a:hover {
+    color: #377bb5;
+    text-decoration: none;
+}
+
+.section-title a {
+    color: #3d3b3c;
+}
+
+.section-title a:hover {
+    color: #377bb5;
+    text-decoration: none;
+}
+
+.profile-img {
+    float: left;
+    margin-top: 3px;
+    margin-left: 10px;
+    margin-right: 25px;
+
+}
+
+.sidebar-wrapper {
+    background: #f5f5f5;
+    position: absolute;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    padding: 20px;
+}
+
+.btn-outline {
+    margin-right: 10px;
+    background-color: transparent;
+    border: 2px solid;;
+    border-color: #347aa9;
+    border-radius: 50px;
+    padding: 6px 12px;
+    margin-top: 8px;
+    color: #347aa9;
+}
+
+.btn-outline:hover {
+    background-color: #347aa9;
+    color: #fff;
+}
+
+.top-search-bar input[type=text] {
+    background-color: #ccc;
+    border: 2px solid;;
+    border-right: none;
+    border-color: #ccc;
+    border-radius: 50px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 6px 12px;
+    margin-top: 8px;
+    color: #484848;
+    width: 300px;
+}
+
+.top-search-bar input::-moz-placeholder {
+    color: #484848;
+}
+
+.top-search-bar input::-webkit-input-placeholder {
+    color: #484848;
+}
+
+.top-search-bar input:-ms-input-placeholder {
+    color: #484848;
+}
+
+.top-search-bar button {
+    float: right;
+    padding: 6px 12px;
+    margin-top: 8px;
+    margin-right: 16px;
+    cursor: pointer;
+    background-color: #ccc;
+    border: 2px solid;;
+    border-left: none;
+    border-color: #ccc;
+    border-radius: 50px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    color: #484848;
+
+}
+
+.top-search-bar button:hover {
+    color: #1d1d1d;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    left: 50%;
+    -webkit-transform: translate(-50%, 1%);
+    transform: translate(-50%, 1%);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #d8d8d8;
+}
+
+/* Extra small devices (phones, less than 768px) */
+@media (max-width: 767px) {
+    .sidebar-wrapper {
+        position: static;
+        width: inherit;
+    }
+
+    .main-wrapper {
+        padding: 30px;
+    }
+
+    .main-wrapper .time {
+        position: static;
+        display: block;
+        margin-top: 5px;
+    }
+
+    .main-wrapper .upper-row {
+        margin-bottom: 0;
+    }
+
+    .top-search-bar input[type=text] {
+        background-color: #ccc;
+        border: 2px solid;;
+        border-right: none;
+        border-color: #ccc;
+        border-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+        padding: 6px 12px;
+        margin-top: 8px;
+        color: #484848;
+        max-width: 90%;
+    }
+
+    .top-search-bar button {
+        float: inherit;
+        padding: 6px 12px;
+        margin-top: 8px;
+        margin-right: 0px;
+        cursor: pointer;
+        background-color: #424242;
+        border: 2px solid;;
+        border-left: none;
+        border-color: #424242;
+        border-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border-top-left-radius: 5px;
+        color: #fff;
+        width: 70px;
+
+    }
+}
+
+/* Small devices (tablets, 768px and up) */
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .skillset .level-title {
+        display: inline-block;
+        float: left;
+        width: 30%;
+        margin-bottom: 0;
+    }
+
+    .skillset .level-bar {
+        display: inline-block;
+        width: 70%;
+        float: left;
+        position: relative;
+        top: 1px;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+/* Ex-Large devices (large desktops, 1200px and up) */
+
+.navPage {
+    text-align: center;
+}

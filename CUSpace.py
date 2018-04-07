@@ -143,7 +143,7 @@ def newpost():
 
 @app.route('/post')
 def post():
-    return render_template('post.html')
+    return render_template('post2.html')
 
 @app.route('/newpost/create_new_discussion', methods=['POST'])
 def createnewpost():
@@ -227,7 +227,7 @@ def discussion(category, page):
             print("Cannot query the data in Category: "+category)
         cursor.close()
         conn.close()
-        return render_template('discussion.html',cat = category, discussion = dataWanted, numofPage = numPage)
+        return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage)
 
 
 def getCat():

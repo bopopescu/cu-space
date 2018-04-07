@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}Discussion - {% endblock %}
+{% block head %}
+    {{ super() }}
+    {#    Put additional head code here #}
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link id="theme-style" rel="stylesheet" href="/static/css/discussion/styles2.css">
+{% endblock %}
+{% block content %}
+    {#    Put body code here #}
+    {#    <div class="top-bar">#}
+    {#    </div>#}
+    {#    <div class="wrapper">#}
+    {#        <div class="top-main-wrapper">#}
+    {#            <h2 class="section-title">asasWelcome to the CU Space Community</h2>#}
+    {#            <br>#}
+    {#            <p>Forum is now Community. We hope you'll find it's less cluttered and much easier to use. This is the first#}
+    {#                step of a plan to provide you better tools for talking with your fellow students, getting your questions#}
+    {#                answered, and making it easier to make connections with like-minded folks going through the same journey#}
+    {#                you are.</p>#}
+    {#        </div><!--//main-body-->#}
+    {#    </div>#}
+    <div class="top-bar">
+        <div class="top-title">
+            <i class="fas fa-briefcase" style="font-size: 35px;"></i><br>
+            <a type="button" id="catBtn" class="dropdown">{{ cat }}</a>
+            <div id="myDropdown" class="dropdown-content" align="center">
+                <a href="#">Engineer</a>
+                <a href="#">Arts</a>
+                <a href="#">Science</a>
+            </div>
+        </div>
+        {#            <div class="top-info">#}
+        {#                <p>Get advice, inspiration, and help. Join conversations happening right now.</p>#}
+        {#            </div>#}
+        {#            <div class="top-search-bar">#}
+        {#                <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('registernewtutor') }}">NEW DISCUSSION <i class="fas fa-plus" style="font-size: 14px; padding-bottom: 1px"></i></a>#}
+        {#            </div>#}
+    </div>
+    <div class="container-body">
+        {#        <div class="top-bar">#}
+        {#            <div class="top-title">#}
+        {#                <a class="dropdown">{{ cat }} Community <i class="fas fa-caret-down"></i></a>#}
+        {#            </div>#}
+        {#            <div class="top-info">#}
+        {#                <p>Get advice, inspiration, and help. Join conversations happening right now.</p>#}
+        {#            </div>#}
+
+        {#        </div>#}
+        <div class="wrapper">
+            <div class="top-search-bar">
+                <form class="form-inline" action="#">
+                    <div class="form-group">
+                        <a type="button" class="btn btn-outline" id="beatutor" href="/newpost">NEW DISCUSSION <i
+                                class="fas fa-plus" style="font-size: 14px; padding-bottom: 1px"></i></a>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="SEARCH" name="search">
+                        <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <hr>
+                </form>
+            </div>
+            {#            <div class="sidebar-wrapper">#}
+            {#                <h4 class="section-title" align="right">#}
+            {#                    <select class="selectpicker" multiple title="All Topics">#}
+            {#                        <option>Engineering</option>#}
+            {#                        <option>Business</option>#}
+            {#                        <option>Arts</option>#}
+            {#                    </select>#}
+            {#                </h4>#}
+            {#            </div>#}
+            {#            <div class="main-wrapper">#}
+            {#                <h4 class="section-title">#}
+            {#                    <form class="form-inline">#}
+            {#                        <input type="text" class="form-control" id="search" placeholder="Search..." size="35">#}
+            {#                        <button type="submit" class="btn btn-secondary"><span class="glyphicon glyphicon-search"#}
+            {#                                                                              aria-hidden="true"></span></button>#}
+            {#                    </form>#}
+            {#                </h4>#}
+            {#            </div><!--//main-body-->#}
+        </div>
+        <div class="wrapper">
+            {#            <div class="main-wrapper">#}
+            {#            <div class="profile-img"><img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="45" height="45"></div>#}
+            {#                <h4 class="newpost"><a href="/newpost"><i class="fa fa-plus"></i> Create New Topic</a></h4>#}
+            {#                <hr>#}
+            {#            </div><!--//main-body-->#}
+            {% for data in discussion %}
+                <div class="main-wrapper">
+                    <div class="main-right">
+                        <h6 class="section-title">
+                            <i class="far fa-edit"></i> 16 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="far fa-clock"></i> {{ data[7] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fas fa-user"></i> Nattychoojirawongtronghaha
+                        </h6>
+                    </div>
+                    <div class="main-left">
+                        <div class="profile-img"><img class="rounded-circle"
+                                                      src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                                      alt="Generic placeholder image" width="45" height="45"></div>
+                        <h4 class="section-title"><a href="/newpost">{{ data[5] }}</a></h4>
+                        <h6 class="section-title">Ralph Kimball founded the Kimball Group. Since the mid-1980s, he has been the data warehouse and business
+                intelligence industry’s thought leader on the dimen- sional approach. He has educated tens of thousands
+                of IT professionals. The Toolkit books written by Ralph and his colleagues have been the industry’s best
+                sellers since 1996. Prior to working at Metaphor and founding Red Brick Systems, Ralph coinvented the
+                Star workstation, the first commercial product with windows, icons, and a mouse, at Xerox’s Palo Alto
+                Research Center (PARC). Ralph has a PhD in electrical engineering from Stanford University.</h6>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+        <nav class="navPage">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#">Previous</a>
+                </li>
+                {% for page in range(numofPage) %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="{{ url_for('discussion',category = cat, page = loop.index) }}">{{ loop.index }}</a>
+                    </li>
+                {% endfor %}
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        {#        /* When the user clicks on the button,#}
+        {#         toggle between hiding and showing the dropdown content */#}
+        {#        function myFunction() {#}
+        {#            if (document.getElementById("myDropdown").style.display == "none") {#}
+        {#                document.getElementById("myDropdown").style.display = "block";#}
+        {#            } else {#}
+        {#                document.getElementById("myDropdown").style.display = "none";#}
+        {#            }#}
+        {#        }#}
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (event.target.matches('.dropdown') || event.target.matches('#dropdown-icon')) {
+                if (document.getElementById("myDropdown").style.display == "none") {
+                    document.getElementById("myDropdown").style.display = "block";
+                } else {
+                    document.getElementById("myDropdown").style.display = "none";
+                }
+            } else {
+                document.getElementById("myDropdown").style.display = "none";
+                document.getElementById("catBtn").innerHTML = "{{ cat }}";
+            }
+        }
+        $(document).ready(function () {
+            $("#catBtn").hover(function () {
+                $(this).html('{{ cat }} <i class="fas fa-caret-down" id="dropdown-icon"></i>');
+            }, function () {
+                if ($('#myDropdown').css('display') == 'block') {
+                    $("#catBtn").html('{{ cat }} <i class="fas fa-caret-down" id="dropdown-icon"></i>');
+                } else {
+                    $(this).html('{{ cat }}');
+                }
+            });
+        });
+    </script>
+{% endblock %}
