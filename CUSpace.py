@@ -1,5 +1,6 @@
-from random import randrange
 import datetime
+from random import randrange
+
 from flask import Flask, render_template, request, redirect, url_for
 import math
 #NOTE!!
@@ -46,8 +47,8 @@ def tutor(page):
              FROM `tutor` t
              INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
              INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id
+             INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id
              INNER JOIN `user` ON user.User_id = t.user_id GROUP BY sub_grp.user_id  ORDER BY t.tutor_create_time DESC LIMIT %s OFFSET %s"""
-
     try:
         cursor.execute(sql, (18, numDataStart))
         numPage = int(math.ceil(float(numOfData[0]) / float(18)))
@@ -115,7 +116,6 @@ def create_tutor():
         conn.commit()
     except:
         print("Cannot insert tutor")
-
     for i in range(numberOfCourse):
         subjectName = subjectList[int(subject[i])-1][1]
         print(subjectName)
@@ -147,9 +147,38 @@ def newpost():
     category = getCat()
     return render_template('newpost.html' , cat = category)
 
-@app.route('/post')
-def post():
-    return render_template('post2.html')
+@app.route('/discussion/<category>/<dis_id>/' , defaults={'page': 1})
+@app.route('/discussion/<category>/<dis_id>/page/<page>')
+def discussion_post(category,dis_id, page):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    topicSQL = """SELECT topic,content,
+                  Create_Time, 
+                  email,
+                  firstname,
+                  lastname,
+                  `user`.user_id,
+                  picture
+                  FROM `discussion` dis 
+                  INNER JOIN `user` ON `user`.User_id = dis.user_id 
+                  INNER JOIN profile_picture pic ON `user`.`User_id` = pic.User_id
+                  WHERE dis.dis_id = %s"""
+    try:
+        cursor.execute(topicSQL, dis_id)
+        topicInfo = cursor.fetchone()
+    except:
+        print("cannot query discussion")
+    commentSQL = """SELECT content,Create_time,email,firstname,lastname,ban_status,picture 
+                    FROM `comment` com INNER JOIN user ON user.User_id = com.user_id 
+                    INNER JOIN profile_picture pic ON pic.User_id = com.user_id 
+                    WHERE com.dis_id = %s ORDER BY Create_time DESC"""
+    try:
+        cursor.execute(commentSQL, dis_id)
+        commentList = cursor.fetchall()
+        print(commentList)
+    except:
+        print("Fail to query comment")
+    return render_template('post.html', topic = topicInfo, comList =commentList)
 
 @app.route('/newpost/create_new_discussion', methods=['POST'])
 def createnewpost():
@@ -180,7 +209,7 @@ def createnewpost():
     return redirect(url_for("newpost"))
 
 @app.route('/discussion/<category>/', defaults={'page':1})
-@app.route('/discussion/<category>/<page>')
+@app.route('/discussion/<category>/page/<page>')
 def discussion(category, page):
     numDataStart = ((int(page)-1)*15)
     #numDataEnd = int(page)*15
@@ -229,13 +258,13 @@ def discussion(category, page):
         print(numOfCommentinDiscussion)
         cursor.close()
         conn.close()
-        return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage, catDetail = categoryDetail, catList = categoryList, comment = numOfCommentinDiscussion)
+        return render_template('discussion.html',cat = category, discussion = dataWanted, numofPage = numPage)
 
 
 def getCat():
     conn = mysql.connect()
     cursor = conn.cursor()
-    sqlCat = """SELECT * FROM `dis_category` ORDER BY Faculty DESC, Dis_cat_name ASC"""
+    sqlCat = """SELECT * FROM `dis_category`"""
     try:
         cursor.execute(sqlCat)
         categoryList = cursor.fetchall()
