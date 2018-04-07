@@ -25,7 +25,7 @@
     <div class="top-bar">
         <div class="top-title">
             <i class="fas fa-briefcase" style="font-size: 35px;"></i><br>
-            <a type="button" id="catBtn" class="dropdown">{{ cat }}</a>
+            <a type="button" id="catBtn" class="dropdown">{{ cat }}<span style="position: absolute; padding-left: 5px;"><i class="fas fa-caret-down" id="catBtn"></i></span></a>
             <div id="myDropdown" class="dropdown-content" align="center">
                 <a href="#">Engineer</a>
                 <a href="#">Arts</a>
@@ -103,12 +103,18 @@
                                                       src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
                                                       alt="Generic placeholder image" width="45" height="45"></div>
                         <h4 class="section-title"><a href="/newpost">{{ data[5] }}</a></h4>
-                        <h6 class="section-title">Ralph Kimball founded the Kimball Group. Since the mid-1980s, he has been the data warehouse and business
-                intelligence industry’s thought leader on the dimen- sional approach. He has educated tens of thousands
-                of IT professionals. The Toolkit books written by Ralph and his colleagues have been the industry’s best
-                sellers since 1996. Prior to working at Metaphor and founding Red Brick Systems, Ralph coinvented the
-                Star workstation, the first commercial product with windows, icons, and a mouse, at Xerox’s Palo Alto
-                Research Center (PARC). Ralph has a PhD in electrical engineering from Stanford University.</h6>
+                        <h6 class="section-title">Ralph Kimball founded the Kimball Group. Since the mid-1980s, he has
+                            been the data warehouse and business
+                            intelligence industry’s thought leader on the dimen- sional approach. He has educated tens
+                            of thousands
+                            of IT professionals. The Toolkit books written by Ralph and his colleagues have been the
+                            industry’s best
+                            sellers since 1996. Prior to working at Metaphor and founding Red Brick Systems, Ralph
+                            coinvented the
+                            Star workstation, the first commercial product with windows, icons, and a mouse, at Xerox’s
+                            Palo Alto
+                            Research Center (PARC). Ralph has a PhD in electrical engineering from Stanford
+                            University.</h6>
                     </div>
                 </div>
                 <hr>
@@ -143,27 +149,62 @@
         {#            }#}
         {#        }#}
         // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (event.target.matches('.dropdown') || event.target.matches('#dropdown-icon')) {
-                if (document.getElementById("myDropdown").style.display == "none") {
-                    document.getElementById("myDropdown").style.display = "block";
-                } else {
-                    document.getElementById("myDropdown").style.display = "none";
-                }
-            } else {
-                document.getElementById("myDropdown").style.display = "none";
-                document.getElementById("catBtn").innerHTML = "{{ cat }}";
-            }
-        }
+{#        window.onclick = function (event) {#}
+{#            if (event.target.matches('.dropdown') || event.target.matches('#dropdown-icon')) {#}
+{#                if (document.getElementById("myDropdown").style.display == "none") {#}
+{#                    document.getElementById("myDropdown").style.display = "block";#}
+{#                } else {#}
+{#                    document.getElementById("myDropdown").style.display = "none";#}
+{#                }#}
+{#            } else {#}
+{#                document.getElementById("myDropdown").style.display = "none";#}
+{#                document.getElementById("catBtn").innerHTML = "{{ cat }}";#}
+{#            }#}
+{#        }#}
         $(document).ready(function () {
+            $(".dropdown").click(function () {
+                if ($("#myDropdown").css("display") == "none") {
+                    console.log(0);
+                    $("#myDropdown").show();
+                } else {
+                    $("#myDropdown").hide();
+                    console.log(1);
+                }
+                console.log(3);
+            });
+
             $("#catBtn").hover(function () {
-                $(this).html('{{ cat }} <i class="fas fa-caret-down" id="dropdown-icon"></i>');
+                $("#catBtn").css('border-bottom', '4px solid');
+                $("#catBtn").css('opacity', '0.9');
+
             }, function () {
                 if ($('#myDropdown').css('display') == 'block') {
-                    $("#catBtn").html('{{ cat }} <i class="fas fa-caret-down" id="dropdown-icon"></i>');
+{#                    $("#catBtn").html('{{ cat }} <i class="fas fa-caret-down" id="dropdown-icon"></i>');#}
                 } else {
-                    $(this).html('{{ cat }}');
+                    $("#catBtn").css('border-bottom', '0px solid');
+                    $("#catBtn").css('opacity', '1.0');
+
                 }
+            });
+            $(window).click(function () {
+                if ($('#myDropdown').css('display') == 'block') {
+                    $("#catBtn").css('border-bottom', '4px solid');
+                    $("#catBtn").css('opacity', '0.9');
+                } else {
+                    if ($("#catBtn").is(":hover")) {
+                        $("#catBtn").css('border-bottom', '4px solid');
+                        $("#catBtn").css('opacity', '0.9');
+                    } else {
+                        $("#catBtn").css('border-bottom', '0px solid');
+                        $("#catBtn").css('opacity', '1.0');
+                    }
+                }
+            });
+            $(document).mouseup(function (e) {
+                if (!($(".dropdown").is(e.target) || $("#dropIcon").is(e.target))) {
+                    $("#myDropdown").hide();
+                }
+
             });
         });
     </script>
