@@ -145,9 +145,38 @@ def newpost():
     category = getCat()
     return render_template('newpost.html' , cat = category)
 
-@app.route('/discussion/<category>/<dis_id>')
-def discussion_post(category,dis_id):
-    return render_template('post.html')
+@app.route('/discussion/<category>/<dis_id>/' , defaults={'page': 1})
+@app.route('/discussion/<category>/<dis_id>/page/<page>')
+def discussion_post(category,dis_id, page):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    topicSQL = """SELECT topic,content,
+                  Create_Time, 
+                  email,
+                  firstname,
+                  lastname,
+                  `user`.user_id,
+                  picture
+                  FROM `discussion` dis 
+                  INNER JOIN `user` ON `user`.User_id = dis.user_id 
+                  INNER JOIN profile_picture pic ON `user`.`User_id` = pic.User_id
+                  WHERE dis.dis_id = %s"""
+    try:
+        cursor.execute(topicSQL, dis_id)
+        topicInfo = cursor.fetchone()
+    except:
+        print("cannot query discussion")
+    commentSQL = """SELECT content,Create_time,email,firstname,lastname,ban_status,picture 
+                    FROM `comment` com INNER JOIN user ON user.User_id = com.user_id 
+                    INNER JOIN profile_picture pic ON pic.User_id = com.user_id 
+                    WHERE com.dis_id = %s ORDER BY Create_time DESC"""
+    try:
+        cursor.execute(commentSQL, dis_id)
+        commentList = cursor.fetchall()
+        print(commentList)
+    except:
+        print("Fail to query comment")
+    return render_template('post.html', topic = topicInfo, comList =commentList)
 
 @app.route('/newpost/create_new_discussion', methods=['POST'])
 def createnewpost():

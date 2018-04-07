@@ -15,15 +15,9 @@
     </div>
     <div class="wrapper">
         <div class="top-main-wrapper">
-            <h2 class="section-title">This is my Topic</h2>
+            <h2 class="section-title">{{ topic[0] }}</h2>
             <br>
-            <p>Ralph Kimball founded the Kimball Group. Since the mid-1980s, he has been the data warehouse and business
-                intelligence industry’s thought leader on the dimen- sional approach. He has educated tens of thousands
-                of IT professionals. The Toolkit books written by Ralph and his colleagues have been the industry’s best
-                sellers since 1996. Prior to working at Metaphor and founding Red Brick Systems, Ralph coinvented the
-                Star workstation, the first commercial product with windows, icons, and a mouse, at Xerox’s Palo Alto
-                Research Center (PARC). Ralph has a PhD in electrical engineering from Stanford University.</p>
-            {#            <h6 class="section-title">Posted on 11/111/1 by natty</h6>#}
+            <p>{{ topic[1] }}</p>
             <hr>
             <div class="poster-wrapper">
                 <div class="vote">
@@ -31,62 +25,46 @@
                     <div> 221</div>
                     <div><a href="#" class="down"><span class="glyphicon glyphicon-thumbs-down"></span> </a></div>
                 </div>
-                <div class="poster-profile-img">
-                    <img class="rounded-circle"
-                         src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                         alt="Generic placeholder image" width="45" height="45">
-                </div>
-                <div class="poster-info">
-                    <h5>Zlatan Niphon</h5>
-                    <h6>Posted on 11/12/13 14:15:16</h6>
-                </div>
+                <a href="#"> {# url to user page #}
+                    <div class="poster-profile-img">
+                        <img class="rounded-circle"
+                             src="/static/img/{{ topic[7] }}"
+                             alt="Generic placeholder image" width="45" height="45">
+                    </div>
+                    <div class="poster-info">
+                        <h5>{{ topic[4] }} {{ topic[5] }}</h5>
+                        <h6>Posted on {{ topic[2].strftime('%H:%M %d-%m-%Y') }}</h6>
+                    </div>
+                </a>
             </div>
         </div><!--//main-body-->
     </div>
 
     <div class="wrapper">
-        {#        {% for data in discussion %}#}
+    {% if comList%}
+        {% for comment in comList %}
         <div class="main-wrapper">
             <div class="vote">
                 <div><a href="#" class="up"><span class="glyphicon glyphicon-thumbs-up"></span> </a></div>
                 <div> 221</div>
                 <div><a href="#" class="down"><span class="glyphicon glyphicon-thumbs-down"></span> </a></div>
             </div>
-            <div class="profile-img">
-                <img class="rounded-circle"
-                     src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                     alt="Generic placeholder image" width="45" height="45">
-                <br>
-            </div>
+            <a href="#"> {# url to user #}
+                <div class="profile-img">
+                    <img class="rounded-circle"
+                         src="{{ comment[6] }}"
+                         alt="Generic placeholder image" width="45" height="45">
+                    <br>
+                </div>
+            </a>
             <div class="content">
-                <p class="section-title">So boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog
-                    godkfsdokfosd</p>
-                <h6 class="section-title">Posted on 11/111/1 by Kitty</h6>
+                <p class="section-title"> {{comment[0]}}</p>
+                <h6 class="section-title">Posted on {{ comment[1].strftime('%H:%M %d-%m-%Y') }} by {{ comment[4] }} {{ comment[5] }}</h6>
             </div>
             <hr>
         </div>
-        <div class="main-wrapper">
-            <div class="vote">
-                <div><a href="#" class="up"><span class="glyphicon glyphicon-thumbs-up"></span> </a></div>
-                <div> 221</div>
-                <div><a href="#" class="down"><span class="glyphicon glyphicon-thumbs-down"></span> </a></div>
-            </div>
-            <div class="profile-img">
-                <img class="rounded-circle"
-                     src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                     alt="Generic placeholder image" width="45" height="45">
-                <br>
-            </div>
-            <div class="content">
-                <p class="section-title">So boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog
-                    godkfsdokfosdSo boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosdSo
-                    boring hahahaha hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosdSo boring hahahaha
-                    hahahah hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosdSo boring hahahaha hahahah
-                    hahahahahha hahahah ahahah woohooooooooo dog godkfsdokfosd</p>
-                <h6 class="section-title">Posted on 11/111/1 by Kitty</h6>
-            </div>
-        </div>
-        {#        {% endfor %}#}
+    {% endfor %}
+    {% endif %}
     </div>
     <div class="wrapper">
         <div class="main-wrapper">
