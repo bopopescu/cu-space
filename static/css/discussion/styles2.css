@@ -213,8 +213,7 @@ p {
 }
 
 .btn-outline:hover {
-    background-color: #347aa9;
-    color: #fff;
+    opacity: 0.8;
 }
 
 .top-search-bar input[type=text] {

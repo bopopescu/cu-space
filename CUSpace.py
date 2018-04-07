@@ -1,5 +1,5 @@
 from random import randrange
-
+import datetime
 from flask import Flask, render_template, request, redirect, url_for
 import math
 #NOTE!!
@@ -17,11 +17,12 @@ mysql.init_app(app)
 def index():
     conn = mysql.connect()
     cursor = conn.cursor()
-    sql = """SELECT * FROM `dis_category`"""
-    cursor.execute(sql)
-    data = cursor.fetchall()
-    categoryList = [ i[1] for i in data]
-    return render_template('index4.html', catlist = categoryList)
+    categoryList = getCat()
+    facultyList = [faculty for faculty in categoryList if faculty[4] == 1]
+    otherList = [faculty for faculty in categoryList if faculty[4] == 0]
+    print(facultyList)
+    print(otherList)
+    return render_template('index4.html', faclist=facultyList, othList=otherList)
 
 @app.route('/tutor/' , defaults={'page':1})
 @app.route('/tutor/page/<page>')
@@ -41,12 +42,12 @@ def tutor(page):
         print("Cannot get number of data in tutor")
 
     sql = """SELECT t.user_id, t.information, prof.picture, sub_grp.subject_id,sub_grp.price, GROUP_CONCAT(sub.subject_name)
-             as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status, sub_grp.subject_description
+             as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status, sub_grp.subject_description, t.tutor_create_time
              FROM `tutor` t
              INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
              INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id
-             INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id
-             INNER JOIN `user` ON user.User_id = t.user_id GROUP BY sub_grp.user_id LIMIT %s OFFSET %s"""
+             INNER JOIN `user` ON user.User_id = t.user_id GROUP BY sub_grp.user_id  ORDER BY t.tutor_create_time DESC LIMIT %s OFFSET %s"""
+
     try:
         cursor.execute(sql, (18, numDataStart))
         numPage = int(math.ceil(float(numOfData[0]) / float(18)))
@@ -97,8 +98,8 @@ def create_tutor():
     numberOfCourse = int(request.form["hiddenvalue"])
     link = request.form["link"]
     facebook = request.form["facebook"]
-    bio = request.form['info']
-    phone = request.form["phone"]
+    info = request.form['info']
+    phone = request.form["phonenumber"]
     line = request.form["line"]
     subject = request.form.getlist('coursecat')
     course = request.form.getlist('course')
@@ -106,23 +107,28 @@ def create_tutor():
     conn = mysql.connect()
     cursor = conn.cursor()
     subjectList = getSub()
+    tutorSQL = """INSERT INTO `tutor`(`User_id`, `Information`, `Video`, `Facebook`, `Line`, `Phone`, `tutor_create_time`)
+                          VALUES (%s,%s,%s,%s,%s,%s,%s)"""
+    try:
+        create_time = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        cursor.execute(tutorSQL, (user_id, info, link, facebook, line, phone, create_time))
+        conn.commit()
+    except:
+        print("Cannot insert tutor")
+
     for i in range(numberOfCourse):
         subjectName = subjectList[int(subject[i])-1][1]
         print(subjectName)
-        tutorSQL = """INSERT INTO `tutor`(`User_id`, `Bio`, `Skill`, `Achievement`, `Experience`,
-                      `Subject`, `Video`, `Facebook`, `Line`, `Phone`)
-                      VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-        # try:
-        #     cursor.execute(tutorSQL, (user_id, bio, skill, acheivement, experience, subjectName, link, facebook, line, phone))
-        #     subjectSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`)
-        #                     VALUES (%s,%s,%s,%s)"""
-        #     try:
-        #         cursor.execute(subjectSQL, (user_id,subject[i], price[i], subjectName))
-        #     except:
-        #         print("Cannot insert subject")
-        # except:
-        #     print("Cannot insert tutor")
-    return redirect(url_for("registernewtutor"))
+        subjectSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`)
+                            VALUES (%s,%s,%s,%s)"""
+        try:
+            cursor.execute(subjectSQL, (user_id, subject[i], price[i], course[i]))
+            conn.commit()
+        except:
+            print("Cannot insert subject")
+    cursor.close()
+    conn.close()
+    return redirect(url_for("profile", tutor_id=user_id))
 
 @app.route('/job')
 def job():
@@ -177,24 +183,13 @@ def createnewpost():
 @app.route('/discussion/<category>/<page>')
 def discussion(category, page):
     numDataStart = ((int(page)-1)*15)
-    numDataEnd = int(page)*15
+    #numDataEnd = int(page)*15
     conn = mysql.connect()
     categoryList = getCat()
     categoryName = [i[1] for i in categoryList]
+    categoryDetail = [i for i in categoryList if i[1] == category][0]
     if(category in categoryName):
         cursor = conn.cursor()
-        # sqlListed = """SELECT catgrp.dis_cat_group_id
-        #         ,catgrp.dis_id
-        #         ,catgrp.dis_cat_id
-        #         ,cat.Dis_cat_name
-        #         ,dis.User_id
-        #         ,dis.Topic
-        #         ,dis.Content
-        #         ,dis.Create_Time
-        #         FROM `dis_category_group` catgrp
-        #         INNER JOIN `dis_category` cat ON catgrp.dis_cat_id = cat.Dis_cat_id
-        #         INNER JOIN `discussion` dis ON dis.Dis_id = catgrp.dis_id
-        #         WHERE cat.Dis_cat_name = %s"""
         numOfDataSQL = """SELECT COUNT(*)
                        FROM `dis_category_group` dis
                        INNER JOIN dis_category cat ON dis.dis_cat_id = cat.Dis_cat_id
@@ -214,26 +209,33 @@ def discussion(category, page):
                 ,dis.Topic
                 ,dis.Content
                 ,dis.Create_Time
+                ,`user`.firstname
+                ,`user`.lastname
                 FROM `dis_category_group` catgrp
                 INNER JOIN `dis_category` cat ON catgrp.dis_cat_id = cat.Dis_cat_id
                 INNER JOIN `discussion` dis ON dis.Dis_id = catgrp.dis_id
-                WHERE cat.Dis_cat_name = %s ORDER BY dis.create_time DESC LIMIT %s,%s """
+                INNER JOIN `user` ON `user`.user_id = dis.user_id 
+                WHERE cat.Dis_cat_name = %s ORDER BY dis.create_time DESC LIMIT %s OFFSET %s """
         try:
-            cursor.execute(sqlWanted, (category,numDataStart,numDataEnd))
+            cursor.execute(sqlWanted, (category,15,numDataStart))
             dataWanted = cursor.fetchall()
             numPage = int(math.ceil(float(numOfData[0])/float(15)))
             print(numPage)
         except:
             print("Cannot query the data in Category: "+category)
+        dis_id = [dataList[1] for dataList in dataWanted]
+        print(dis_id)
+        numOfCommentinDiscussion = [getComment(comment).__len__() for comment in dis_id]
+        print(numOfCommentinDiscussion)
         cursor.close()
         conn.close()
-        return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage)
+        return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage, catDetail = categoryDetail, catList = categoryList, comment = numOfCommentinDiscussion)
 
 
 def getCat():
     conn = mysql.connect()
     cursor = conn.cursor()
-    sqlCat = """SELECT * FROM `dis_category`"""
+    sqlCat = """SELECT * FROM `dis_category` ORDER BY Faculty DESC, Dis_cat_name ASC"""
     try:
         cursor.execute(sqlCat)
         categoryList = cursor.fetchall()
@@ -252,6 +254,18 @@ def getSub():
         return subjectList
     except:
         print("Cannot query subject name")
+    conn.close()
+
+def getComment(dis_id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sqlComment = """SELECT * FROM `comment` WHERE `comment`.dis_id = %s"""
+    try:
+        cursor.execute(sqlComment, dis_id)
+        comment = cursor.fetchall()
+        return comment
+    except:
+        print("Cannot query category name")
     conn.close()
 
 if __name__ == '__main__':
