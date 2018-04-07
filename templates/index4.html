@@ -21,7 +21,6 @@
         }
 
         .btn-outline {
-            border-radius: var(--border-radius);
             background-color: transparent;
             border-radius: 2px;
         }
@@ -156,42 +155,6 @@
             color: #fdce86;
         }
 
-        #hoverbuttwo {
-            background-color: #647a90;
-        }
-
-        #hoverbutthree {
-            background-color: #40adcf;
-        }
-
-        #hoverbutfour {
-            background-color: #347aa9;
-        }
-
-        #hoverbutfive {
-            background-color: #e97734;
-        }
-
-        #hoverbutsix {
-            background-color: #df535b;
-        }
-
-        #hoverbutseven {
-            background-color: #c28ed2;
-        }
-
-        #hoverbuteight {
-            background-color: #e3992b;
-        }
-
-        #hoverbutnine {
-            background-color: #5fb764;
-        }
-
-        #hoverbutten {
-            background-color: #27898b;
-        }
-
         .col-md-4 {
             margin-bottom: 20px;
         }
@@ -227,96 +190,32 @@
         <h3>View Discussion By Faculty</h3>
         <br>
         <div class="row">
+            {% for fac in faclist  %}
             <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[0]) }}">
-                    <button class="button hoverbutton" id="hovbutone">
-                        <i class="fas fa-paint-brush" style="font-size: 35px;"></i><br>
-                        <span>ARCHITECTURE</span>
+                <a href="{{ url_for('discussion', category = fac[1]) }}">
+                    <button class="button hoverbutton" style="background-color: {{ fac[3] }} ">
+                        <i class="{{ fac[2] }}" style="font-size: 35px;"></i><br>
+                        <span>{{ fac[1].upper() }}</span>
                     </button>
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[1]) }}">
-                    <button class="button hoverbutton" id="hoverbuttwo">
-                        <i class="fas fa-book" style="font-size: 35px;"></i><br>
-                        <span>ARTS</span>
-                    </button>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[2]) }}">
-                    <button class="button hoverbutton" id="hoverbutthree">
-                        <i class="fas fa-briefcase" style="font-size: 35px;"></i><br>
-                        <span>BUSINESS</span>
-                    </button>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[3]) }}">
-                    <button class="button hoverbutton" id="hoverbutfour">
-                        <i class="fas fa-comments" style="font-size: 35px;"></i><br>
-                        <span>COMMUNICATION ARTS</span>
-                    </button>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[4]) }}">
-                    <button class="button hoverbutton" id="hoverbutfive">
-                        <i class="fas fa-donate" style="font-size: 35px;"></i><br>
-                        <span>ECONOMIC</span>
-                    </button>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[5]) }}">
-                    <button class="button hoverbutton" id="hoverbutsix">
-                        <i class="fas fa-cogs" style="font-size: 35px;"></i><br>
-                        <span>ENGINEERING</span>
-                    </button>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[6]) }}">
-                    <button class="button hoverbutton" id="hoverbutseven">
-                        <i class="far fa-smile" style="font-size: 35px;"></i><br>
-
-
-                        <span>PSYCHOLOGY</span>
-                    </button>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[7]) }}">
-                    <button class="button hoverbutton" id="hoverbuteight">
-                        <i class="fas fa-dna" style="font-size: 35px;"></i><br>
-                        <span>SCIENCE</span>
-                    </button>
-                </a>
-            </div>
-
-
+            {% endfor %}
         </div>
         <br>
 
         <h3>Other Discussion</h3>
         <br>
         <div class="row">
+            {% for other in othList %}
             <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[8]) }}">
-                    <button class="button hoverbutton" id="hoverbutnine">
-                        <i class="fab fa-leanpub" style="font-size: 35px;"></i><br>
-                        <span>GENERAL EDUCATION</span>
+                <a href="{{ url_for('discussion', category = other[1]) }}">
+                    <button class="button hoverbutton"  style="background-color: {{ other[3] }}">
+                        <i class="{{ other[2] }}" style="font-size: 35px;"></i><br>
+                        <span>{{ other[1].upper() }}</span>
                     </button>
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="{{ url_for('discussion', category = catlist[9]) }}">
-                    <button class="button hoverbutton" id="hoverbutten">
-                        <i class="fas fa-futbol" style="font-size: 35px;"></i><br>
-                        <span>ACTIVITY</span>
-                    </button>
-                </a>
-            </div>
+            {% endfor %}
         </div>
         <br>
     </div> <!-- /container -->
