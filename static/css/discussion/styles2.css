@@ -126,6 +126,10 @@ p {
     width: 280px;
 }
 
+.main-right-small{
+    display: none;
+}
+
 .main-wrapper h6 {
     padding-top: 3px;
     color: #858789;
@@ -287,6 +291,10 @@ p {
     background-color: #d8d8d8;
 }
 
+.navPage {
+    text-align: center;
+}
+
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 767px) {
     .sidebar-wrapper {
@@ -337,35 +345,42 @@ p {
         border-top-left-radius: 5px;
         color: #fff;
         width: 70px;
-
+    }
+    .top-search-bar{
+        padding-bottom: 5px;
+    }
+    .profile-img{
+        display: none;
+    }
+    .main-wrapper{
+        padding: 0px;
+        width: 95%;
+    }
+    .main-left{
+        display: block;
+        float: left;
+        padding-bottom: 0px;
+    }
+    .main-left h6{
+        padding-bottom: 0px;
+    }
+    .main-right-small{
+        display: block;
+        float: left;
+        /*padding-left: 1px;*/
+        padding-top: 0px;
+        padding-bottom: 20px;
+        width: 100%;
     }
     .main-right{
         display: none;
     }
-}
-
-/* Small devices (tablets, 768px and up) */
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-    .skillset .level-title {
-        display: inline-block;
-        float: left;
-        width: 30%;
-        margin-bottom: 0;
+    hr {
+        display: none;
     }
-
-    .skillset .level-bar {
-        display: inline-block;
-        width: 70%;
-        float: left;
-        position: relative;
-        top: 1px;
+    .navPage{
+        display: block;
+        float: right;
     }
 }
 
-/* Large devices (large desktops, 1200px and up) */
-/* Ex-Large devices (large desktops, 1200px and up) */
-
-.navPage {
-    text-align: center;
-}
