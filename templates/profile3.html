@@ -232,7 +232,11 @@
 
                         </table>
 
+
                         <div class="clearfix"></div>
+                         <button type="button" data-toggle="modal" data-title="Edit" class="btn btn-primary"
+                                data-target="#addcourse" style="margin-bottom: -7%;">Add course
+                        </button>
                         <ul class="pagination pull-right">
                             <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a>
                             </li>
@@ -341,6 +345,54 @@
                                            placeholder="Price" required/>
                                 </div>
                                 <div id="coursepricestatus" style="margin-left: 2.5%; margin-bottom: 2%;"></div>
+
+                                {#                                                        <div class="form-control">#}
+                                <button type="submit" class="btn btn-warning btn-lg"
+                                        style="width: 100%; margin-left: 2.5%"><span
+                                        class="glyphicon glyphicon-ok-sign"></span> Update
+                                </button>
+                                {#                                                        </div>#}
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+            {#            Add Course Information#}
+            <div class="modal fade" id="addcourse" tabindex="-1" role="dialog" aria-labelledby="edit"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
+                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                            <h4 class="modal-title custom_align" id="Heading">Add Your Course Detail</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" onsubmit="return checkaddcourse()" method="POST">
+                                <div class="form-group">
+                                    <input class="form-control" id="addcoursename" type="text" placeholder="Course Name"
+                                           required/>
+                                </div>
+                                <div id="addcoursenamestatus" style="margin-left: 2.5%; margin-bottom: 2%;"></div>
+                                <div class="form-group">
+                                    <select class="form-control" id="addcoursecategory" required/>
+                                    <option value="" disabled selected>Select your category</option>
+                                    <option>HR</option>
+                                    <option>Sales</option>
+                                    <option>Marketing</option>
+                                    <option>IT</option>
+                                    <option>Finance</option>
+                                    </select>
+                                </div>
+                                <div id="addcoursecategorystatus" style="margin-left: 2.5%; margin-bottom: 2%;"></div>
+                                <div class="form-group">
+                                    <input type="number" min="0" rows="2" class="form-control" id="addcourseprice"
+                                           placeholder="Price" required/>
+                                </div>
+                                <div id="addcoursepricestatus" style="margin-left: 2.5%; margin-bottom: 2%;"></div>
 
                                 {#                                                        <div class="form-control">#}
                                 <button type="submit" class="btn btn-warning btn-lg"
@@ -652,6 +704,108 @@
                 $(this).css("border-color", "#00CD00");
             }
         });
+
+        $("#addcoursename").focusout(function () {
+            var value = $(this).val()
+            if (checkaddcoursename(value) == 1) {
+                $(this).css("border-color", "#FF0000");
+            } else {
+                $(this).css("border-color", "#00CD00");
+            }
+        });
+        $("#addcoursecategory").focusout(function () {
+            var value = $(this).val()
+            if (checkaddcoursecategory(value) == 1) {
+                $(this).css("border-color", "#FF0000");
+            } else {
+                $(this).css("border-color", "#00CD00");
+            }
+        });
+        $("#addcourseprice").focusout(function () {
+            var value = $(this).val()
+            if (checkaddcourseprice(value) == 1) {
+                $(this).css("border-color", "#FF0000");
+            } else {
+                $(this).css("border-color", "#00CD00");
+            }
+        });
+
+        function checkaddcourse() {
+            {#console.log('checkedit');#}
+            var coursename = $('#addcoursename').val();
+            var coursecategory = $('#addcoursecategory').val();
+            var courseprice = $('#addcourseprice').val();
+
+            if (checkaddcoursename(coursename) == 1 ||
+                checkaddcoursecategory(coursecategory) == 1 ||
+                checkaddcourseprice(courseprice) == 1) {
+                alert("Please enter all of the information");
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+
+
+        function checkaddcoursename(value) {
+            document.getElementById('addcoursenamestatus').style.color = "red";
+            if (value.length <= 1) {
+                document.getElementById('addcoursenamestatus').innerHTML = 'X Please enter the course name';
+                return 1;
+            } else {
+                document.getElementById('addcoursenamestatus').innerHTML = '';
+                return 0;
+            }
+        }
+
+        function checkaddcoursecategory(value) {
+            document.getElementById('addcoursecategorystatus').style.color = "red";
+            if (value == null) {
+                document.getElementById('addcoursecategorystatus').innerHTML = 'X Please enter the course category';
+                return 1;
+            } else {
+                document.getElementById('addcoursecategorystatus').innerHTML = '';
+                return 0;
+            }
+        }
+
+        function checkaddcourseprice(value) {
+            document.getElementById('addcoursepricestatus').style.color = "red";
+            if (value <= 1) {
+                document.getElementById('addcoursepricestatus').innerHTML = 'X Please enter the course price';
+                return 1;
+            } else {
+                document.getElementById('addcoursepricestatus').innerHTML = '';
+                return 0;
+            }
+        }
+
+        $("#addcoursename").focusout(function () {
+            var value = $(this).val()
+            if (checkcoursename(value) == 1) {
+                $(this).css("border-color", "#FF0000");
+            } else {
+                $(this).css("border-color", "#00CD00");
+            }
+        });
+        $("#addcoursecategory").focusout(function () {
+            var value = $(this).val()
+            if (checkcoursecategory(value) == 1) {
+                $(this).css("border-color", "#FF0000");
+            } else {
+                $(this).css("border-color", "#00CD00");
+            }
+        });
+        $("#addcourseprice").focusout(function () {
+            var value = $(this).val()
+            if (checkcourseprice(value) == 1) {
+                $(this).css("border-color", "#FF0000");
+            } else {
+                $(this).css("border-color", "#00CD00");
+            }
+        });
+
 
         function checkuploadpicture() {
             var $fileUpload = $("#input-image-3");
