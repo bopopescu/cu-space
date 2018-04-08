@@ -4,6 +4,7 @@ from random import randrange
 
 from flask import Flask, render_template, request, redirect, url_for
 import math
+import re
 #NOTE!!
 #install flask-mysql first by writing in terminal "pip install flask-mysql" in order to use
 from flaskext.mysql import MySQL
@@ -14,6 +15,8 @@ app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_DB'] = 'cuspace'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
+
+TAG_RE = re.compile(r'<[^>]+>')
 
 @app.route('/')
 def index():
@@ -186,7 +189,7 @@ def createnewpost():
     topic = request.form['topic_name']
     categoryList = request.form.getlist('category_name')
     discussion = request.form['content']
-    user_id = "123456" #change later
+    user_id = "10517053" #change later
     conn = mysql.connect()
     cursor = conn.cursor()
     try:
@@ -252,17 +255,16 @@ def discussion(category, page):
             cursor.execute(sqlWanted, (category,15,numDataStart))
             dataWanted = cursor.fetchall()
             numPage = int(math.ceil(float(numOfData[0])/float(15)))
-            print(numPage)
         except:
             print("Cannot query the data in Category: "+category)
         dis_id = [dataList[1] for dataList in dataWanted]
-        print(dis_id)
         numOfCommentinDiscussion = [getComment(comment).__len__() for comment in dis_id]
-        print(numOfCommentinDiscussion)
+        time = [timesince(dataList[7]) for dataList in dataWanted]
+        content = [removeHTML(dataList[6]) for dataList in dataWanted]
         cursor.close()
         conn.close()
         return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage,
-                               catDetail = categoryDetail, catList = categoryList, comment = numOfCommentinDiscussion, page = int(page))
+                               catDetail = categoryDetail, catList = categoryList, content = content, comment = numOfCommentinDiscussion, time = time, page = int(page))
 
 
 
@@ -305,6 +307,39 @@ def getComment(dis_id):
 def calculate_age(born):
     today = date.today()
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+def removeHTML(text):
+    return TAG_RE.sub('', text)
+
+
+@app.template_filter()
+def timesince(dt, default="just now"):
+    """
+    Returns string representing "time since" e.g.
+    3 days ago, 5 hours ago etc.
+    """
+
+    now = datetime.now()
+    diff = now - dt
+
+    periods = (
+        (diff.days / 365, "year", "years"),
+        (diff.days / 30, "month", "months"),
+        (diff.days / 7, "week", "weeks"),
+        (diff.days, "day", "days"),
+        (diff.seconds / 3600, "hour", "hours"),
+        (diff.seconds / 60, "minute", "minutes"),
+    )
+
+    if diff.days > 0:
+        return dt.strftime('%H:%M %b %d, %Y')
+
+    for period, singular, plural in periods:
+
+        if period >= 1:
+            return "%d %s ago" % (period, singular if period < 2 else plural)
+
+    return default
 
 if __name__ == '__main__':
     app.run()

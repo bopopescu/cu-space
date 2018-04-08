@@ -178,6 +178,10 @@
 
         }
 
+        .form-control {
+            border-radius: 0px;
+        }
+
     </style>
 {% endblock %}
 {% block content %}
@@ -303,34 +307,18 @@
         <!-- Content here -->
         <form method="POST" enctype=multipart/form-data onsubmit="return checkallpost()"
               action="{{ url_for("createnewpost") }}">
-            {#         add form here#}
             <div class="row">
                 <div class="col-md-6">
-
-                    {#                <br>#}
-                    {#                <h2>Post a discussion</h2>#}
-                    {#                <br>#}
-                    <p>Upload Images(Maximum of 6 images)</p>
-                    <br>
-                    <img id="img0" src="#" alt="" style="display: none"/>
-                    <img id="img1" src="#" alt="" style="display: none"/>
-                    <img id="img2" src="#" alt="" style="display: none"/>
-                    <img id="img3" src="#" alt="" style="display: none"/>
-                    <img id="img4" src="#" alt="" style="display: none"/>
-                    <img id="img5" src="#" alt="" style="display: none"/>
-                    <button id="b1" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">+</button>
-                    <input id="input-image-3" name="input-image" type="file" class="btn btn-secondary btn-lg"
-                           onchange="readURL(this) ;" accept="image/*"
-                           multiple style="display: none">
-                    <br>
-
-
+                    <label for="discussion">Enter topic</label>
+                    <form>
+                        <input type="text" class="form-control" id="discussion" placeholder="" name="topic_name">
+                        <div id="posstatus">
+                        </div>
+                    </form>
                 </div>
                 <div class="col-md-6">
-
                     <label for="categorychooser">Choose category (can be multiple)</label>
                     <div class="dropdown">
-
                         <select class="selectpicker" multiple title="Choose a category" name="category_name"
                                 id="categorychooser">
                             {% for category in cat %}
@@ -338,32 +326,23 @@
                             {% endfor %}
                         </select>
                         <div id="categorystatus">
+                            &nbsp;
                         </div>
+                        <br>
                     </div>
-                    <br>
-                    <br>
-
-                    <label for="discussion">Name your discussion</label>
-                    <form>
-                        <input type="text" class="form-control" id="discussion" placeholder="" name="topic_name">
-
-                        <div id="posstatus">
-
-                        </div>
-                    </form>
-                    <br>
-
-                    <br>
-                    <label for="detail">Enter your discussion content</label>
+                </div>
+                <br>
+                <div class="col-md-12">
+                    <label for="detail">Enter discussion content</label>
                     <textarea class="form-control" rows="5" id="detail" name="content"></textarea>
                     <input type="hidden" name="status" value="SELL">
-
-                    <div id="detailstatus">
+                    <div id="detailstatus" style="display: block; float: left; padding-top: 1px; color: red">
+                        &nbsp;
                     </div>
-
-
                     <br>
-                    <input id="finalbutton" type="submit" class="btn btn-primary" value="Create a discussion"></input>
+                    <br>
+                    <input id="finalbutton" type="submit" class="btn btn-primary" value="Create a discussion"
+                           style="margin-top: 20px; margin-bottom: 20px; float: left; display: block">
                 </div>
             </div>
         </form>
@@ -372,6 +351,22 @@
 
     <script src="/static/js/registration.js"></script>
     <script src="/static/js/verificationNewPost.js"></script>
+    <script>
+{#        var editor = CKEDITOR.replace('detail', {#}
+{#            uiColor: '#ffffff'#}
+{#        });#}
+{#        editor.on('change', function (evt) {#}
+{#            // getData() returns CKEditor's HTML content.#}
+{#            console.log('Total bytes: ' + evt.editor.getData().length);#}
+{#            if (evt.editor.getData().length > 100) {#}
+{#                $("#detailstatus").html('X Content is too long');#}
+{#            } else if (evt.editor.getData().length == 0) {#}
+{#                $("#detailstatus").html('X Please enter discussion content');#}
+{#            } else {#}
+{#                $("#detailstatus").html('&nbsp;');#}
+{#            }#}
+{#        });#}
+    </script>
     </body>
 
 

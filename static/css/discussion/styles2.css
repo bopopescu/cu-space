@@ -122,8 +122,9 @@ p {
     display: inline-block;
     position: inherit;
     float: right;
-    margin-left: 60px;
-    width: 280px;
+    margin-left: 40px;
+    width: 260px;
+    text-align: right;
 }
 
 .main-right-small{

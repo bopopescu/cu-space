@@ -17,7 +17,7 @@
         <div class="top-main-wrapper">
             <h2 class="section-title">{{ topic[0] }}</h2>
             <br>
-            <p>{{ topic[1] }}</p>
+            {{ topic[1]|safe }}
             <hr>
             <div class="poster-wrapper">
                 <div class="vote">
@@ -41,30 +41,31 @@
     </div>
 
     <div class="wrapper">
-    {% if comList%}
-        {% for comment in comList %}
-        <div class="main-wrapper">
-            <div class="vote">
-                <div><a href="#" class="up"><span class="glyphicon glyphicon-thumbs-up"></span> </a></div>
-                <div> 221</div>
-                <div><a href="#" class="down"><span class="glyphicon glyphicon-thumbs-down"></span> </a></div>
-            </div>
-            <a href="#"> {# url to user #}
-                <div class="profile-img">
-                    <img class="rounded-circle"
-                         src="{{ comment[6] }}"
-                         alt="Generic placeholder image" width="45" height="45">
-                    <br>
+        {% if comList %}
+            {% for comment in comList %}
+                <div class="main-wrapper">
+                    <div class="vote">
+                        <div><a href="#" class="up"><span class="glyphicon glyphicon-thumbs-up"></span> </a></div>
+                        <div> 221</div>
+                        <div><a href="#" class="down"><span class="glyphicon glyphicon-thumbs-down"></span> </a></div>
+                    </div>
+                    <a href="#"> {# url to user #}
+                        <div class="profile-img">
+                            <img class="rounded-circle"
+                                 src="{{ comment[6] }}"
+                                 alt="Generic placeholder image" width="45" height="45">
+                            <br>
+                        </div>
+                    </a>
+                    <div class="content">
+                        <p class="section-title"> {{ comment[0] }}</p>
+                        <h6 class="section-title">Posted on {{ comment[1].strftime('%H:%M %d-%m-%Y') }}
+                            by {{ comment[4] }} {{ comment[5] }}</h6>
+                    </div>
+                    <hr>
                 </div>
-            </a>
-            <div class="content">
-                <p class="section-title"> {{comment[0]}}</p>
-                <h6 class="section-title">Posted on {{ comment[1].strftime('%H:%M %d-%m-%Y') }} by {{ comment[4] }} {{ comment[5] }}</h6>
-            </div>
-            <hr>
-        </div>
-    {% endfor %}
-    {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
     <div class="wrapper">
         <div class="main-wrapper">
@@ -75,11 +76,9 @@
             </div>
             <div class="content">
                 <div class="form-inline">
-                    {#                <label for="comment">Comment:</label>#}
-                    {#                <textarea class="form-control" style="min-width: 100%" rows="5" id="comment" placeholder="Add Comment..."></textarea>#}
                     <textarea id="froala-editor"></textarea>
                     <br>
-                    <button class="btn btn-primary">Submit</button>
+                    <button class="btn btn-primary" id="commentSubmit">Submit</button>
                 </div>
             </div>
         </div>
@@ -104,7 +103,10 @@
         $(function () {
             $('textarea#froala-editor').froalaEditor({
                 height: 200
-            })
+            });
+            $('#commentSubmit').click(function () {
+                alert($('#froala-editor').val());
+            });
         });
     </script>
 {% endblock %}

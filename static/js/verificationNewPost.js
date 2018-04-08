@@ -1,3 +1,22 @@
+var editor = CKEDITOR.replace('detail', {
+    uiColor: '#ffffff'
+});
+var detailCheck = 1;
+editor.on('change', function (evt) {
+    // getData() returns CKEditor's HTML content.
+    // console.log('Total bytes: ' + evt.editor.getData().length);
+    if (evt.editor.getData().length > 100) {
+        $("#detailstatus").html('X Content is too long');
+        detailCheck = 2;
+    } else if (evt.editor.getData().length == 0) {
+        $("#detailstatus").html('X Please enter discussion content');
+        detailCheck = 1;
+    } else {
+        $("#detailstatus").html('&nbsp;');
+        detailCheck = 0;
+    }
+});
+
 function myFunction() {
     var x = document.getElementById('b2');
     var y = document.getElementById('img1');
@@ -104,24 +123,24 @@ function btnClick() {
     $("#input-image-3").trigger('click');
 }
 
-$("#discussion").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#post").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#post1").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#detail").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
+// $("#discussion").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#post").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#post1").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#detail").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
 $("#discussion").focusout(function () {
     var value = $(this).val()
     if (checkpos(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        document.getElementById('posstatus').innerHTML = 'X Please enter the name of the topic';
     } else {
-        $(this).css("border-color", "#00CD00");
+        document.getElementById('posstatus').innerHTML = '&nbsp;';
     }
 })
 $("#post1").focusout(function () {
@@ -141,7 +160,7 @@ $("#post").focusout(function () {
     }
 })
 $("#detail").focusout(function () {
-    var value = $(this).val()
+    var value = $(this).val();
     if (checkdetail(value) == 1) {
         $(this).css("border-color", "#FF0000");
     } else {
@@ -151,22 +170,11 @@ $("#detail").focusout(function () {
 
 function checkallpost() {
     var posvalue = $('#discussion').val();
-    var postvalue = $('#post').val();
-    var post1value = $('#post1').val();
-    var detailvalue = $('#detail').val();
-     var categoryvalue = $('.selectpicker :selected').text();
-
-    var $fileUpload = $("#input-image-3");
-    if (parseInt($fileUpload.get(0).files.length) > 6) {
-        alert("Can upload a maximum of 6 images");
+    var categoryvalue = $('.selectpicker :selected').text();
+    if (detailCheck == 2) {
+        alert("Content is too long");
         return false;
-
-    }
-
-    if (checkpos(posvalue) == 1 ||
-        checkdetail(detailvalue) == 1  ||
-            checkcategory2(categoryvalue) == 1)
-    {
+    } else if (checkpos(posvalue) == 1 || detailCheck == 1 || checkcategory2(categoryvalue) == 1) {
         alert("Please enter all of the information");
         return false;
     } else {
@@ -178,35 +186,35 @@ function checkallpost() {
 function checkcategory2(value) {
     document.getElementById('categorystatus').style.color = "red";
     if (value == "") {
-        document.getElementById('categorystatus').innerHTML = 'X Please enter the right category';
+        document.getElementById('categorystatus').innerHTML = 'X Please select at least one category';
         return 1
     } else {
-        document.getElementById('categorystatus').innerHTML = '';
+        document.getElementById('categorystatus').innerHTML = '&nbsp;';
         return 0
     }
 }
 
 
 $('.selectpicker').on('changed.bs.select', function (e) {
-var selecteddd = e.target.value;
-checkcategory()
+    var selecteddd = e.target.value;
+    checkcategory()
     function checkcategory(value) {
-    var ddl = document.getElementsByClassName("selectpicker");
-    var selectedValue = selecteddd;
-    document.getElementById('categorystatus').style.color = "red";
-    if (selectedValue == 0) {
-        document.getElementById('categorystatus').innerHTML = 'X Please enter the right category';
-        return 1
-    } else {
-        document.getElementById('categorystatus').innerHTML = '';
-        return 0
+        var ddl = document.getElementsByClassName("selectpicker");
+        var selectedValue = selecteddd;
+        document.getElementById('categorystatus').style.color = "red";
+        if (selectedValue == 0) {
+            document.getElementById('categorystatus').innerHTML = 'X Please select at least one category';
+            return 1
+        } else {
+            document.getElementById('categorystatus').innerHTML = '&nbsp;';
+            return 0
+        }
     }
-}
 });
 function checkpos(value) {
     document.getElementById('posstatus').style.color = "red";
     if (value.length <= 1) {
-        document.getElementById('posstatus').innerHTML = 'X Please enter the name of the topic';
+        // document.getElementById('posstatus').innerHTML = 'X Please enter the name of the topic';
         return 1;
     } else {
         document.getElementById('posstatus').innerHTML = '';

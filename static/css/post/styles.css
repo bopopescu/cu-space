@@ -63,6 +63,9 @@ p {
   background: #fff;
   padding: 40px;
 }
+.top-main-wrapper img{
+  max-width: 100%;
+}
 .poster-wrapper {
   background: #fff;
   padding: 0px;
