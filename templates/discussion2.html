@@ -29,7 +29,7 @@
             <div class="top-search-bar">
                 <form class="form-inline" action="#">
                     <div class="form-group">
-                        <a type="button" class="btn btn-outline" id="beatutor" href="/newpost"
+                        <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('newpost',category = cat) }}"
                            style="border-color: {{ catDetail[3] }}; color: {{ catDetail[3] }};">NEW DISCUSSION
                             <i class="fas fa-plus" style="font-size: 14px; padding-bottom: 1px"></i></a>
                     </div>

@@ -146,10 +146,11 @@ def jobProfile():
 def company():
     return render_template('company.html')
 
-@app.route('/newpost')
-def newpost():
-    category = getCat()
-    return render_template('newpost.html' , cat = category)
+@app.route('/<category>/newpost')
+def newpost(category):
+    categorySet = getCat()
+    categoryDetail = [i for i in categorySet if i[1] == category][0]
+    return render_template('newpost.html' , cat = categorySet, currentCat = category, currentCatDetail = categoryDetail)
 
 @app.route('/discussion/<category>/<dis_id>/' , defaults={'page': 1})
 @app.route('/discussion/<category>/<dis_id>/page/<page>')

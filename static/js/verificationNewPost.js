@@ -123,9 +123,9 @@ function btnClick() {
     $("#input-image-3").trigger('click');
 }
 
-// $("#discussion").focus(function () {
-//     $(this).css("border-color", "#0080ff");
-// });
+$("#discussion").focus(function () {
+    $(this).css("border-color", "#ccc");
+});
 // $("#post").focus(function () {
 //     $(this).css("border-color", "#0080ff");
 // });
@@ -138,7 +138,7 @@ function btnClick() {
 $("#discussion").focusout(function () {
     var value = $(this).val()
     if (checkpos(value) == 1) {
-        document.getElementById('posstatus').innerHTML = 'X Please enter the name of the topic';
+        document.getElementById('posstatus').innerHTML = 'X Please enter topic';
     } else {
         document.getElementById('posstatus').innerHTML = '&nbsp;';
     }
