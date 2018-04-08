@@ -140,7 +140,14 @@
 
 
 
-
+$("#companyname").focusout(function () {
+    var value = $(this).val()
+    if (checkcompanyname(value) == 1) {
+        $(this).css("border-color", "#FF0000");
+    } else {
+        $(this).css("border-color", "#00CD00");
+    }
+});
 $("#jobname").focusout(function () {
     var value = $(this).val()
     if (checkjobname(value) == 1) {
@@ -208,7 +215,16 @@ $("#date2").focusout(function () {
     }
 });
 
-
+function checkcompanyname(value) {
+    document.getElementById('companynamestatus').style.color = "red";
+    if (value.length <= 1) {
+        document.getElementById('companynamestatus').innerHTML = 'X Please enter the company name';
+        return 1;
+    } else {
+        document.getElementById('companynamestatus').innerHTML = '';
+        return 0;
+    }
+}
 function checkjobinfo(value) {
     document.getElementById('jobinfostatus').style.color = "red";
     if (value.length <= 1) {
@@ -332,7 +348,7 @@ function checkDate(date1,date2) {
 
 
 function checkallpost() {
-    console.log('hi');
+    var companynamevalue = $('#companyname').val();
     var jobnamevalue = $('#jobname').val();
     var jobinfovalue = $('#jobinfo').val();
     var phonenovalue = $('#phonenumber').val();
@@ -348,7 +364,8 @@ function checkallpost() {
 
         }
 
-    if (checkjobname(jobnamevalue) == 1 ||
+    if (checkcompanyname(companynamevalue) == 1 ||
+        checkjobname(jobnamevalue) == 1 ||
         checkjobinfo(jobinfovalue) == 1 ||
         checkphone(phonenovalue) == 1 ||
         checkphone(phonenovalue) == 2 ||
