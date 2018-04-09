@@ -83,7 +83,7 @@ def profile(tutor_id):
             print(tutor_info)
             age = calculate_age(datetime.combine(tutor_info[10], datetime.min.time()))
             print(age)
-            print(subject)
+            print(subject_info)
             return render_template('profile3.html', subInfo = subject_info, tutor = tutor_info, birthday = age, sub = subject)
         except:
             print("Cannot retrieve subject info")
@@ -106,6 +106,34 @@ def update_subject(tutor_id, subject_group_id):
         conn.commit()
     except:
         print("Cannot update subject_group table")
+    return redirect(url_for('profile', tutor_id=tutor_id))
+
+@app.route('/tutor/<tutor_id>/add_new_subject' ,methods=["POST"])
+def add_subject(tutor_id):
+    coursename = request.form.get('newcoursename')
+    coursesubject = request.form.get('addsubjectcategory')
+    price = request.form.get('addprice')
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    addSQL =  """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`) 
+                 VALUES (%s,%s,%s,%s)"""
+    try:
+        cursor.execute(addSQL,(tutor_id, coursesubject, price, coursename))
+        conn.commit()
+    except:
+        print("Cannot insert new course into database")
+    return redirect(url_for('profile',tutor_id=tutor_id))
+
+@app.route('/tutor/<tutor_id>/delete_subject/<subject_group_id>')
+def delete_subject_course(tutor_id, subject_group_id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    deleteSQL = """DELETE FROM `subject_group` WHERE `subject_group_id` = %s"""
+    try:
+        cursor.execute(deleteSQL, subject_group_id)
+        conn.commit()
+    except:
+        print("Cannot delete subject_group_id "+subject_group_id)
     return redirect(url_for('profile', tutor_id=tutor_id))
 
 @app.route('/newtutor')
