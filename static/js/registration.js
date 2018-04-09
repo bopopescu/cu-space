@@ -78,58 +78,100 @@
           return 0;
       }
   }
-  function checkphone(value){
-      document.getElementById('phonenostatus').style.color="red";
-      if(value.length == 0) {
-          document.getElementById('phonenostatus').innerHTML ='';
-          return 2
-      }
-      if(value.length !=10) {
-          if(value.indexOf(' ')>=0 && hasAlphabet(value)) {
+  // function checkphone(value){
+  //     document.getElementById('phonenostatus').style.color="red";
+  //     if(value.length == 0) {
+  //         document.getElementById('phonenostatus').innerHTML ='';
+  //         return 2
+  //     }
+  //     if(value.length !=10) {
+  //         if(value.indexOf(' ')>=0 && hasAlphabet(value)) {
+  //
+  //             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces, contain alphabet, and contain exactly 10 digits'+"<br />"+"<br />";
+  //             return 1
+  //         } else if(value.indexOf(' ')>=0) {
+  //             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces'+"<br />"+"<br />";
+  //              return 1
+  //         }else if(hasAlphabet(value)){
+  //             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain alphabet'+"<br />"+"<br />";
+  //             return 1
+  //         } else {
+  //             document.getElementById('phonenostatus').innerHTML ='X Phone number must contain 10 digits'+"<br />"+"<br />";
+  //             return 1
+  //         }
+  //     } else {
+  //         if(value.indexOf(' ')>=0 && hasAlphabet(value)) {
+  //             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces, contain alphabet, and contain exactly 10 digits'+"<br />"+"<br />";
+  //             return 1
+  //         } else if(value.indexOf(' ')>=0) {
+  //              alert("Phonenumber must not contain whitespaces")
+  //             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces'+"<br />"+"<br />";
+  //              return 1
+  //         }else if(hasAlphabet(value)){
+  //             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain alphabet'+"<br />"+"<br />";
+  //             return 1
+  //         } else {
+  //             document.getElementById('phonenostatus').innerHTML ='';
+  //             return 0
+  //         }
+  //     }
+  //      /* alert("Phonenumber must contain 10 digits")
+  //       return 1;
+  //     }
+  //     #else if(value.indexOf(' ')>=0){
+  //         alert("Phonenumber must not contain whitespaces")
+  //         return 1
+  //     }
+  //     else if(hasAlphabet(value)){
+  //         alert("Phonenumber must not contain alphabet")
+  //         return 1
+  //     }
+  //     else {
+  //         return 0;
+  //     }*/
+  // }
 
-              document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces, contain alphabet, and contain exactly 10 digits'+"<br />"+"<br />";
-              return 1
-          } else if(value.indexOf(' ')>=0) {
-              document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces'+"<br />"+"<br />";
-               return 1
-          }else if(hasAlphabet(value)){
-              document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain alphabet'+"<br />"+"<br />";
-              return 1
-          } else {
-              document.getElementById('phonenostatus').innerHTML ='X Phone number must contain 10 digits'+"<br />"+"<br />";
-              return 1
-          }
-      } else {
-          if(value.indexOf(' ')>=0 && hasAlphabet(value)) {
-              document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces, contain alphabet, and contain exactly 10 digits'+"<br />"+"<br />";
-              return 1
-          } else if(value.indexOf(' ')>=0) {
-               alert("Phonenumber must not contain whitespaces")
-              document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces'+"<br />"+"<br />";
-               return 1
-          }else if(hasAlphabet(value)){
-              document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain alphabet'+"<br />"+"<br />";
-              return 1
-          } else {
-              document.getElementById('phonenostatus').innerHTML ='';
-              return 0
-          }
-      }
-       /* alert("Phonenumber must contain 10 digits")
-        return 1;
-      }
-      #else if(value.indexOf(' ')>=0){
-          alert("Phonenumber must not contain whitespaces")
-          return 1
-      }
-      else if(hasAlphabet(value)){
-          alert("Phonenumber must not contain alphabet")
-          return 1
-      }
-      else {
-          return 0;
-      }*/
-  }
+    function checkphone(value) {
+    console.log("enter leawwww");
+    document.getElementById('phonenostatus').style.color = "red";
+    if (value.length == 0) {
+        console.log("enter leawwww");
+        document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number!';
+        return 2
+    }
+    if (value.length != 10) {
+        if (value.indexOf(' ') >= 0 && !hasNumber(value)) {
+
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            return 1
+        } else if (value.indexOf(' ') >= 0) {
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            return 1
+        } else if (!hasNumber(value)) {
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            return 1
+        } else {
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            return 1
+        }
+    } else {
+        if (value.indexOf(' ') >= 0 && !hasNumber(value)) {
+            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format!';
+            return 1
+        } else if (value.indexOf(' ') >= 0) {
+            alert("Phonenumber must not contain whitespaces")
+            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format!';
+            return 1
+        } else if (!hasNumber(value)) {
+            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format1';
+            return 1
+        } else {
+            document.getElementById('phonenumberstatus').innerHTML = '';
+            return 0
+        }
+    }
+}
+
   function checkfirstname(value){
       document.getElementById('firstnamestatus').style.color="red";
    if(value.length <=1) {
