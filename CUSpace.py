@@ -1,3 +1,5 @@
+from datetime import date
+from datetime import datetime
 from random import randrange
 
 from flask import Flask, render_template, request, redirect, url_for
@@ -61,9 +63,10 @@ def tutor(page):
 def profile(tutor_id):
     conn = mysql.connect()
     cursor = conn.cursor()
+    subject = getSub()
     try:
         tutorSQL = """SELECT t.user_id, t.information, prof.picture, user.Firstname, user.Lastname, user.Ban_status,
-                      t.video, t.line, t.facebook, t.phone
+                      t.video, t.line, t.facebook, t.phone, user.dateofbirth
                       FROM `tutor` t
                       INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
                       INNER JOIN `user` ON user.User_id = t.user_id
@@ -71,20 +74,39 @@ def profile(tutor_id):
         cursor.execute(tutorSQL, tutor_id)
         tutor_info = cursor.fetchone()
         try:
-            subjectSQL = """SELECT sub.Subject_name, grp.price, grp.subject_description
+            subjectSQL = """SELECT sub.Subject_name, grp.price, grp.subject_description, grp.Subject_group_id
                               FROM `subject_group` grp
                               INNER JOIN subject sub ON sub.Subject_id = grp.Subject_id
                               WHERE grp.User_id = %s """
             cursor.execute(subjectSQL, tutor_id)
             subject_info = cursor.fetchall()
             print(tutor_info)
-            return render_template('profile3.html', subList = subject_info, tutor = tutor_info)
+            age = calculate_age(datetime.combine(tutor_info[10], datetime.min.time()))
+            print(age)
+            print(subject)
+            return render_template('profile3.html', subInfo = subject_info, tutor = tutor_info, birthday = age, sub = subject)
         except:
             print("Cannot retrieve subject info")
             return render_template('error.html')
     except:
         print("Cannot retrieve tutor info")
         return render_template('error.html')
+
+@app.route('/tutor/<tutor_id>/update_subject/<subject_group_id>' ,methods=["POST"])
+def update_subject(tutor_id, subject_group_id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    update_info = request.form.getlist(subject_group_id)
+    print(update_info)
+    updateSQL =  """UPDATE `subject_group` SET `Subject_id`=%s,
+                    `Price`=%s, `Subject_description`=%s 
+                    WHERE `Subject_group_id`= %s"""
+    try:
+        cursor.execute(updateSQL, (update_info[1], update_info[2],update_info[0],subject_group_id))
+        conn.commit()
+    except:
+        print("Cannot update subject_group table")
+    return redirect(url_for('profile', tutor_id=tutor_id))
 
 @app.route('/newtutor')
 def registernewtutor():
@@ -257,6 +279,10 @@ def getSub():
     except:
         print("Cannot query subject name")
     conn.close()
+
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
 if __name__ == '__main__':
     app.run()
