@@ -1,109 +1,109 @@
-$("#coursecategory").focus(function () {
-    var value = $(this).text().trim()
-    $(this).css("border-color", "#0080ff");
-    if (checkcategory2(value) == 1) {
-        $(this).css("border-color", "#FF0000");
-    } else {
-        $(this).css("border-color", "#00CD00");
-    }
-});
-$("#othercourse").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#info").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#post").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#post1").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#detail").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#course").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#coursecat").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#courseprice").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#phone").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
+// $("#coursecategory").focus(function () {
+//     var value = $(this).text().trim()
+//     // $(this).css("border-color", "#0080ff");
+//     if (checkcategory2(value) == 1) {
+//         // $(this).css("border-color", "#FF0000");
+//     } else {
+//         // $(this).css("border-color", "#00CD00");
+//     }
+// });
+// $("#othercourse").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#info").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#post").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#post1").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#detail").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#course").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#coursecat").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#courseprice").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#phone").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
 
 
 $("#info").focusout(function () {
     var value = $(this).val()
     if (checkpos(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 $("#post1").focusout(function () {
     var value = $(this).val()
     if (checkpost1(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 $("#post").focusout(function () {
     var value = $(this).val()
     if (checkpost(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 $("#detail").focusout(function () {
     var value = $(this).val()
     if (checkdetail(value) == 1 || hasEmbed(value) == 0) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 $("#coursecategory").focusout(function () {
     var value = $(this).text().trim()
     if (checkcategory2(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 $("#othercourse").focusout(function () {
     var value = $(this).val()
     if (checkothers(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 
 $('#facebook').focusout(function () {
-    $(this).css("border-color", "#00CD00");
+    // $(this).css("border-color", "#00CD00");
 });
 $('#line').focusout(function () {
-    $(this).css("border-color", "#00CD00");
+    // $(this).css("border-color", "#00CD00");
 });
 $("#phonenumber").focusout(function () {
     var value = $(this).val();
-    console.log('hi');
-    console.log(checkphone(value));
+    // console.log('hi');
+    // console.log(checkphone(value));
     if (checkphone(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
         document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number';
     } else if (checkphone(value) == 2) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
         document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number';
 
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
         document.getElementById('phonenumberstatus').innerHTML = '';
     }
 });

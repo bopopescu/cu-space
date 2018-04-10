@@ -1,80 +1,120 @@
 
-    $( "#password" ).focus(function() {
-            $(this).css("border-color", "#0080ff");
-
-    });
-    $( "#firstname" ).focus(function() {
-            $(this).css("border-color", "#0080ff");
-
-    });
-    $( "#lastname" ).focus(function() {
-            $(this).css("border-color", "#0080ff");
-
-    });
-    $( "#phoneno" ).focus(function() {
-            $(this).css("border-color", "#0080ff");
-
-    });
-    $( "#email" ).focus(function() {
-            $(this).css("border-color", "#0080ff");
-
-    });
+    // $( "#password" ).focus(function() {
+    //         $(this).css("border-color", "#0080ff");
+    //
+    // });
+    // $( "#firstname" ).focus(function() {
+    //         $(this).css("border-color", "#0080ff");
+    //
+    // });
+    // $( "#lastname" ).focus(function() {
+    //         $(this).css("border-color", "#0080ff");
+    //
+    // });
+    // $( "#phoneno" ).focus(function() {
+    //         $(this).css("border-color", "#0080ff");
+    //
+    // });
+    // $( "#email" ).focus(function() {
+    //         $(this).css("border-color", "#0080ff");
+    //
+    // });
     $( "#password" ).focusout(function() {
         var value = $(this).val()
-        if( checkpassword(value)==1 )
+        if( checkpasswordsignup(value)==1 )
         {
-            $(this).css("border-color", "#FF0000");
+            // $(this).css("border-color", "#FF0000");
         }else{
-            $(this).css("border-color", "#00CD00");
+            // $(this).css("border-color", "#00CD00");
         }
     })
     $("#firstname" ).focusout(function() {
         var value = $(this).val()
-        if (checkfirstname(value) == 1) {
-            $(this).css("border-color", "#FF0000");
+        if (checkfirstnamesignup(value) == 1) {
+            // $(this).css("border-color", "#FF0000");
         } else {
-            $(this).css("border-color", "#00CD00");
+            // $(this).css("border-color", "#00CD00");
         }
     })
     $("#lastname" ).focusout(function() {
         var value = $(this).val()
-        if (checklastname(value) == 1) {
-            $(this).css("border-color", "#FF0000");
+        if (checklastnamesignup(value) == 1) {
+            // $(this).css("border-color", "#FF0000");
         } else {
-            $(this).css("border-color", "#00CD00");
+            // $(this).css("border-color", "#00CD00");
         }
     })
     $("#email" ).focusout(function() {
         var value = $(this).val()
-        if (checkemail(value) == 1) {
-            $(this).css("border-color", "#FF0000");
+        if (checkemailsignup(value) == 1) {
+            // $(this).css("border-color", "#FF0000");
         } else {
-            $(this).css("border-color", "#00CD00");
+            // $(this).css("border-color", "#00CD00");
         }
     })
-    $("#phoneno" ).focusout(function() {
+
+    $("#usrname" ).focusout(function() {
         var value = $(this).val()
-        if (checkphone(value) == 1) {
-            $(this).css("border-color", "#FF0000");
-        } else if (checkphone(value) == 2) {
-            $(this).css("border-color", "#cccccc");
-        } else{
-            $(this).css("border-color", "#00CD00");
+        if (checkusernamelogin(value) == 1) {
+            // $(this).css("border-color", "#FF0000");
+        } else {
+            // $(this).css("border-color", "#00CD00");
         }
-    })
+    });
+
+ $("#psw" ).focusout(function() {
+        var value = $(this).val()
+        if (checkpasswordlogin(value) == 1) {
+            // $(this).css("border-color", "#FF0000");
+        } else {
+            // $(this).css("border-color", "#00CD00");
+        }
+    });
 
 
-  function checkpassword(value){
-        document.getElementById('passwordstatus').style.color="red";
+    $("#phoneno").focusout(function () {
+    var value = $(this).val();
+    // console.log('hi phonenumber validation');
+    // console.log(checkphone(value));
+    if (checkphonesignup(value) == 1) {
+        // $(this).css("border-color", "#FF0000");
+        // document.getElementById('phonenostatus').innerHTML = 'X Please enter your phone number';
+    } else if (checkphonesignup(value) == 2) {
+        // $(this).css("border-color", "#FF0000");
+        // document.getElementById('phonenostatus').innerHTML = 'X Please enter your phone number';
+
+    } else {
+        // $(this).css("border-color", "#00CD00");
+        // document.getElementById('phonenostatus').innerHTML = '';
+    }
+});
+
+
+  function checkpasswordlogin(value){
+        document.getElementById('passwordloginstatus').style.color="red";
       if(value.length < 8 || value.length>16) {
-        document.getElementById('passwordstatus').innerHTML ='X Password must be between 8 and 16 characters'+"<br />"+"<br />";
+        document.getElementById('passwordloginstatus').innerHTML ='X Password must be between 8 and 16 characters';
           return 1;
       }else if(value.indexOf(' ')>=0){
-          document.getElementById('passwordstatus').innerHTML ='X Password must not contain whitespaces'+"<br />"+"<br />";
+          document.getElementById('passwordloginstatus').innerHTML ='X Password must not contain whitespaces';
           return 1
       }
       else {
-          document.getElementById('passwordstatus').innerHTML ='';
+          document.getElementById('passwordloginstatus').innerHTML ='';
+          return 0;
+      }
+  }
+  function checkpasswordsignup(value){
+        document.getElementById('passwordsignupstatus').style.color="red";
+      if(value.length < 8 || value.length>16) {
+        document.getElementById('passwordsignupstatus').innerHTML ='X Password must be between 8 and 16 characters';
+          return 1;
+      }else if(value.indexOf(' ')>=0){
+          document.getElementById('passwordsignupstatus').innerHTML ='X Password must not contain whitespaces';
+          return 1
+      }
+      else {
+          document.getElementById('passwordsignupstatus,').innerHTML ='';
           return 0;
       }
   }
@@ -131,82 +171,82 @@
   //     }*/
   // }
 
-    function checkphone(value) {
+    function checkphonesignup(value) {
     console.log("enter leawwww");
-    document.getElementById('phonenostatus').style.color = "red";
+    document.getElementById('phonenosignupstatus').style.color = "red";
     if (value.length == 0) {
         console.log("enter leawwww");
-        document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number!';
+        document.getElementById('phonenosignupstatus').innerHTML = 'X Please enter your phone number';
         return 2
     }
     if (value.length != 10) {
         if (value.indexOf(' ') >= 0 && !hasNumber(value)) {
 
-            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            document.getElementById('phonenosignupstatus').innerHTML = 'X Please enter your phone number correctly';
             return 1
         } else if (value.indexOf(' ') >= 0) {
-            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            document.getElementById('phonenosignupstatus').innerHTML = 'X Please enter your phone number correctly';
             return 1
         } else if (!hasNumber(value)) {
-            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            document.getElementById('phonenosignupstatus').innerHTML = 'X Please enter your phone number correctly';
             return 1
         } else {
-            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            document.getElementById('phonenosignupstatus').innerHTML = 'X Please enter your phone number correctly';
             return 1
         }
     } else {
         if (value.indexOf(' ') >= 0 && !hasNumber(value)) {
-            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format!';
+            document.getElementById('phonenosignupstatus').innerHTML = 'X Wrong phone number format';
             return 1
         } else if (value.indexOf(' ') >= 0) {
             alert("Phonenumber must not contain whitespaces")
-            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format!';
+            document.getElementById('phonenosignupstatus').innerHTML = 'X Wrong phone number format';
             return 1
         } else if (!hasNumber(value)) {
-            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format1';
+            document.getElementById('phonenosignupstatus').innerHTML = 'X Wrong phone number format';
             return 1
         } else {
-            document.getElementById('phonenumberstatus').innerHTML = '';
+            document.getElementById('phonenosignupstatus').innerHTML = '';
             return 0
         }
     }
 }
 
-  function checkfirstname(value){
-      document.getElementById('firstnamestatus').style.color="red";
+  function checkfirstnamesignup(value){
+      document.getElementById('firstnamesignupstatus').style.color="red";
    if(value.length <=1) {
-       document.getElementById('firstnamestatus').innerHTML ='X Please enter your name'+"<br />"+"<br />";
+       document.getElementById('firstnamesignupstatus').innerHTML ='X Please enter your name';
         return 1;
     }
     else if(hasNumber(value)){
-       document.getElementById('firstnamestatus').innerHTML ='X Name must not contain number'+"<br />"+"<br />";
+       document.getElementById('firstnamesignupstatus').innerHTML ='X Name must not contain number';
         return 1
     } else {
-        document.getElementById('firstnamestatus').innerHTML ='';
+        document.getElementById('firstnamesignupstatus').innerHTML ='';
           return 0;
       }
   }
-  function checklastname(value){
-      document.getElementById('lastnamestatus').style.color="red";
+  function checklastnamesignup(value){
+      document.getElementById('lastnamesignupstatus').style.color="red";
    if(value.length <=1) {
-       document.getElementById('lastnamestatus').innerHTML ='X Please enter your name'+"<br />"+"<br />";
+       document.getElementById('lastnamesignupstatus').innerHTML ='X Please enter your name';
         return 1;
     }
     else if(hasNumber(value)){
-       document.getElementById('lastnamestatus').innerHTML ='X Name must not contain number'+"<br />"+"<br />";
+       document.getElementById('lastnamesignupstatus').innerHTML ='X Name must not contain number';
         return 1
     } else {
-        document.getElementById('lastnamestatus').innerHTML ='';
+        document.getElementById('lastnamesignupstatus').innerHTML ='';
           return 0;
       }
   }
-  function checkemail(value){
-      document.getElementById('emailstatus').style.color="red";
+  function checkemailsignup(value){
+      document.getElementById('emailsignupstatus').style.color="red";
           if(hasAt(value) && hasDot(value)){
-              document.getElementById('emailstatus').innerHTML ='';
+              document.getElementById('emailsignupstatus').innerHTML ='';
               return 0
           }else{
-              document.getElementById('emailstatus').innerHTML ='X Invalid email address'+"<br />"+"<br />";
+              document.getElementById('emailsignupstatus').innerHTML ='X Invalid email address';
               return 1;
           }
   }
@@ -239,6 +279,7 @@ function hasWWW(myString) {
     }
 
 }
+
 function checkall() {
   var firstnamevalue = $('#firstname').val();
   var lastnamevalue = $('#lastname').val();
@@ -246,13 +287,37 @@ function checkall() {
   var emailvalue = $('#email').val();
   var phonenovalue = $('#phoneno').val();
 
-    if(checkfirstname(firstnamevalue) == 1 ||
-      checklastname(lastnamevalue) == 1 ||
-      checkpassword(passwordvalue) == 1 ||
-      checkemail(emailvalue) == 1 ||
-      checkphone(phonenovalue) ==1) {
-        alert("กรุณากรอกข้อมูลให้ครบและถูกต้อง");
+    if(checkfirstnamesignup(firstnamevalue) == 1 ||
+      checklastnamesignup(lastnamevalue) == 1 ||
+      checkpasswordsignup(passwordvalue) == 1 ||
+      checkemailsignup(emailvalue) == 1 ||
+      checkphonesignup(phonenovalue) ==1) {
+        alert("Please enter all of the field correctly");
       return false;
     }
 }
 
+
+function checkusernamelogin(value){
+      document.getElementById('usernameloginstatus').style.color="red";
+   if(value.length <=1) {
+       document.getElementById('usernameloginstatus').innerHTML ='X Please enter your username';
+        return 1;
+    } else {
+        document.getElementById('usernameloginstatus').innerHTML ='';
+          return 0;
+      }
+  }
+
+
+
+  function checklogin() {
+  var usernamevalue= $('#usrname').val();
+  var passwordvalue = $('#psw').val();
+
+    if(checkusernamelogin(usernamevalue) == 1 ||
+      checkpasswordlogin(passwordvalue) == 1 ) {
+        alert("Please enter all of the field correctly");
+      return false;
+    }
+}

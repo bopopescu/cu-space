@@ -143,75 +143,78 @@
 $("#companyname").focusout(function () {
     var value = $(this).val()
     if (checkcompanyname(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 $("#jobname").focusout(function () {
     var value = $(this).val()
     if (checkjobname(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 $("#jobinfo").focusout(function () {
     var value = $(this).val()
     if (checkjobinfo(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 $("#phonenumber").focusout(function () {
     var value = $(this).val();
-    console.log('hi phonenumber validation');
-    console.log(checkphone(value));
+    // console.log('hi phonenumber validation');
+    // console.log(checkphone(value));
     if (checkphone(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
         document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number';
     } else if (checkphone(value) == 2) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
         document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number';
 
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
         document.getElementById('phonenumberstatus').innerHTML = '';
     }
 });
 $("#emailvalue").focusout(function () {
     var value = $(this).val()
     if (checkemail(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 $("#website").focusout(function () {
     var value = $(this).val()
     if (checkwebsite(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
-$("#date1").focusout(function () {
+$("#datepicker").focusout(function () {
     var date1 = $('[name=date1]').val();
     var date2 = $('[name=date2]').val();
-    if (checkDate(date1,date2) == 1) {
-        $('#datepicker').css("border-color", "#FF0000");
+    if (checkDate(date1,date2) == 1 ) {
+
+        // $('#datepicker').css("border-color", "#FF0000");
     } else {
-        $('#datepicker').css("border-color", "#00CD00");
+        // $('#datepicker').css("border-color", "#00CD00");
     }
 });
-$("#date2").focusout(function () {
+$("#datepicker2").focusout(function () {
     var date1 = $('[name=date1]').val();
     var date2 = $('[name=date2]').val();
-    if (checkDate(date1,date2) == 1) {
-        $('#datepicker2').css("border-color", "#FF0000");
+
+    if (checkDate(date1,date2) == 1 ) {
+
+        // $('#datepicker2').css("border-color", "#FF0000");
     } else {
-        $('#datepicker2').css("border-color", "#00CD00");
+        // $('#datepicker2').css("border-color", "#00CD00");
     }
 });
 
@@ -328,11 +331,16 @@ function hasWWW(myString) {
 }
 function checkDate(date1,date2) {
     document.getElementById('datestatuses').style.color = "red";
-    if (date1>date2) {
+    if (date1>date2 ) {
+
         document.getElementById('datestatuses').innerHTML = "X Start date can't be more than End date";
         return 1;
 
-    } else {
+    }if(date1.length<=1 || date2.length<=1){
+
+       document.getElementById('datestatuses').innerHTML = "X Please enter both of the date";
+        return 1;
+    }else{
         document.getElementById('datestatuses').innerHTML = "";
         return 0;
 

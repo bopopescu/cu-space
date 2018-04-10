@@ -104,48 +104,49 @@ function btnClick() {
     $("#input-image-3").trigger('click');
 }
 
-$("#discussion").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#post").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#post1").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
-$("#detail").focus(function () {
-    $(this).css("border-color", "#0080ff");
-});
+//
+// $("#discussion").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#post").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#post1").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
+// $("#detail").focus(function () {
+//     $(this).css("border-color", "#0080ff");
+// });
 $("#discussion").focusout(function () {
     var value = $(this).val()
     if (checkpos(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 })
 $("#post1").focusout(function () {
     var value = $(this).val()
     if (checkpost1(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 })
 $("#post").focusout(function () {
     var value = $(this).val()
     if (checkpost(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 })
 $("#detail").focusout(function () {
     var value = $(this).val()
     if (checkdetail(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 
@@ -200,6 +201,7 @@ checkcategory()
     }
 }
 });
+
 function checkpos(value) {
     document.getElementById('posstatus').style.color = "red";
     if (value.length <= 1) {

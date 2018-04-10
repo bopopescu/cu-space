@@ -64,6 +64,77 @@
 
 
 
+
+
+
+
+
+
+
+        $("#firstnamevalue").focusout(function () {
+            var value = $(this).val()
+            if (checkfirstname(value) == 1) {
+                // $(this).css("border-color", "#FF0000");
+            } else {
+                // $(this).css("border-color", "#00CD00");
+            }
+        });
+        $("#lastnamevalue").focusout(function () {
+            var value = $(this).val()
+            if (checklastname(value) == 1) {
+                // $(this).css("border-color", "#FF0000");
+            } else {
+                // $(this).css("border-color", "#00CD00");
+            }
+        });
+        $("#age").focusout(function () {
+            var value = $(this).val()
+            if (checkage(value) == 1) {
+                // $(this).css("border-color", "#FF0000");
+            } else {
+                // $(this).css("border-color", "#00CD00");
+            }
+        });
+        $("#emailvalue").focusout(function () {
+            var value = $(this).val()
+            if (checkemailvalue(value) == 1) {
+                // $(this).css("border-color", "#FF0000");
+            } else {
+                // $(this).css("border-color", "#00CD00");
+            }
+        });
+
+        $("#coursename").focusout(function () {
+            var value = $(this).val()
+            if (checkcoursename(value) == 1) {
+                // $(this).css("border-color", "#FF0000");
+            } else {
+                // $(this).css("border-color", "#00CD00");
+            }
+        });
+        $("#coursecategory").focusout(function () {
+            var value = $(this).val()
+            if (checkcoursecategory(value) == 1) {
+                // $(this).css("border-color", "#FF0000");
+            } else {
+                // $(this).css("border-color", "#00CD00");
+            }
+        });
+        $("#courseprice").focusout(function () {
+            var value = $(this).val()
+            if (checkcourseprice(value) == 1) {
+                // $(this).css("border-color", "#FF0000");
+            } else {
+                // $(this).css("border-color", "#00CD00");
+            }
+        });
+
+
+
+
+
+
+
         function checkalledit() {
             console.log('checkedit');
             var posvalue = $('#info').val();
@@ -72,15 +143,16 @@
             var agevalue = $('#age').val();
             var detailvalue = $('#detail').val();
             var phonevalue = $('#phonenumber').val();
-
+            var emailvalue = $('#emailvalue').val();
 
             if (checkpos(posvalue) == 1 ||
                 checkdetail(detailvalue) == 1 ||
                 checkphone(phonevalue) == 1 ||
-                checkphone(phonevalue) == 2 ||
+                checkphone2(phonevalue) == 2 ||
                 checkfirstname(firstnamevalue) == 1 ||
                 checklasttname(lastnamevalue) == 1 ||
-                checkage(agevalue) == 1
+                checkage(agevalue) == 1 ||
+                    checkemailvalue(emailvalue) == 1
             ) {
                 alert("Please enter all of the information");
                 console.log(phonevalue)
@@ -93,6 +165,7 @@
 
         function checkfirstname(value) {
             document.getElementById('firstnamestatuses').style.color = "red";
+
             if (value.length <= 1) {
                 document.getElementById('firstnamestatuses').innerHTML = 'X Please enter your first name';
                 return 1;
@@ -122,6 +195,58 @@
                 return 0;
             }
         }
+
+        function checkphone2(value) {
+    console.log("enter leawwww");
+    document.getElementById('phonenumberstatus').style.color = "red";
+    if (value.length == 0) {
+        console.log("enter leawwww");
+        document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number!';
+        return 2
+    }
+    if (value.length != 10) {
+        if (value.indexOf(' ') >= 0 && !hasNumber(value)) {
+
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            return 1
+        } else if (value.indexOf(' ') >= 0) {
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            return 1
+        } else if (!hasNumber(value)) {
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            return 1
+        } else {
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            return 1
+        }
+    } else {
+        if (value.indexOf(' ') >= 0 && !hasNumber(value)) {
+            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format!';
+            return 1
+        } else if (value.indexOf(' ') >= 0) {
+            alert("Phonenumber must not contain whitespaces")
+            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format!';
+            return 1
+        } else if (!hasNumber(value)) {
+            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format1';
+            return 1
+        } else {
+            document.getElementById('phonenumberstatus').innerHTML = '';
+            return 0
+        }
+    }
+}
+
+        function checkemailvalue(value){
+      document.getElementById('emailvaluestatus').style.color="red";
+          if(hasAt(value) && hasDot(value)){
+              document.getElementById('emailvaluestatus').innerHTML ='';
+              return 0
+          }else{
+              document.getElementById('emailvaluestatus').innerHTML ='X Invalid email address';
+              return 1;
+          }
+  }
 
         function checkcourseedit() {
 
@@ -164,7 +289,7 @@
 
         function checkcourseprice(value) {
             document.getElementById('coursepricestatus').style.color = "red";
-            if (value <= 1) {
+            if (value <= 0) {
                 document.getElementById('coursepricestatus').innerHTML = 'X Please enter the course price';
                 return 1;
             } else {
@@ -173,80 +298,8 @@
             }
         }
 
-        $("#firstnamevalue").focusout(function () {
-            var value = $(this).val()
-            if (checkfirstname(value) == 1) {
-                $(this).css("border-color", "#FF0000");
-            } else {
-                $(this).css("border-color", "#00CD00");
-            }
-        });
-        $("#lastnamevalue").focusout(function () {
-            var value = $(this).val()
-            if (checklastname(value) == 1) {
-                $(this).css("border-color", "#FF0000");
-            } else {
-                $(this).css("border-color", "#00CD00");
-            }
-        });
-        $("#age").focusout(function () {
-            var value = $(this).val()
-            if (checkage(value) == 1) {
-                $(this).css("border-color", "#FF0000");
-            } else {
-                $(this).css("border-color", "#00CD00");
-            }
-        });
 
-        $("#coursename").focusout(function () {
-            var value = $(this).val()
-            if (checkcoursename(value) == 1) {
-                $(this).css("border-color", "#FF0000");
-            } else {
-                $(this).css("border-color", "#00CD00");
-            }
-        });
-        $("#coursecategory").focusout(function () {
-            var value = $(this).val()
-            if (checkcoursecategory(value) == 1) {
-                $(this).css("border-color", "#FF0000");
-            } else {
-                $(this).css("border-color", "#00CD00");
-            }
-        });
-        $("#courseprice").focusout(function () {
-            var value = $(this).val()
-            if (checkcourseprice(value) == 1) {
-                $(this).css("border-color", "#FF0000");
-            } else {
-                $(this).css("border-color", "#00CD00");
-            }
-        });
 
-        $("#addcoursename").focusout(function () {
-            var value = $(this).val()
-            if (checkaddcoursename(value) == 1) {
-                $(this).css("border-color", "#FF0000");
-            } else {
-                $(this).css("border-color", "#00CD00");
-            }
-        });
-        $("#addcoursecategory").focusout(function () {
-            var value = $(this).val()
-            if (checkaddcoursecategory(value) == 1) {
-                $(this).css("border-color", "#FF0000");
-            } else {
-                $(this).css("border-color", "#00CD00");
-            }
-        });
-        $("#addcourseprice").focusout(function () {
-            var value = $(this).val()
-            if (checkaddcourseprice(value) == 1) {
-                $(this).css("border-color", "#FF0000");
-            } else {
-                $(this).css("border-color", "#00CD00");
-            }
-        });
 
         function checkaddcourse() {
 
@@ -290,7 +343,7 @@
 
         function checkaddcourseprice(value) {
             document.getElementById('addcoursepricestatus').style.color = "red";
-            if (value <= 1) {
+            if (value <= 0) {
                 document.getElementById('addcoursepricestatus').innerHTML = 'X Please enter the course price';
                 return 1;
             } else {
@@ -301,26 +354,26 @@
 
         $("#addcoursename").focusout(function () {
             var value = $(this).val()
-            if (checkcoursename(value) == 1) {
-                $(this).css("border-color", "#FF0000");
+            if (checkaddcoursename(value) == 1) {
+                // $(this).css("border-color", "#FF0000");
             } else {
-                $(this).css("border-color", "#00CD00");
+                // $(this).css("border-color", "#00CD00");
             }
         });
         $("#addcoursecategory").focusout(function () {
             var value = $(this).val()
-            if (checkcoursecategory(value) == 1) {
-                $(this).css("border-color", "#FF0000");
+            if (checkaddcoursecategory(value) == 1) {
+                // $(this).css("border-color", "#FF0000");
             } else {
-                $(this).css("border-color", "#00CD00");
+                // $(this).css("border-color", "#00CD00");
             }
         });
         $("#addcourseprice").focusout(function () {
             var value = $(this).val()
-            if (checkcourseprice(value) == 1) {
-                $(this).css("border-color", "#FF0000");
+            if (checkaddcourseprice(value) == 1) {
+                // $(this).css("border-color", "#FF0000");
             } else {
-                $(this).css("border-color", "#00CD00");
+                // $(this).css("border-color", "#00CD00");
             }
         });
 
@@ -338,4 +391,14 @@
             }
 
         }
+function hasAt(myString) {
+    if((myString.split("@").length-1)>1){
+        return false
+    } //Check how many "@"
+    var att = new RegExp("@");
+    return att.test(myString);
+}
+function hasDot(myString) {
+    return /\./.test(myString)
 
+}

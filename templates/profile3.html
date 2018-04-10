@@ -10,6 +10,14 @@
 
 
     <style>
+
+    #usernameloginstatus,#passwordloginstatus{
+        margin-left: 5%;
+    }
+
+        .btn-success{
+            margin-left: 5%;
+        }
         .search-container input[type=text] {
             padding: 6px;
             margin-top: 8px;
@@ -67,6 +75,12 @@
             width: 90%;
         }
 
+    #password, #firstname, #lastname, #phoneno, #email{
+        margin-left: 0% !important;
+    }
+
+
+
     </style>
 
 
@@ -111,6 +125,10 @@
 
                         </p>
                         <p style="margin-top: 5%;"><i
+                                class="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"></i><b>Email:</b>
+
+                        </p>
+                        <p style="margin-top: 5%;"><i
                                 class="fab fa-line fa-fw w3-margin-right w3-large w3-text-teal"></i><b>LINE
                             ID:</b> {{ tutor[7] }}
 
@@ -122,6 +140,7 @@
                         <p style="margin-top: 5%;">
                             <i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i><b>Telephone:</b> {{ tutor[9] }}
                         </p>
+
                         <hr>
                         <button type="button" data-toggle="modal" data-title="Edit" class="btn btn-primary"
                                 data-target="#editprofile" style="margin-bottom: 5%;">Edit Profile
@@ -432,6 +451,13 @@
                                         <div id="agestatus" style="margin-left: 5%;">
                                         </div>
                                         <div>
+                                            <label for=>Email:</label><br>
+                                            <input type="text" class="form-control" id="emailvalue"
+                                               placeholder="Edit your email here" required/>
+                                        </div>
+                                        <div id="emailvaluestatus" style="margin-left: 5%;">
+                                        </div>
+                                        <div>
                                             <label for=>LINE ID:</label><br>
                                             <input type="text" class="form-control" id="line"
                                                    placeholder="Edit your LINE ID here">
@@ -463,6 +489,8 @@
                                         </div>
                                         <div id="detailstatus" style="margin-left: 5%;">
                                         </div>
+
+
                                     </div>
                                     <button type="submit" class="btn btn-success" style="margin-left: 2%;">Update
                                     </button>
@@ -589,7 +617,7 @@
 {#        }#}
 {##}
 {#        function checkcourseedit() {#}
-            {#console.log('checkedit');#}
+{#            console.log('checkedit');#}
 {#            var coursename = $('#coursename').val();#}
 {#            var coursecategory = $('#coursecategory').val();#}
 {#            var courseprice = $('#courseprice').val();#}
@@ -714,7 +742,7 @@
 {#        });#}
 {##}
 {#        function checkaddcourse() {#}
-            {#console.log('checkedit');#}
+{#            console.log('checkedit');#}
 {#            var coursename = $('#addcoursename').val();#}
 {#            var coursecategory = $('#addcoursecategory').val();#}
 {#            var courseprice = $('#addcourseprice').val();#}

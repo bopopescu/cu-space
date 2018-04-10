@@ -136,15 +136,18 @@
                         <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
                     </div>
                     <div class="modal-body" style="padding:40px 50px;">
-                        <form role="form">
+                        <form role="form" onsubmit="return checklogin()">
                             <div class="form-group">
                                 <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
-                                <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+                                <input type="text" class="form-control" id="usrname" placeholder="Enter email"
+                                       required/>
                             </div>
+                            <div id="usernameloginstatus"></div>
                             <div class="form-group">
                                 <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
-                                <input type="text" class="form-control" id="psw" placeholder="Enter password">
+                                <input type="text" class="form-control" id="psw" placeholder="Enter password" required/>
                             </div>
+                            <div id="passwordloginstatus"></div>
                             <div class="checkbox">
                                 <label><input type="checkbox" value="" checked>Remember me</label>
                             </div>
@@ -183,44 +186,46 @@
                     <div class="modal-body">
                         <form method="POST" id="formid" onsubmit="return checkall()">
                             <div class="input-group">
+
                                 <div class="input-group-btn">
                                     <div class="btn btn-secondary">
                                         <i style="font-size:13px" class="fa">&#xf084;</i>
                                     </div>
                                 </div>
+
                                 <input type="password" class="form-control" id="password" placeholder="Password"
-                                       name="regis_pass">
+                                       name="regis_pass" required/>
                             </div>
-                            <br>
-                            <div id="passwordstatus">
+
+                            <div id="passwordsignupstatus" style="margin-top: .5%; margin-bottom: .5%">
                             </div>
 
                             <div class="input-group">
                                 <div class="input-group-btn">
                                     <div class="btn btn-secondary">
-                                        <i style="font-size:15px" class="fa">&#xf2c0;</i>
+                                        <i style="font-size:15px" class="fas fa-user"> </i>
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" id="firstname" placeholder="Firstname"
-                                       name="regis_first_name">
+                                       name="regis_first_name" required/>
                             </div>
 
-                            <br>
-                            <div id="firstnamestatus">
+
+                            <div id="firstnamesignupstatus" style="margin-top: .5%; margin-bottom: .5%">
                             </div>
 
                             <div class="input-group">
                                 <div class="input-group-btn">
                                     <div class="btn btn-secondary">
-                                        <i style="font-size:15px" class="fa">&#xf2c0;</i>
+                                        <i style="font-size:15px" class="fas fa-user"> </i>
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" id="lastname" placeholder="Lastname"
-                                       name="regis_last_name">
+                                       name="regis_last_name" required/>
                             </div>
 
-                            <br>
-                            <div id="lastnamestatus">
+
+                            <div id="lastnamesignupstatus" style="margin-top: .5%; margin-bottom: .5%">
                             </div>
 
                             <div class="input-group">
@@ -230,12 +235,11 @@
                                     </div>
                                 </div>
                                 <input type="tel" class="form-control" id="phoneno" placeholder="Telephone"
-                                       name="regis_phone">
+                                       name="regis_phone" required/>
                             </div>
 
 
-                            <br>
-                            <div id="phonenostatus">
+                            <div id="phonenosignupstatus" style="margin-top: .5%; margin-bottom: .5%">
                             </div>
 
                             <div class="input-group">
@@ -245,17 +249,17 @@
                                     </div>
                                 </div>
                                 <input type="email" class="form-control" id="email" placeholder="E-mail"
-                                       name="regis_email">
+                                       name="regis_email" required/>
                             </div>
 
 
-                            <br>
-                            <div id="emailstatus">
+                            <div id="emailsignupstatus" style="margin-top: .5%; margin-bottom: .5%">
                             </div>
 
                             <div class="row justify-content-center">
                                 <div class="col-12">
-                                    <input value="Sign Up" id="register" type="submit" class="btn btn-danger btn-block">
+                                    <input value="Sign Up" id="register" type="submit"
+                                           class="btn btn-success btn-block">
 
 
                                     </input>
