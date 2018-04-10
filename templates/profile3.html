@@ -125,7 +125,7 @@
 
                         </p>
                         <p style="margin-top: 5%;"><i
-                                class="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"></i><b>Email:</b>
+                                class="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"></i><b>Email:</b> {{ tutor[11] }}
 
                         </p>
                         <p style="margin-top: 5%;"><i
@@ -326,7 +326,7 @@
                             class="fab fa-youtube fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Video Introduction
                     </h2>
                     <object style="width:100%;height:100%;height: 461.25px; float: none; clear: both; margin: 2px auto;"
-                            data="https://www.youtube.com/embed/c0sGiqOWt1w">
+                            data="{{ tutor[6] }}">
                     </object>
                 </div>
 
@@ -426,65 +426,65 @@
                         </div>
                         <div class="modal-body form-horizontal">
                             <div id="endorsement-form-container" class="">
-                                <form class="form-horizontal" onsubmit="return checkalledit()" method="POST">
+                                <form class="form-horizontal" onsubmit="return checkalledit()" method="POST" action="{{ url_for("edit_tutor_profile", tutor_id = tutor[0]) }}">
                                     <div class="form-group">
 
                                         <div>
                                             <label for=>First Name:</label><br>
-                                            <input type="text" class="form-control" id="firstnamevalue"
+                                            <input type="text" class="form-control" id="firstnamevalue" name="firstname" value="{{ tutor[3] }}"
                                                    placeholder="Edit your first name here" required/>
                                         </div>
                                         <div id="firstnamestatuses" style="margin-left: 5%;">
                                         </div>
                                         <div>
                                             <label for=>Last Name:</label><br>
-                                            <input type="text" class="form-control" id="lastnamevalue"
+                                            <input type="text" class="form-control" id="lastnamevalue" name="lastname" value="{{ tutor[4] }}"
                                                    placeholder="Edit your last name here" required/>
                                         </div>
                                         <div id="lastnamestatuses" style="margin-left: 5%;">
                                         </div>
                                         <div>
                                             <label for=>Age:</label><br>
-                                            <input type="number" class="form-control" id="age" min="0"
+                                            <input type="number" class="form-control" id="age" min="0" name="age" value="{{ birthday }}"
                                                    placeholder="Edit your age here" required/>
                                         </div>
                                         <div id="agestatus" style="margin-left: 5%;">
                                         </div>
                                         <div>
                                             <label for=>Email:</label><br>
-                                            <input type="text" class="form-control" id="emailvalue"
+                                            <input type="text" class="form-control" id="emailvalue" name="email" value="{{ tutor[11] }}"
                                                placeholder="Edit your email here" required/>
                                         </div>
                                         <div id="emailvaluestatus" style="margin-left: 5%;">
                                         </div>
                                         <div>
                                             <label for=>LINE ID:</label><br>
-                                            <input type="text" class="form-control" id="line"
+                                            <input type="text" class="form-control" id="line" name="line" value="{{ tutor[7] }}"
                                                    placeholder="Edit your LINE ID here">
                                         </div>
                                         <div>
                                             <label for=>Facebook:</label><br>
-                                            <input type="text" class="form-control" id="facebook"
+                                            <input type="text" class="form-control" id="facebook" name="facebook" value="{{ tutor[8] }}"
                                                    placeholder="Edit your facebook here">
                                         </div>
                                         <div>
                                             <label for=>Telephone:</label><br>
-                                            <input type="tel" class="form-control" id="phonenumber"
+                                            <input type="tel" class="form-control" id="phonenumber" name="phone" value="{{ tutor[9] }}"
                                                    placeholder="Edit your telephone here" required/>
                                         </div>
                                         <div id="phonenumberstatus" style="margin-left: 5%;">
                                         </div>
                                         <div>
                                             <label for=>Information:</label><br>
-                                            <textarea type="text" class="form-control" id="info"
-                                                      placeholder="Edit your information here" required/></textarea>
+                                            <textarea type="text" class="form-control" id="info" name="info"
+                                                      placeholder="Edit your information here" required/> {{ tutor[1] }} </textarea>
                                         </div>
                                         <div id="posstatus" style="margin-left: 5%;">
                                         </div>
 
                                         <div>
                                             <label for=>Video Introduction:</label><br>
-                                            <input type="text" class="form-control" id="detail"
+                                            <input type="text" class="form-control" id="detail" name="video_link" value="{{ tutor[6] }}"
                                                    placeholder="Edit your video introduction here" required/>
                                         </div>
                                         <div id="detailstatus" style="margin-left: 5%;">
