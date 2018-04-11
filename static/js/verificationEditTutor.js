@@ -465,7 +465,8 @@ function checkDateOfBirth(date1) {
     if (mm < 10) {
         mm = '0' + mm
     }
-    hundredyrsago = yyyy-100;
+    // hundredyrsago = yyyy-100;
+    var hundredyrsago = today.getFullYear()-100;
     today = mm + '/' + dd + '/' + yyyy;
     hundredyrsagodate = mm + '/' + dd + '/' + hundredyrsago;
 
