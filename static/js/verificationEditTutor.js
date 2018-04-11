@@ -96,6 +96,40 @@ $("#emailvalue").focusout(function () {
     }
 });
 
+
+$("#firstnamevalue").focusout(function () {
+    var value = $(this).val()
+    if (checkfirstname(value) == 1) {
+        // $(this).css("border-color", "#FF0000");
+    } else {
+        // $(this).css("border-color", "#00CD00");
+    }
+});
+$("#lastnamevalue").focusout(function () {
+    var value = $(this).val()
+    if (checklastname(value) == 1) {
+        // $(this).css("border-color", "#FF0000");
+    } else {
+        // $(this).css("border-color", "#00CD00");
+    }
+});
+$("#age").focusout(function () {
+    var value = $(this).val()
+    if (checkage(value) == 1) {
+        // $(this).css("border-color", "#FF0000");
+    } else {
+        // $(this).css("border-color", "#00CD00");
+    }
+});
+$("#emailvalue").focusout(function () {
+    var value = $(this).val()
+    if (checkemailvalue(value) == 1) {
+        // $(this).css("border-color", "#FF0000");
+    } else {
+        // $(this).css("border-color", "#00CD00");
+    }
+});
+
 $("#coursename").focusout(function () {
     var value = $(this).val()
     if (checkcoursename(value) == 1) {
@@ -122,30 +156,54 @@ $("#courseprice").focusout(function () {
 });
 
 
+// function checkalledit() {
+//     console.log('checkedit');
+//     var posvalue = $('#info').val();
+//     var firstnamevalue = $('#firstnamevalue').val();
+//     var lastnamevalue = $('#lastnamevalue').val();
+//     var agevalue = $('#age').val();
+//     var detailvalue = $('#detail').val();
+//     var phonevalue = $('#phonenumber').val();
+//     var emailvalue = $('#emailvalue').val();
+//     var dateofbirthvalue = $('[name=dateofbirth]').val();
+//
+//
+//     if (checkpos(posvalue) == 1 ||
+//         checkdetail(detailvalue) == 1 ||
+//         checkphone(phonevalue) == 1 ||
+//         checkphone2(phonevalue) == 2 ||
+//         checkfirstname(firstnamevalue) == 1 ||
+//         checklastname(lastnamevalue) == 1 ||
+//
+//         checkemailvalue(emailvalue) == 1 ||
+//             checkDateOfBirth(dateofbirthvalue)==1
+//
+//     ) {
+//         alert("Please enter all of the information correctly");
+//         // console.log(phonevalue)
+//         return false;
+//     } else {
+//         return true;
+//     }
 function checkalledit() {
     console.log('checkedit');
-    var posvalue = $('#info').val();
+    var infovalue = $('#info').val();
     var firstnamevalue = $('#firstnamevalue').val();
     var lastnamevalue = $('#lastnamevalue').val();
     var agevalue = $('#age').val();
     var detailvalue = $('#detail').val();
     var phonevalue = $('#phonenumber').val();
     var emailvalue = $('#emailvalue').val();
-    var dateofbirthvalue = $('[name=dateofbirth]').val();
-
-
-    if (checkpos(posvalue) == 1 ||
+    if (checkpos(infovalue) == 1 ||
         checkdetail(detailvalue) == 1 ||
         checkphone(phonevalue) == 1 ||
         checkphone2(phonevalue) == 2 ||
         checkfirstname(firstnamevalue) == 1 ||
         checklastname(lastnamevalue) == 1 ||
-        
-        checkemailvalue(emailvalue) == 1 ||
-            checkDateOfBirth(dateofbirthvalue)==1
-
+        checkage(agevalue) == 1 ||
+        checkemailvalue(emailvalue) == 1
     ) {
-        alert("Please enter all of the information correctly");
+        alert("Please enter all of the information");
         // console.log(phonevalue)
         return false;
     } else {
@@ -165,7 +223,6 @@ function checkfirstname(value) {
         return 0;
     }
 }
-
 function checklastname(value) {
     document.getElementById('lastnamestatuses').style.color = "red";
     if (value.length <= 1) {
