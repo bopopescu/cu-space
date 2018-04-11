@@ -119,7 +119,7 @@ function checkallpost() {
         checkdetail(detailvalue) == 1 ||
         checkphone(phonevalue) == 1 || checkphone(phonevalue) == 2
     ) {
-        alert("Please enter all of the information");
+        alert("Please enter all of the information correctly");
         console.log(phonevalue)
         return false;
     } else {
@@ -167,13 +167,19 @@ function checkdetail(value) {
     if (value.length <= 1) {
         document.getElementById('detailstatus').innerHTML = 'X Please enter the video link';
         return 1;
-    } else if (value.length > 1 && hasEmbed(value) == 0) {
+    } else if (value.length > 1 && hasEmbed(value) == 0 ) {
         document.getElementById('detailstatus').innerHTML = 'X Please enter the Embed video link as instructed in orange text';
+        return 1;
     } else {
         document.getElementById('detailstatus').innerHTML = '';
         return 0;
     }
 }
+
+
+
+
+
 
 function checkpost1(value) {
     document.getElementById('post1status').style.color = "red";
