@@ -286,12 +286,14 @@ function checkall() {
   var passwordvalue = $('#password').val();
   var emailvalue = $('#email').val();
   var phonenovalue = $('#phoneno').val();
+  var dateofbirthsignupvalue = $('[name=dateofbirthsignup]').val();
 
     if(checkfirstnamesignup(firstnamevalue) == 1 ||
       checklastnamesignup(lastnamevalue) == 1 ||
       checkpasswordsignup(passwordvalue) == 1 ||
       checkemailsignup(emailvalue) == 1 ||
-      checkphonesignup(phonenovalue) ==1) {
+      checkphonesignup(phonenovalue) ==1 ||
+    checkDateOfBirthSignUp(dateofbirthsignupvalue) ==1) {
         alert("Please enter all of the field correctly");
       return false;
     }
@@ -321,3 +323,51 @@ function checkusernamelogin(value){
       return false;
     }
 }
+
+
+function checkDateOfBirthSignUp(date1) {
+      // alert('asdf');
+    document.getElementById('dateofbirthsignupstatuses').style.color = "red";
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    // hundredyrsago = yyyy-100;
+    var hundredyrsago = today.getFullYear()-100;
+    today = mm + '/' + dd + '/' + yyyy;
+    hundredyrsagodate = mm + '/' + dd + '/' + hundredyrsago;
+
+    if (date1.length <= 1 ) {
+        document.getElementById('dateofbirthsignupstatuses').innerHTML = "X Please enter the date of birth";
+        return 1;
+    }if(date1 == today){
+        document.getElementById('dateofbirthsignupstatuses').innerHTML = "X You can't be born today right!?";
+        return 1;
+    }
+    // if(date1 < hundredyrsagodate){
+    //     document.getElementById('dateofbirthsignupstatuses').innerHTML = "X You can't be more than a 100 years old right!?";
+    //     return 1;
+    // }
+
+    else{
+        document.getElementById('dateofbirthsignupstatuses').innerHTML = "";
+        return 0;
+
+    }
+
+}
+
+$("#datepicker4").focusout(function () {
+    // alert('kao leaw')
+    var date1 = $('[name=dateofbirthsignup]').val();
+    if (checkDateOfBirthSignUp(date1) == 1) {
+    } else {
+        // $('#datepicker').css("border-color", "#00CD00");
+    }
+});
