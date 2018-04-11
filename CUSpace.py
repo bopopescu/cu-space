@@ -183,7 +183,7 @@ def discussion_post(category,dis_id, page):
         print(commentList)
     except:
         print("Fail to query comment")
-    return render_template('post.html', topic = topicInfo, comList =commentList)
+    return render_template('post2.html', topic=topicInfo, comList=commentList, cat=category, dis_id=dis_id)
 
 @app.route('/newpost/create_new_discussion', methods=['POST'])
 def createnewpost():
@@ -211,7 +211,7 @@ def createnewpost():
             print("Cannot Insert into dis_category_group")
     except:
         print("Cannot Insert value into discussion")
-    return redirect(url_for("newpost"))
+    return redirect(url_for("index"))
 
 @app.route('/discussion/<category>/', defaults={'page':1})
 @app.route('/discussion/<category>/page/<page>')
@@ -262,11 +262,15 @@ def discussion(category, page):
         numOfCommentinDiscussion = [getComment(comment).__len__() for comment in dis_id]
         time = [timesince(dataList[7]) for dataList in dataWanted]
         content = [removeHTML(dataList[6]) for dataList in dataWanted]
+        content = [each.replace('&nbsp;', ' ') for each in content]
         cursor.close()
         conn.close()
         return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage,
                                catDetail = categoryDetail, catList = categoryList, content = content, comment = numOfCommentinDiscussion, time = time, page = int(page))
 
+@app.route('/discussion/<category>/<dis_id>/create_discussion_comment' ,methods=['POST'])
+def postdiscussioncomment(category,dis_id):
+    return render_template('index4.html')
 
 
 def getCat():

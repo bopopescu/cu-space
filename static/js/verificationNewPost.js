@@ -1,17 +1,21 @@
 var editor = CKEDITOR.replace('detail', {
     uiColor: '#ffffff'
 });
+var change = 0;
 var detailCheck = 1;
 editor.on('change', function (evt) {
     // getData() returns CKEditor's HTML content.
-    // console.log('Total bytes: ' + evt.editor.getData().length);
-    if (evt.editor.getData().length > 100) {
+    console.log('Total bytes: ' + evt.editor.getData().length);
+    if (evt.editor.getData().length > 10000) {
         $("#detailstatus").html('X Content is too long');
         detailCheck = 2;
     } else if (evt.editor.getData().length == 0) {
-        $("#detailstatus").html('X Please enter discussion content');
+        if(change > 0){
+            $("#detailstatus").html('X Please enter discussion content');
+        }
         detailCheck = 1;
     } else {
+        change = 1;
         $("#detailstatus").html('&nbsp;');
         detailCheck = 0;
     }

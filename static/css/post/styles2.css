@@ -27,12 +27,29 @@ h6 {
     font-weight: 700;
 }
 
-a:hover {
-    text-decoration: none;
+p, blockquote {
+    font-size: 1.1em;
 }
 
-p {
-    line-height: 1.5;
+h1, h2, h3, h4, h5, h6 {
+    font-size: 1.3em;
+    font-weight: 400;
+}
+
+hr {
+    padding: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.section-title {
+    color: #000;
+    font-size: 2.2em;
+    line-break: loose;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 .container-body {
@@ -111,16 +128,215 @@ p {
 .main-wrapper {
     background: #fff;
     padding: 20px;
+    padding-bottom: 0px;
+}
+
+.top-reply {
+    margin-top: 50px;
+    width: 100px;
+    text-align: center;
+}
+
+.top-reply h1 {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    font-weight: 500;
+}
+
+.post {
+    padding-top: 5px;
+}
+
+.comment-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .main-wrapper h6 {
     color: #858789;
 }
 
-.main-wrapper hr {
+.profile2 {
+    position: absolute;
+    float: left;
+    width: 100px;
+    /*height: 100%;*/
+    z-index: 1;
+}
+
+.content {
+    /*display: inline-block;*/
+    position: relative;
+    padding-top: 5px;
+    padding-bottom: 1px;
+    padding-left: 120px;
+    min-height: 105px;
+}
+
+.content p {
+    max-width: 100%;
+    margin-top: 2px;
+    margin-bottom: 12px;
+}
+
+.content pre {
+    background-color: transparent;
+    border: none;
     padding: 0px;
-    margin-top: 40px;
-    margin-bottom: 0px;
+}
+
+.content code {
+    max-width: 100%;
+    max-height: 500px;
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+.content code::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+
+.content code::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+.content img, table, pre, blockquote {
+    max-width: 100%;
+    margin-top: 2px;
+    margin-bottom: 12px;
+}
+
+.content a {
+    color: #0782C1;
+}
+
+.content ol, ul, dl {
+    /* IE7: reset rtl list margin. (#7334) */
+    *margin-right: 0px;
+    /* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
+    padding: 0 40px;
+}
+
+.profile {
+    background: #fff;
+    padding: 10px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #f3f1f2;
+    -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+    width: 35%;
+    min-width: 400px;
+    display: none;
+}
+
+.profile2 .profile-img {
+    margin-top: 10px;
+    margin-left: 27.5px;
+}
+
+.profile .profile-img {
+    margin-left: 10px;
+}
+
+.poster-info {
+    width: 70%;
+}
+
+.poster-info h5 {
+    padding-top: 3px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 1.1em;
+}
+
+.poster-info h5:hover {
+    opacity: 0.8;
+}
+
+/*.profile h4 {*/
+/*margin-top: 15px;*/
+/*}*/
+.profile h6 {
+    color: #858789;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 0.8em;
+}
+
+.profile .vote {
+    float: right;
+    padding-top: 3px;
+    text-align: center;
+    padding-right: 5px;
+    font-size: 1em;
+    display: block;
+}
+
+.profile .vote-up {
+    float: right;
+    padding-top: 5px;
+    text-align: center;
+    padding-right: 3px;
+    font-size: 1em;
+    display: none;
+}
+
+.profile .vote-down {
+    float: right;
+    padding-top: 3px;
+    text-align: center;
+    padding-right: 5px;
+    font-size: 1em;
+    display: none;
+}
+
+.profile2 .vote {
+    float: left;
+    width: 100%;
+    text-align: center;
+    padding-top: 5px;
+    font-size: 1em;
+    display: block;
+}
+
+.profile2 .vote-up {
+    float: left;
+    width: 100%;
+    text-align: center;
+    padding-top: 5px;
+    font-size: 1em;
+    display: none;
+}
+
+.profile2 .vote-down {
+    float: left;
+    width: 100%;
+    text-align: center;
+    padding-top: 5px;
+    font-size: 1em;
+    display: none;
+}
+
+.up {
+    color: #1d68cb;
+}
+
+.down {
+    color: #ca0000;
+}
+
+.down:hover {
+    color: darkred;
 }
 
 .search-main-wrapper {
@@ -136,10 +352,9 @@ p {
 
 .section-title {
     font-weight: 500;
-    color: #3d3b3c;
     position: relative;
     margin-top: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 
 .newpost {
@@ -170,10 +385,30 @@ p {
 
 .profile-img {
     float: left;
-    margin-top: 3px;
-    margin-left: 10px;
-    margin-right: 25px;
+    /*padding-left: 4%;*/
+    /*margin-top: 3px;*/
+    /*margin-left: 10px;*/
+    /*margin-right: 20px;*/
 
+}
+.profile-hover{
+    position: absolute;
+    float: left;
+    margin-left: 85px;
+    background-color: #fff;
+    z-index: 1;
+    font-size: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-right: 14px;
+    padding-left: 14px;
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #f3f1f2;
+    -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+    display: none;
 }
 
 .sidebar-wrapper {
@@ -187,17 +422,17 @@ p {
 
 .btn-outline {
     margin-right: 10px;
-    background-color: transparent;
+    background-color: #347aa9;
     border: 2px solid;;
     border-color: #347aa9;
-    border-radius: 50px;
+    border-radius: 3px;
     padding: 6px 12px;
     margin-top: 8px;
-    color: #347aa9;
+    color: #fff;
 }
 
 .btn-outline:hover {
-    background-color: #347aa9;
+    opacity: 0.95;
     color: #fff;
 }
 
@@ -272,77 +507,90 @@ p {
     background-color: #d8d8d8;
 }
 
+.add-comment {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 767px) {
-    .sidebar-wrapper {
-        position: static;
-        width: inherit;
+    p, blockquote {
+        font-size: 1em;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1.2em;
+    }
+
+    .section-title {
+        font-size: 1.7em;
+        line-break: loose;
+    }
+
+    .container-body {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .wrapper {
+        padding: 0px;
     }
 
     .main-wrapper {
-        padding: 30px;
+        padding: 1%;
     }
 
-    .main-wrapper .time {
-        position: static;
+    .comment-wrapper {
+        padding: 1%;
+    }
+
+    .profile {
         display: block;
-        margin-top: 5px;
+        width: 100%;
+        min-width: 0px;
+
     }
 
-    .main-wrapper .upper-row {
-        margin-bottom: 0;
+    .poster-info {
+        width: 100%;
     }
 
-    .top-search-bar input[type=text] {
-        background-color: #ccc;
-        border: 2px solid;;
-        border-right: none;
-        border-color: #ccc;
-        border-radius: 5px;
-        border-bottom-right-radius: 5px;
-        border-top-right-radius: 5px;
-        padding: 6px 12px;
-        margin-top: 8px;
-        color: #484848;
-        max-width: 90%;
+    .profile .profile-img {
+        display: none;
     }
 
-    .top-search-bar button {
-        float: inherit;
-        padding: 6px 12px;
-        margin-top: 8px;
-        margin-right: 0px;
-        cursor: pointer;
-        background-color: #424242;
-        border: 2px solid;;
-        border-left: none;
-        border-color: #424242;
-        border-radius: 5px;
-        border-bottom-left-radius: 5px;
-        border-top-left-radius: 5px;
-        color: #fff;
-        width: 70px;
+    .poster-info h5 {
+        font-size: 1em;
+    }
 
+    .profile h6 {
+        font-size: 0.8em;
+    }
+
+    .profile2 {
+        display: none;
+    }
+
+    .content {
+        width: 100%;
+        padding-left: 0px;
+    }
+
+    .top-reply {
+        text-align: left;
     }
 }
 
 /* Small devices (tablets, 768px and up) */
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-    .skillset .level-title {
-        display: inline-block;
-        float: left;
-        width: 30%;
-        margin-bottom: 0;
-    }
+/* Medium devices (desktops, 1599px and up) */
+@media (min-width: 1200px) {
+    /*.profile {*/
+    /*display: ;*/
+    /*width: 35%;*/
+    /*min-width: 400px;*/
+    /*max-width: 500px;*/
+    /*}*/
 
-    .skillset .level-bar {
-        display: inline-block;
-        width: 70%;
-        float: left;
-        position: relative;
-        top: 1px;
-    }
 }
 
 /* Large devices (large desktops, 1200px and up) */
