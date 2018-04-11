@@ -221,6 +221,10 @@ a:hover {
     padding: 0 40px;
 }
 
+.content blockquote {
+	font-style: italic;
+}
+
 .profile {
     background: #fff;
     padding: 10px;
