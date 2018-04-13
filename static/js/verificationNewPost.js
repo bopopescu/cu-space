@@ -17,154 +17,42 @@ editor.on('change', function (evt) {
     }
 });
 
-function myFunction() {
-    var x = document.getElementById('b2');
-    var y = document.getElementById('img1');
-    var z = document.getElementById('b1');
-
-    if (x.style.display == 'none') {
-        x.style.display = 'block';
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        x.style.display = 'none';
-
-    }
-
-}
-function myFunction1() {
-    var x = document.getElementById('b3');
-    var y = document.getElementById('img2');
-    var z = document.getElementById('b2');
-
-    if (x.style.display == 'none') {
-        x.style.display = 'block';
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        x.style.display = 'none';
-
-    }
-
-}
-function myFunction2() {
-    var x = document.getElementById('b4');
-    var y = document.getElementById('img3');
-    var z = document.getElementById('b3');
-
-    if (x.style.display == 'none') {
-        x.style.display = 'block';
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        x.style.display = 'none';
-
-    }
-
-}
-function myFunction3() {
-    var x = document.getElementById('b5');
-    var y = document.getElementById('img4');
-    var z = document.getElementById('b4');
-
-    if (x.style.display == 'none') {
-        x.style.display = 'block';
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        x.style.display = 'none';
-
-    }
-
-}
-function myFunction4() {
-    var x = document.getElementById('b6');
-    var y = document.getElementById('img5');
-    var z = document.getElementById('b5');
-
-    if (x.style.display == 'none') {
-        x.style.display = 'block';
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        x.style.display = 'none';
-
-    }
-
-}
-function myFunction5() {
-    var y = document.getElementById('img6');
-    var z = document.getElementById('b6');
-
-    if (z.onclick) {
-
-        y.style.display = 'block';
-        z.style.display = 'none';
-
-
-    } else {
-        z.style.display = 'block';
-
-    }
-
-}
-
 function btnClick() {
     $("#input-image-3").trigger('click');
 }
 
-$("#discussion").focus(function () {
-    $(this).css("border-color", "#ccc");
-});
-// $("#post").focus(function () {
-//     $(this).css("border-color", "#0080ff");
-// });
-// $("#post1").focus(function () {
-//     $(this).css("border-color", "#0080ff");
-// });
-// $("#detail").focus(function () {
-//     $(this).css("border-color", "#0080ff");
-// });
 $("#discussion").focusout(function () {
     var value = $(this).val()
     if (checkpos(value) == 1) {
+        // $(this).css("border-color", "#FF0000");
         document.getElementById('posstatus').innerHTML = 'X Please enter topic';
     } else {
-        document.getElementById('posstatus').innerHTML = '&nbsp;';
+        // $(this).css("border-color", "#00CD00");
+        document.getElementById('posstatus').innerHTML = '';
     }
 })
 $("#post1").focusout(function () {
     var value = $(this).val()
     if (checkpost1(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 })
 $("#post").focusout(function () {
-    var value = $(this).val()
+    var value = $(this).val();
     if (checkpost(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 })
 $("#detail").focusout(function () {
     var value = $(this).val();
     if (checkdetail(value) == 1) {
-        $(this).css("border-color", "#FF0000");
+        // $(this).css("border-color", "#FF0000");
     } else {
-        $(this).css("border-color", "#00CD00");
+        // $(this).css("border-color", "#00CD00");
     }
 });
 
@@ -183,13 +71,14 @@ function checkallpost() {
 }
 
 
+
 function checkcategory2(value) {
     document.getElementById('categorystatus').style.color = "red";
     if (value == "") {
-        document.getElementById('categorystatus').innerHTML = 'X Please select at least one category';
+        document.getElementById('categorystatus').innerHTML = 'X Please enter the right category';
         return 1
     } else {
-        document.getElementById('categorystatus').innerHTML = '&nbsp;';
+        document.getElementById('categorystatus').innerHTML = '';
         return 0
     }
 }
@@ -211,10 +100,11 @@ $('.selectpicker').on('changed.bs.select', function (e) {
         }
     }
 });
+
 function checkpos(value) {
     document.getElementById('posstatus').style.color = "red";
     if (value.length <= 1) {
-        // document.getElementById('posstatus').innerHTML = 'X Please enter the name of the topic';
+        document.getElementById('posstatus').innerHTML = 'X Please enter the name of the topic';
         return 1;
     } else {
         document.getElementById('posstatus').innerHTML = '';

@@ -1,0 +1,473 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block head %}
+    {{ super() }}
+{#    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">#}
+{#    <script src="//code.jquery.com/jquery-1.10.2.js"></script>#}
+{#    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>#}
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css"/>
+
+    <!--Font Awesome (added because you use icons in your prepend/append)-->
+    <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css"/>
+{#    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>#}
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+    <script>
+        $(document).ready(function () {
+            var date_input = $('input[name="applicationstartdate"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            date_input.datepicker({
+                format: 'dd-mm-yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            })
+        });
+        $(document).ready(function () {
+            var date_input = $('input[name="applicationenddate"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            date_input.datepicker({
+                format: 'dd-mm-yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            })
+        })
+    </script>
+
+    <style>
+
+
+        .jumbotron .container {
+            max-width: 100%;
+        }
+
+        .jumbotron {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/job2.jpg');
+            background-position: 50% 62%;
+            color: white;
+            background-size: 100% Auto;
+            background-repeat: no-repeat;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            bottom: 0;
+
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            color: white;
+        }
+
+        .search-container {
+            float: left;
+            margin-top: 16px;
+            color: black;
+        }
+
+        .search-container input[type=text] {
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: none;
+        }
+
+        .search-container button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            background: #ddd;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background: #ccc;
+        }
+
+        .col-sm-2 {
+            width: 170px;
+        }
+
+        .facultytext {
+            position: inherit;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5em;
+            font-family: "Helvetica Neue";
+            color: white;
+            white-space: nowrap;
+        }
+
+        .facultytext span {
+            color: white;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0); /* fallback color */
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            opacity: 1;
+            border-radius: 25px;
+            -webkit-transition: .3s linear;
+            transition: .3s linear;
+
+        }
+
+        .facultytext:hover span {
+            color: black;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0);
+            background: rgba(255, 204, 0, 1);
+            padding: 10px;
+            opacity: 1;
+            border-radius: 25px;
+            -webkit-transition: .3s linear;
+            transition: .3s linear;
+
+        }
+
+        #firstcol {
+            margin-right: 240px;
+        }
+
+        .activitiestext {
+            position: absolute;
+            top: 50%;
+            left: 42%;
+            font-size: 2.5em;
+            font-family: "Helvetica Neue";
+        {#opacity: 0.5;#} color: white;
+            white-space: nowrap;
+        }
+
+        .activitiestext span {
+            color: white;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0); /* fallback color */
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            opacity: 1;
+            border-radius: 25px;
+            -webkit-transition: .3s linear;
+            transition: .3s linear;
+
+        }
+
+        .activitiestext:hover span {
+            color: black;
+            letter-spacing: -1px;
+            background: rgb(0, 0, 0); /* fallback color */
+            background: rgba(255, 204, 0, 1);
+            padding: 10px;
+            opacity: 1;
+            border-radius: 25px;
+            -webkit-transition: .3s linear;
+            transition: .3s linear;
+
+        }
+
+        .btnn {
+            background-color: cornflowerblue;
+            color: #ffffff;
+            border: none;
+            width: 40%
+        }
+
+        h1 {
+            font-size: 20px;
+            font-family: Helvetica Neue;
+        }
+
+        .btn.btn-secondary.dropdown-toggle {
+            border-radius: 0;
+
+        }
+
+        .container {
+            padding-top: 0px;
+        }
+
+        #finalbutton {
+
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+
+    <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+
+    <script>
+
+        function myFunction() {
+
+            var x = document.getElementById('b2');
+            var y = document.getElementById('img1');
+            var z = document.getElementById('b1');
+
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                x.style.display = 'none';
+
+            }
+
+        }
+
+        function myFunction1() {
+            var x = document.getElementById('b3');
+            var y = document.getElementById('img2');
+            var z = document.getElementById('b2');
+
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                x.style.display = 'none';
+
+            }
+
+        }
+
+        function myFunction2() {
+            var x = document.getElementById('b4');
+            var y = document.getElementById('img3');
+            var z = document.getElementById('b3');
+
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                x.style.display = 'none';
+
+            }
+
+        }
+
+        function myFunction3() {
+            var x = document.getElementById('b5');
+            var y = document.getElementById('img4');
+            var z = document.getElementById('b4');
+
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                x.style.display = 'none';
+
+            }
+
+        }
+
+        function myFunction4() {
+            var x = document.getElementById('b6');
+            var y = document.getElementById('img5');
+            var z = document.getElementById('b5');
+
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                x.style.display = 'none';
+
+            }
+
+        }
+
+        function myFunction5() {
+            var y = document.getElementById('img6');
+            var z = document.getElementById('b6');
+
+            if (z.onclick) {
+
+                y.style.display = 'block';
+                z.style.display = 'none';
+
+
+            } else {
+                z.style.display = 'block';
+
+            }
+
+        }
+
+    </script>
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Post a job</h1>
+            <p>If you are looking to hire our students, post it here!</p><br>
+            <br>
+            <br><br><br>
+
+        </div>
+    </div>
+    <div class="container wrap">
+        <!-- Content here -->
+        <form method="POST" enctype=multipart/form-data onsubmit="return checkallpost()"
+              action="{{ url_for("createnewpost") }}">
+            {#         add form here#}
+            <div class="row">
+                <div class="col-md-6">
+
+                    <p>Upload the job description in pdf format</p>
+                    <div>
+
+
+                        <br>
+                        <img id="img0" src="#" alt="" style="display: none"/>
+                        <button id="b1" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">+
+                        </button>
+                        <input id="input-image-3" name="input-image" type="file"
+                               class="btn btn-secondary btn-lg"
+                               onchange="readURL(this) ;" accept="image/*"
+                               multiple style="display: none">
+                        <br>
+
+
+                    </div>
+                </div>
+                {#            </div>#}
+                <div class="col-md-6">
+                    <label for="discussion">Company Name</label>
+                    {#                    <form>#}
+                    <input type="text" class="form-control" id="companyname" placeholder="" name="companyname"
+                           required/>
+                    <div id="companynamestatus">
+                    </div>
+                    <br>
+
+                    <label for="discussion">Job Name</label>
+                    {#                    <form>#}
+                    <input type="text" class="form-control" id="jobname" placeholder="" name="jobname" required/>
+                    <div id="jobnamestatus">
+                    </div>
+                    {#                    </form>#}
+
+                    <br>
+                    <label for="jobcategory">Job Category</label>
+                    <div class="form-group">
+                        <select class="form-control" id="jobcategory" required/>
+                        <option value="" disabled selected>Select your category</option>
+                        <option>HR</option>
+                        <option>Sales</option>
+                        <option>Marketing</option>
+                        <option>IT</option>
+                        <option>Finance</option>
+                        </select>
+                    </div>
+
+                    <div id="categorystatus">
+                    </div>
+                    <br>
+
+                    <label for="jobcategory">Job Information</label>
+                    <input type="text" class="form-control" id="jobinfo" placeholder="" name="jobinfo" required/>
+                    <div id="jobinfostatus">
+                    </div>
+                    <br>
+
+                    <label for="jobcategory">Email</label>
+                    <input type="text" class="form-control" id="emailvalue" placeholder="" name="email" required/>
+                    <div id="emailstatuses">
+                    </div>
+                    <br>
+
+                    <label for="jobcategory">Phone number</label><br><span style="color:#FF9900">Please enter in the format of ex: 0812345678 with no "-" in between</span>
+                    <input type="tel" class="form-control" id="phonenumber" placeholder="" name="phonenumber" required/>
+                    <div id="phonenumberstatus">
+                    </div>
+                    <br>
+
+                    <label for="jobcategory">Website</label>
+                    <input type="text" class="form-control" id="website" placeholder="" name="website" required/>
+                    <div id="websitestatus">
+                    </div>
+                    <br>
+                    <div class="form-group ">
+                        <label class="control-label " for="date">
+                            Application Start Date
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar">
+                                </i>
+                            </div>
+                            <input class="form-control" id="applicationstartdate" name="applicationstartdate"
+                                   placeholder="DD-MM-YYYY" type="text" required/>
+                        </div>
+                    </div>
+
+                    <div id="startdatestatus">
+                    </div>
+
+                    <br>
+
+
+                    <div class="form-group ">
+                        <label class="control-label " for="date">
+                            Application End Date
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar">
+                                </i>
+                            </div>
+                            <input class="form-control" id="applicationenddate" name="applicationenddate"
+                                   placeholder="DD-MM-YYYY" type="text" required/>
+                        </div>
+                    </div>
+
+                    <div id="enddatestatus">
+                    </div>
+
+                    <br>
+
+                    <div id="datestatus">
+                    </div>
+                    <br>
+                    <input id="finalbutton" type="submit" class="btn btn-primary" value="Create a discussion">
+                </div>
+            </div>
+        </form>
+
+    </div>
+    </body>
+
+    <script src="/static/js/verificationNewPost.js"></script>
+    <script src="/static/js/verificationNewJob.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+            $("#datepicker3").datepicker();
+            $("#datepicker2").datepicker();
+        });
+    </script>
+{% endblock %}

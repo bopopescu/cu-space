@@ -174,12 +174,6 @@
             src: url("static/fonts/Nunito-Regular.ttf");
         }
 
-        {#    h4 {#}
-        {#        font-family: 'Nunito-Regular', "Helvetica Neue", sans-serif;#}
-        {#        font-weight:normal;#}
-        {#        font-style:normal;#}
-        {#    }#}
-
         a {
             color: white;
         }
@@ -206,8 +200,7 @@
                         </button>
                     </div>
                     <div class="form-group">
-                        <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('registernewtutor') }}">POST
-                            NEW JOB <i class="fas fa-plus" style="font-size: 14px; padding-bottom: 3px"></i> </a>
+                        <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('registernewjob') }}">POST A JOB</a>
                     </div>
                 </form>
             </div>
@@ -243,7 +236,6 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="job-item-header">
-                    {#                <div class="company-img"><img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="42" height="42"></div>#}
                     <div class="job-link">
                         <h4 class="job-name"><a href="/job-profile">Senior Mobile Developer</a></h4>
                         <h6 class="company-name">Agoda Services Co., Ltd.</h6>
