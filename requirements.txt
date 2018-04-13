@@ -15,4 +15,5 @@ pytz==2017.2
 six==1.11.0
 virtualenv==15.2.0
 virtualenv-clone==0.3.0
-Werkzeug==0.12.1https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.2.2.tar.gz
+Werkzeug==0.12.1
+https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.2.2.tar.gz
