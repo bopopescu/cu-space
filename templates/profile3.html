@@ -20,7 +20,7 @@
 
     <script>
         $(document).ready(function () {
-            var date_input = $('input[name="editdateofbirth"]'); //our date input has the name "date"
+            var date_input = $('input[name="dateofbirth"]'); //our date input has the name "date"
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
             date_input.datepicker({
                 format: 'dd-mm-yyyy',
@@ -250,7 +250,7 @@
                                                       action="{{ url_for('update_subject', tutor_id = tutor[0], subject_group_id = subject[3]) }}">
                                                     <div class="form-group">
                                                         <div>
-                                                            <label for=>Course Name:</label><br>
+                                                            <label>Course Name:</label><br>
                                                             <input class="form-control" id="coursename"
                                                                    name="{{ subject[3] }}" value="{{ subject[2] }}"
                                                                    type="text" placeholder="Course Name"
@@ -258,7 +258,7 @@
                                                         </div>
                                                         <div id="coursenamestatus" style="margin-left: 5%; "></div>
                                                         <div>
-                                                            <label for=>Course Category:</label><br>
+                                                            <label>Course Category:</label><br>
                                                             <select class="form-control" id="coursecategory"
                                                                     name="{{ subject[3] }}" required/>
                                                             {% for subjectList in sub %}
@@ -273,7 +273,7 @@
                                                         </div>
                                                         <div id="coursecategorystatus" style="margin-left: 5%; "></div>
                                                         <div>
-                                                            <label for=>Course Price:</label><br>
+                                                            <label>Course Price:</label><br>
                                                             <input type="number" min="0" rows="2" class="form-control"
                                                                    id="courseprice" name="{{ subject[3] }}"
                                                                    placeholder="Price" value="{{ subject[1] }}"
@@ -412,14 +412,14 @@
                                   action="{{ url_for('add_subject', tutor_id =tutor[0]) }}">
                                 <div class="form-group">
                                     <div>
-                                        <label for=>Course Name:</label><br>
+                                        <label for="addcoursename">Course Name:</label><br>
                                         <input class="form-control" id="addcoursename" type="text"
                                                placeholder="Course Name"
                                                name="newcoursename" required/>
                                     </div>
                                     <div id="addcoursenamestatus" style="margin-left: 5%; "></div>
                                     <div>
-                                        <label for=>Course Category:</label><br>
+                                        <label for="addcoursecategory">Course Category:</label><br>
                                         <select class="form-control" id="addcoursecategory" name="addsubjectcategory"
                                                 required/>
                                         <option value="" selected disabled hidden>Select your category</option>
@@ -430,7 +430,7 @@
                                     </div>
                                     <div id="addcoursecategorystatus" style="margin-left: 5%; "></div>
                                     <div>
-                                        <label for=>Course Price:</label><br>
+                                        <label for="addcourseprice">Course Price:</label><br>
                                         <input type="number" min="0" rows="2" class="form-control" id="addcourseprice"
                                                name="addprice"
                                                placeholder="Price" required/>
@@ -461,7 +461,7 @@
                                     <div class="form-group">
 
                                         <div>
-                                            <label for=><span style="color: red;">*</span> First Name:</label><br>
+                                            <label for="firstnamevalue"><span style="color: red;">*</span> First Name:</label><br>
                                             {#                                            <input type="text" class="form-control" id="firstnamevalue">#}
                                             {#                                            <label for=>First Name:</label><br>#}
                                             <input type="text" class="form-control" id="firstnamevalue" name="firstname"
@@ -471,9 +471,7 @@
                                         <div id="firstnamestatuses" style="margin-left: 5%;">
                                         </div>
                                         <div>
-                                            <label for=><span style="color: red;">*</span> Last Name:</label><br>
-                                            {#                                            <input type="text" class="form-control" id="lastnamevalue"#}
-                                            {#                                            <label for=>Last Name:</label><br>#}
+                                            <label for="lastnamevalue"><span style="color: red;">*</span> Last Name:</label><br>
                                             <input type="text" class="form-control" id="lastnamevalue" name="lastname"
                                                    value="{{ tutor[4] }}"
                                                    placeholder="Edit your last name here" required/>
@@ -481,34 +479,20 @@
                                         <div id="lastnamestatuses" style="margin-left: 5%;">
                                         </div>
                                         <div>
-                                            <label for=age><span style=" color: red;">*</span> Date of birth:</label><br>
-                                            {#                                            <input type="number" class="form-control" id="age" min="0"#}
-                                            {#                                                   placeholder="Edit your age here" required/>#}
-                                            {#                                            <form method="post" action="/post-views-counter/">#}
+                                            <label for="editdateofbirth"><span style=" color: red;">*</span> Date of birth:</label><br>
                                             <div>
-                                                {#                                                <input value="{{ birthday }}" type="text" id="datepicker"#}
-                                                {#                                                        name="dateofbirth"#}
-                                                {#                                                        style="margin-left: 5%;"#}
-                                                {#                                                        placeholder="Edit your date of birth here" required/>#}
 
-                                                <input value="{{ birthday }}" style="margin-left: 5%;"
-                                                       class="form-control" id="editdateofbirth" name="editdateofbirth"
+                                                <input value="{{ birthdate.strftime('%d-%m-%Y') }}" style="margin-left: 5%;"
+                                                       class="form-control" id="editdateofbirth" name="dateofbirth"
                                                        placeholder="DD-MM-YYYY" type="text" required/>
 
                                             </div>
 
-                                            {#                                            </form>#}
-                                            {#                                            <label for=>Age:</label><br>#}
-                                            {#                                            <input type="number" class="form-control" id="age" min="0" name="age" value="{{ birthday }}"#}
-                                            {#                                                   placeholder="Edit your age here" required/>#}
                                         </div>
                                         <div id="dateofbirthstatuses" style="margin-left: 5%;">
                                         </div>
                                         <div>
-                                            <label for=><span style="color: red;">*</span> Email:</label><br>
-                                            {#                                            <input type="text" class="form-control" id="emailvalue"#}
-                                            {#                                                   placeholder="Edit your email here" required/>#}
-                                            {#                                            <label for=>Email:</label><br>#}
+                                            <label for="emailvalue"><span style="color: red;">*</span> Email:</label><br>
                                             <input type="text" class="form-control" id="emailvalue" name="email"
                                                    value="{{ tutor[11] }}"
                                                    placeholder="Edit your email here" required/>
@@ -516,29 +500,21 @@
                                         <div id="emailvaluestatus" style="margin-left: 5%;">
                                         </div>
                                         <div>
-                                            <label for=>LINE ID:</label>
+                                            <label for="line">LINE ID:</label>
 
 
                                             <input type="text" class="form-control" id="line" name="line"
                                                    value="{{ tutor[7] }}"
                                                    placeholder="Edit your LINE ID here (OPTIONAL)">
-                                            {#                                            <label for=>LINE ID:</label><br>#}
-                                            {#                                            <input type="text" class="form-control" id="line" name="line" value="{{ tutor[7] }}"#}
-                                            {#                                                   placeholder="Edit your LINE ID here">#}
                                         </div>
                                         <div>
-                                            <label for=>Facebook:</label>
+                                            <label for="facebook">Facebook:</label>
                                             <input type="text" class="form-control" id="facebook" name="facebook"
                                                    value="{{ tutor[8] }}"
                                                    placeholder="Edit your facebook here (OPTIONAL)">
-                                            {#                                            <label for=>Facebook:</label><br>#}
-                                            {#                                            <input type="text" class="form-control" id="facebook" name="facebook" value="{{ tutor[8] }}"#}
-                                            {#                                                   placeholder="Edit your facebook here">#}
                                         </div>
                                         <div>
-                                            <label for=><span style="color: red;">*</span> Telephone:</label><br>
-                                            {#                                            <input type="tel" class="form-control" id="phonenumber" #}
-                                            {#                                            <label for=>Telephone:</label><br>#}
+                                            <label for="phonenumber"><span style="color: red;">*</span> Telephone:</label><br>
                                             <input type="tel" class="form-control" id="phonenumber" name="phone"
                                                    value="{{ tutor[9] }}"
                                                    placeholder="Edit your telephone here" required/>
@@ -546,10 +522,7 @@
                                         <div id="phonenumberstatus" style="margin-left: 5%;">
                                         </div>
                                         <div>
-                                            <label for=><span style="color: red;">*</span> Information:</label><br>
-                                            {#                                            <textarea type="text" class="form-control" id="info"#}
-                                            {#                                                      placeholder="Edit your information here" required/></textarea>#}
-                                            {#                                            <label for=>Information:</label><br>#}
+                                            <label for="info"><span style="color: red;">*</span> Information:</label><br>=
                                             <textarea type="text" class="form-control" id="info" name="info"
                                                       placeholder="Edit your information here"
                                                       required/> {{ tutor[1] }} </textarea>
@@ -558,14 +531,11 @@
                                         </div>
 
                                         <div>
-                                            <label for=><span style="color: red;">*</span> Video Introduction:</label>
+                                            <label for="detail"><span style="color: red;">*</span> Video Introduction:</label>
                                             <div id="youtubelinkinformation" style="color: #FF9900; margin-left: 5%;">
                                                 Please copy the embed link by clicking button under the youtube video
                                                 Share > Embed > Copy just the attribute in the src="" into this form.
                                             </div>
-
-                                            {#                                            <input type="text" class="form-control" id="detail"#}
-                                            {#                                            <label for=>Video Introduction:</label><br>#}
                                             <input type="text" class="form-control" id="detail" name="video_link"
                                                    value="{{ tutor[6] }}"
                                                    placeholder="Edit your video introduction here" required/>

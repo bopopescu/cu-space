@@ -503,17 +503,22 @@ function checkDateOfBirth(date1) {
     if (mm < 10) {
         mm = '0' + mm
     }
-    // hundredyrsago = yyyy-100;
     var hundredyrsago = today.getFullYear()-100;
     today = dd + '-' + mm + '-' + yyyy;
     hundredyrsagodate = mm + '/' + dd + '/' + hundredyrsago;
+
+    today = today.split("-");
+    var todaydate = new Date(today[2], today[1] - 1, today[0]);
+    var inputdate = date1.split("-");
+    var inputdate2 = new Date(inputdate[2], inputdate[1] - 1, inputdate[0]);
+
     if (date1.length <= 1 ) {
         document.getElementById('dateofbirthstatuses').innerHTML = "X Please enter the date of birth";
         return 1;
-    }if(date1 == today){
+    }if(inputdate2 == todaydate){
         document.getElementById('dateofbirthstatuses').innerHTML = "X You can't be born today right!?";
         return 1;
-    }if(date1 >= today){
+    }if(inputdate2 >= todaydate){
         document.getElementById('dateofbirthstatuses').innerHTML = "X You are not from the future right!?";
         return 1;
     }
@@ -526,7 +531,7 @@ function checkDateOfBirth(date1) {
 }
 
 $("#editdateofbirth").focusout(function () {
-    var date1 = $('[name=editdateofbirth]').val();
+    var date1 = $('[name=dateofbirth]').val();
     if (checkDateOfBirth(date1) == 1) {
     } else {
     }

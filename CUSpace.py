@@ -94,7 +94,7 @@ def profile(tutor_id):
             age = calculate_age(datetime.combine(tutor_info[10], datetime.min.time()))
             print(age)
             print(subject_info)
-            return render_template('profile3.html', subInfo = subject_info, tutor = tutor_info, birthday = age, sub = subject)
+            return render_template('profile3.html', subInfo = subject_info, tutor = tutor_info, birthday = age, sub = subject, birthdate = tutor_info[10])
         except:
             print("Cannot retrieve subject info")
             return render_template('error.html')
@@ -147,6 +147,8 @@ def edit_tutor_profile(tutor_id):
     video_link = request.form.get("video_link")
     conn= mysql.connect()
     cursor = conn.cursor()
+    birthday = datetime.strptime(birthday,'%d-%m-%Y')
+    birthday = birthday.strftime('%Y-%m-%d')
     print(birthday)
     edit_tutorSQL = """UPDATE `tutor` 
                        SET `information`= %s,`Video`= %s,`Facebook`= %s,`Line`= %s,`Phone`= %s
@@ -157,7 +159,7 @@ def edit_tutor_profile(tutor_id):
     try:
         cursor.execute(edit_tutorSQL, (info, video_link, facebook, line,phone, tutor_id))
         try:
-            cursor.execute(edit_userSQL, (email, firstname, lastname, tutor_id, birthday))
+            cursor.execute(edit_userSQL, (email, firstname, lastname,birthday, tutor_id))
             conn.commit()
         except:
             print("Cannot update user table")
