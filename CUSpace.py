@@ -1,21 +1,25 @@
 from datetime import date
 from datetime import datetime
 from random import randrange
-
+import hashlib, uuid
 import os
-from werkzeug.utils import secure_filename
-from flask import Flask, render_template, request, redirect, url_for , send_from_directory , flash
+from flask import Flask, render_template, request, redirect, url_for, flash
 import math
+import shutil
 #NOTE!!
 #install flask-mysql first by writing in terminal "pip install flask-mysql" in order to use
 from flaskext.mysql import MySQL
+from werkzeug.utils import secure_filename
+
 path = os.path.dirname(__file__)
 relpath = os.path.relpath(path)
 # uploadPictureFolder = "C:/Users/natta/Desktop/Senior Project/static/img"
 uploadPictureFolder = os.path.join(relpath,"static/img/user")
+PictureFolder = os.path.join(relpath,"static/img")
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 app.config['uploadPictureFolder'] = uploadPictureFolder
+app.config['PictureFolder'] = PictureFolder
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 mysql = MySQL()
@@ -25,16 +29,147 @@ app.config['MYSQL_DATABASE_DB'] = 'cuspace'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
-@app.route('/')
-def index():
+@app.route('/' , defaults={'fail_id': None})
+@app.route('/fail/<fail_id>')
+def index(fail_id):
     conn = mysql.connect()
     cursor = conn.cursor()
     sql = """SELECT * FROM `dis_category`"""
     cursor.execute(sql)
     data = cursor.fetchall()
     categoryList = [ i[1] for i in data]
+    if not fail_id:
+        return render_template('index4.html', catlist = categoryList)
+    else:
+        return render_template('index4.html', catlist = categoryList, fail = 1)
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('login_username')
+    password = request.form.get('login_password').encode('utf-8')
+    user_key = hashlib.md5()
+    user_key.update(password)
+    user_key = user_key.hexdigest()
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    category = getCat()
+    categoryList = [cat[1] for cat in category ]
+    checkSQL =  """SELECT * FROM `user` WHERE `Username` = %s and `User_key`= %s"""
+    try:
+        cursor.execute(checkSQL, (username, user_key))
+        dataexist = cursor.fetchone()
+        if not dataexist:
+            print("hello")
+            return redirect(url_for('index', fail_id = 1))
+        else:
+            return render_template('index4.html', user = dataexist, catlist = categoryList )
+    except:
+        print("Cannot query user")
     return render_template('index4.html', catlist = categoryList)
 
+@app.route('/sign_in', methods=['POST'])
+def sign_in():
+    password = request.form.get('regis_pass').encode('utf-8')
+    username = request.form.get('regis_username')
+    user_key = hashlib.md5()
+    user_key.update(password)
+    user_key = user_key.hexdigest()
+    user_id = uuid.uuid4().hex
+    first_name = request.form.get('regis_first_name')
+    last_name = request.form.get('regis_last_name')
+    birthday = request.form.get('birthday')
+    birthday_date = datetime.strptime(birthday,"%d-%m-%Y")
+    birthday_date = birthday_date.strftime('%Y-%m-%d')
+    email = request.form.get('regis_email')
+    role = 0 #0 for user, 1 for tutor
+    ban_status = 0 #0 for not ban, 1 for ban
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    create_userSQL = """INSERT INTO `user`(`User_id`, `Email`, `Username`, `User_key`, `Firstname`, `Lastname`, `Role`, `Ban_status`, `DateOfBirth`) 
+                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+    try:
+        cursor.execute(create_userSQL,(user_id, email, username, user_key, first_name, last_name, role, ban_status, birthday_date))
+        os.makedirs(os.path.join(app.config['uploadPictureFolder'], user_id))
+        filelist = os.listdir(app.config['PictureFolder'])
+        for files in filelist:
+            if files.startswith('dummy'):
+                shutil.copy2(os.path.join(os.path.dirname(__file__),'static/img',files), os.path.join(os.path.dirname(__file__),'static/img/user',user_id))
+        profilePictureSQL = """INSERT INTO `profile_picture`(Picture`, `User_id`) VALUES (%s,%s)"""
+        picture = "dummy.jpeg"
+        try:
+            cursor.execute(profilePictureSQL,(picture, user_id))
+            conn.commit()
+        except:
+            print("Cannot insert profile picture")
+    except:
+        print("Cannot create user")
+    return redirect(url_for('index'))
+
+@app.route('/user/<user_id>')
+def userprofile(user_id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    userSQL = """ SELECT * FROM `user` WHERE User_id = %s"""
+    try:
+        cursor.execute(userSQL,user_id)
+        userdata = cursor.fetchone()
+        profilepicSQL = """SELECT * FROM profile_picture WHERE User_id = %s"""
+        try:
+            cursor.execute(profilepicSQL, user_id)
+            picturedata = cursor.fetchone()
+        except:
+            print("Cannot query picture data")
+    except:
+        print("Cannot query user data")
+    return render_template('userprofile.html', user = userdata, picture = picturedata)
+
+@app.route('/user/<user_id>/edit_user', methods=['POST'])
+def edit_user(user_id):
+    username = request.form.get('userUsername')
+    password = request.form.get('userpasswordvalue').encode('utf-8')
+    user_key = hashlib.md5()
+    user_key.update(password)
+    user_key = user_key.hexdigest()
+    firstname = request.form.get('firstname')
+    lastname = request.form.get('lastname')
+    dateofbirth = request.form.get('edituserdateofbirth')
+    birthday_date = datetime.strptime(dateofbirth, "%d-%m-%Y")
+    birthday_date = birthday_date.strftime('%Y-%m-%d')
+    email = request.form.get('useremail')
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    edituserSQL = """UPDATE `user` SET `Email`=%s,`Username`=%s,`User_key`=%s,`Firstname`= %s,`Lastname`=%s,`DateOfBirth`=%s WHERE `user_id` = %s"""
+    try:
+        cursor.execute(edituserSQL, (email,username,user_key, firstname, lastname, birthday_date, user_id))
+        conn.commit()
+    except:
+        print("Cannot update user")
+    return redirect(url_for('userprofile', user_id = user_id))
+
+@app.route('/user/<user_id>/edit_profile_picture_user', methods=['POST','GET'])
+def edit_user_profile_picture(user_id):
+    if request.method == 'POST':
+        if 'input-image' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['input-image']
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            if not os.path.exists(os.path.join(app.config['uploadPictureFolder'], user_id)):
+                os.makedirs(os.path.join(app.config['uploadPictureFolder'], user_id))
+            file.save(os.path.join(app.config['uploadPictureFolder'], user_id, filename))
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            updatepictureSQL = """UPDATE `profile_picture` SET `Picture`= %s WHERE `User_id` = %s"""
+            try:
+                cursor.execute(updatepictureSQL, (filename, user_id))
+                conn.commit()
+            except:
+                print("Cannot update picture to database")
+            return redirect(url_for('userprofile', user_id=user_id))
 @app.route('/tutor/' , defaults={'page':1})
 @app.route('/tutor/page/<page>')
 def tutor(page):
@@ -386,9 +521,5 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-if __name__ == "__main__":
-    app.secret_key = 'super secret key'
-    app.config['SESSION_TYPE'] = 'filesystem'
-
-    app.debug = True
+if __name__ == '__main__':
     app.run()
