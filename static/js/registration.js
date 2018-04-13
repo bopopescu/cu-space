@@ -74,23 +74,6 @@ $("#psw").focusout(function () {
         // $(this).css("border-color", "#00CD00");
     }
 });
-$("#phoneno").focusout(function () {
-    var value = $(this).val();
-    // console.log('hi phonenumber validation');
-    // console.log(checkphone(value));
-    if (checkphonesignup(value) == 1) {
-        // $(this).css("border-color", "#FF0000");
-        // document.getElementById('phonenostatus').innerHTML = 'X Please enter your phone number';
-    } else if (checkphonesignup(value) == 2) {
-        // $(this).css("border-color", "#FF0000");
-        // document.getElementById('phonenostatus').innerHTML = 'X Please enter your phone number';
-
-    } else {
-        // $(this).css("border-color", "#00CD00");
-        // document.getElementById('phonenostatus').innerHTML = '';
-    }
-});
-
 
 function checkpasswordlogin(value) {
     document.getElementById('passwordloginstatus').style.color = "red";
@@ -102,11 +85,11 @@ function checkpasswordlogin(value) {
         return 1
     }
     if (isValid(value) == false) {
-        document.getElementById('passwordloginstatus').innerHTML = 'X Password must not contain only letters and numbers';
+        document.getElementById('passwordloginstatus').innerHTML = 'X Password must not contain only english letters and numbers';
         return 1
     }
     if (hasUnderscore(value) == 1) {
-        document.getElementById('passwordloginstatus').innerHTML = 'X Password must not contain only letters and numbers';
+        document.getElementById('passwordloginstatus').innerHTML = 'X Password must not contain only english letters and numbers';
     }
     else {
         document.getElementById('passwordloginstatus').innerHTML = '';
@@ -125,11 +108,11 @@ function checkpasswordsignup(value) {
         return 1
     }
     if (isValid(value) == false) {
-        document.getElementById('passwordsignupstatus').innerHTML = 'X Password must not contain only letters and numbers';
+        document.getElementById('passwordsignupstatus').innerHTML = 'X Password must not contain only english letters and numbers';
         return 1
     }
     if (hasUnderscore(value) == 1) {
-        document.getElementById('passwordsignupstatus').innerHTML = 'X Password must not contain only letters and numbers';
+        document.getElementById('passwordsignupstatus').innerHTML = 'X Password must not contain only english letters and numbers';
     }
     else {
         document.getElementById('passwordsignupstatus').innerHTML = '';
@@ -148,11 +131,11 @@ function checkusernamesignup(value) {
         return 1
     }
     if (isValid(value) == false) {
-        document.getElementById('usernamesignupstatus').innerHTML = 'X Username must not contain only letters and numbers';
+        document.getElementById('usernamesignupstatus').innerHTML = 'X Username must not contain only english letters and numbers';
         return 1
     }
     if (hasUnderscore(value) == 1) {
-        document.getElementById('usernamesignupstatus').innerHTML = 'X Username must not contain only letters and numbers';
+        document.getElementById('usernamesignupstatus').innerHTML = 'X Username must not contain only english letters and numbers';
     }
     else {
         document.getElementById('usernamesignupstatus').innerHTML = '';
@@ -175,109 +158,15 @@ function checkusernamelogin(value) {
         return 1
     }
     if (isValid(value) == false) {
-        document.getElementById('usernameloginstatus').innerHTML = 'X Username must not contain only letters and numbers';
+        document.getElementById('usernameloginstatus').innerHTML = 'X Username must not contain only english letters and numbers';
         return 1
     }
     if (hasUnderscore(value) == 1) {
-        document.getElementById('usernameloginstatus').innerHTML = 'X Username must not contain only letters and numbers';
+        document.getElementById('usernameloginstatus').innerHTML = 'X Username must not contain only english letters and numbers';
     }
     else {
         document.getElementById('usernameloginstatus').innerHTML = '';
         return 0;
-    }
-}
-
-// function checkphone(value){
-//     document.getElementById('phonenostatus').style.color="red";
-//     if(value.length == 0) {
-//         document.getElementById('phonenostatus').innerHTML ='';
-//         return 2
-//     }
-//     if(value.length !=10) {
-//         if(value.indexOf(' ')>=0 && hasAlphabet(value)) {
-//
-//             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces, contain alphabet, and contain exactly 10 digits'+"<br />"+"<br />";
-//             return 1
-//         } else if(value.indexOf(' ')>=0) {
-//             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces'+"<br />"+"<br />";
-//              return 1
-//         }else if(hasAlphabet(value)){
-//             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain alphabet'+"<br />"+"<br />";
-//             return 1
-//         } else {
-//             document.getElementById('phonenostatus').innerHTML ='X Phone number must contain 10 digits'+"<br />"+"<br />";
-//             return 1
-//         }
-//     } else {
-//         if(value.indexOf(' ')>=0 && hasAlphabet(value)) {
-//             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces, contain alphabet, and contain exactly 10 digits'+"<br />"+"<br />";
-//             return 1
-//         } else if(value.indexOf(' ')>=0) {
-//              alert("Phonenumber must not contain whitespaces")
-//             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain whitespaces'+"<br />"+"<br />";
-//              return 1
-//         }else if(hasAlphabet(value)){
-//             document.getElementById('phonenostatus').innerHTML ='X Phone number must not contain alphabet'+"<br />"+"<br />";
-//             return 1
-//         } else {
-//             document.getElementById('phonenostatus').innerHTML ='';
-//             return 0
-//         }
-//     }
-//      /* alert("Phonenumber must contain 10 digits")
-//       return 1;
-//     }
-//     #else if(value.indexOf(' ')>=0){
-//         alert("Phonenumber must not contain whitespaces")
-//         return 1
-//     }
-//     else if(hasAlphabet(value)){
-//         alert("Phonenumber must not contain alphabet")
-//         return 1
-//     }
-//     else {
-//         return 0;
-//     }*/
-// }
-
-function checkphonesignup(value) {
-    console.log("enter leawwww");
-    document.getElementById('phonenosignupstatus').style.color = "red";
-    if (value.length == 0) {
-        console.log("enter leawwww");
-        document.getElementById('phonenosignupstatus').innerHTML = 'X Please enter your phone number';
-        return 2
-    }
-    if (value.length != 10) {
-        if (value.indexOf(' ') >= 0 && !hasNumber(value)) {
-
-            document.getElementById('phonenosignupstatus').innerHTML = 'X Please enter your phone number correctly';
-            return 1
-        } else if (value.indexOf(' ') >= 0) {
-            document.getElementById('phonenosignupstatus').innerHTML = 'X Please enter your phone number correctly';
-            return 1
-        } else if (!hasNumber(value)) {
-            document.getElementById('phonenosignupstatus').innerHTML = 'X Please enter your phone number correctly';
-            return 1
-        } else {
-            document.getElementById('phonenosignupstatus').innerHTML = 'X Please enter your phone number correctly';
-            return 1
-        }
-    } else {
-        if (value.indexOf(' ') >= 0 && !hasNumber(value)) {
-            document.getElementById('phonenosignupstatus').innerHTML = 'X Wrong phone number format';
-            return 1
-        } else if (value.indexOf(' ') >= 0) {
-            alert("Phonenumber must not contain whitespaces")
-            document.getElementById('phonenosignupstatus').innerHTML = 'X Wrong phone number format';
-            return 1
-        } else if (!hasNumber(value)) {
-            document.getElementById('phonenosignupstatus').innerHTML = 'X Wrong phone number format';
-            return 1
-        } else {
-            document.getElementById('phonenosignupstatus').innerHTML = '';
-            return 0
-        }
     }
 }
 
@@ -360,14 +249,12 @@ function checkall() {
     var lastnamevalue = $('#lastname').val();
     var passwordvalue = $('#password').val();
     var emailvalue = $('#email').val();
-    var phonenovalue = $('#phoneno').val();
     var dateofbirthsignupvalue = $('[name=birthday]').val();
 
     if (checkfirstnamesignup(firstnamevalue) == 1 ||
         checklastnamesignup(lastnamevalue) == 1 ||
         checkpasswordsignup(passwordvalue) == 1 ||
         checkemailsignup(emailvalue) == 1 ||
-        checkphonesignup(phonenovalue) == 1 ||
         checkDateOfBirthSignUp(dateofbirthsignupvalue) == 1) {
         alert("Please enter all of the field correctly");
         return false;

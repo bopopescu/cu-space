@@ -9,15 +9,6 @@
         <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-        {#        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">#}
-        {#        <script src="//code.jquery.com/jquery-1.10.2.js"></script>#}
-        {#        <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>#}
-        {#        <script>#}
-        {#            $(function () {#}
-        {#                $("#datepicker4").datepicker();#}
-        {#            });#}
-        {#        </script>#}
-
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -153,10 +144,19 @@
                 <a href="/">Home</a>
                 <a href="/tutor">Tutors</a>
                 <a href="/job">Jobs</a>
-                <a href="#" type="button" id="myBtn" class="signin">Sign In</a>
+                {% if not user %}
+                    <a href="#" type="button" id="myBtn" class="signin">Sign In</a>
+                {% else %}
+                    <a href="{{ url_for('userprofile', user_id = user[0]) }}" type="button" id="myBtn" style="word-spacing: normal" >{{ user[4] }} {{ user[5] }}</a>
+                {% endif %}
             </div>
         </div>
-
+        {% if fail == 1 %}
+        <div class="alert alert-danger fade in alert-dismissible" style="margin-bottom: 0px">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close" style="color: inherit !important; background-color: transparent">x</a>
+            Invalid Username or password. Please try again.
+        </div>
+        {% endif %}
         <!-- LOG IN Modal -->
         <div class="modal fade" id="logIN" role="dialog">
             <div class="modal-dialog">
@@ -168,16 +168,16 @@
                         <h1><span class="glyphicon glyphicon-lock"></span> Log In</h1>
                     </div>
                     <div class="modal-body" style="padding:40px 50px;">
-                        <form role="form" onsubmit="return checklogin()">
+                        <form role="form" method="POST" onsubmit="return checklogin()" action="{{ url_for('login') }}">
                             <div>
                                 <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
-                                <input type="text" class="form-control" id="usrname" placeholder="Enter email"
+                                <input type="text" class="form-control" id="usrname" placeholder="Enter email" name="login_username"
                                        required/>
                             </div>
                             <div id="usernameloginstatus"></div>
-                            <div class="form-group">
+                            <div>
                                 <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
-                                <input type="password" class="form-control" id="psw" placeholder="Enter password"
+                                <input type="password" class="form-control" id="psw" placeholder="Enter password" name="login_password"
                                        required/>
                             </div>
                             <div id="passwordloginstatus"></div>
@@ -316,21 +316,6 @@
                             <div id="dateofbirthsignupstatus" style="margin-top: .5%; margin-bottom: .5%">
                             </div>
 
-
-                            <div class="input-group">
-                                <div class="input-group-btn">
-                                    <label for="phoneno" class="btn btn-secondary">
-                                        <i style="font-size:15px" class="fa">&#xf095;</i>
-                                    </label>
-                                </div>
-                                <input type="tel" class="form-control" id="phoneno" placeholder="Telephone (in the format of ex: 0812345678 with no '-' in between)"
-                                       name="regis_phone" required/>
-                            </div>
-
-
-                            <div id="phonenosignupstatus" style="margin-top: .5%; margin-bottom: .5%">
-                            </div>
-
                             <div class="input-group">
                                 <div class="input-group-btn">
                                     <label for="email" class="btn btn-secondary">
@@ -344,14 +329,11 @@
 
                             <div id="emailsignupstatus" style="margin-top: .5%; margin-bottom: .5%">
                             </div>
-
+                            <br>
                             <div class="row justify-content-center">
                                 <div class="col-12">
                                     <input value="Sign Up" id="register" type="submit"
                                            class="btn btn-success btn-block">
-
-
-                                    </input>
                                 </div>
                             </div>
                         </form>
