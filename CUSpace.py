@@ -1,7 +1,7 @@
 from datetime import date
 from datetime import datetime
 from random import randrange
-
+import hashlib, uuid
 import os
 from flask import Flask, render_template, request, redirect, url_for
 import math
@@ -35,10 +35,24 @@ def index():
     categoryList = [ i[1] for i in data]
     return render_template('index4.html', catlist = categoryList)
 
-@app.route('/login')
+@app.route('/login', methods=['POST'])
 def login():
     return render_template('index4.html')
 
+@app.route('/sign_in', methods=['POST'])
+def sign_in():
+    password = request.form.get('regis_pass').encode('utf-8')
+    user_key = hashlib.md5()
+    user_key.update(password)
+    user_key = user_key.hexdigest()
+    user_id = uuid.uuid4().hex
+    first_name = request.form.get('regis_first_name')
+    last_name = request.form.get('regis_last_name')
+    birthday = request.form.get('birthday')
+    birthday_date = datetime.strptime(birthday,"%d-%m-%Y")
+    phone = request.form.get('regis_phone')
+    email = request.form.get('regis_email')
+    return render_template('index4.html')
 @app.route('/tutor/' , defaults={'page':1})
 @app.route('/tutor/page/<page>')
 def tutor(page):

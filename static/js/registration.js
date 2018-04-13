@@ -385,7 +385,7 @@ function checkDateOfBirthSignUp(date1) {
 
 $("#datepicker").focusout(function () {
     // alert('kao leaw')
-    var date1 = $('[name=datesignup]').val();
+    var date1 = $('[name=birthday]').val();
     if (checkDateOfBirthSignUp(date1) == 1) {
     } else {
         // $('#datepicker').css("border-color", "#00CD00");

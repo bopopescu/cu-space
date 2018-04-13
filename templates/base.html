@@ -205,13 +205,13 @@
                     </div>
 
                     <div class="modal-body">
-                        <form method="POST" id="formid" onsubmit="return checkall()">
+                        <form method="POST" id="formid" onsubmit="return checkall()" action="{{ url_for('sign_in') }}">
                             <div class="input-group">
 
                                 <div class="input-group-btn">
-                                    <div class="btn btn-secondary">
+                                    <label for="password" class="btn btn-secondary">
                                         <i style="font-size:13px" class="fa">&#xf084;</i>
-                                    </div>
+                                    </label>
                                 </div>
 
                                 <input type="password" class="form-control" id="password" placeholder="Password"
@@ -223,9 +223,9 @@
 
                             <div class="input-group">
                                 <div class="input-group-btn">
-                                    <div class="btn btn-secondary">
+                                    <label for="firstname" class="btn btn-secondary">
                                         <i style="font-size:15px" class="fas fa-user"> </i>
-                                    </div>
+                                    </label>
                                 </div>
                                 <input type="text" class="form-control" id="firstname" placeholder="Firstname"
                                        name="regis_first_name" required/>
@@ -237,9 +237,9 @@
 
                             <div class="input-group">
                                 <div class="input-group-btn">
-                                    <div class="btn btn-secondary">
+                                    <label for="lastname" class="btn btn-secondary">
                                         <i style="font-size:15px" class="fas fa-user"> </i>
-                                    </div>
+                                    </label>
                                 </div>
                                 <input type="text" class="form-control" id="lastname" placeholder="Lastname"
                                        name="regis_last_name" required/>
@@ -260,7 +260,7 @@
                                 {#                                    <input type="text" id="datepicker4" name="dateofbirthsignup" style="width: 100%; height: 34px"#}
                                 {#                                           placeholder="   Date of birth" required/>#}
 
-       <input class="form-control" id="datepicker" name="datesignup" placeholder="DD-MM-YYYY" type="text" required/>
+       <input class="form-control" id="datepicker" name="birthday" placeholder="DD-MM-YYYY" type="text" required/>
 
 
 
@@ -276,9 +276,9 @@
 
                             <div class="input-group">
                                 <div class="input-group-btn">
-                                    <div class="btn btn-secondary">
+                                    <label for="phoneno" class="btn btn-secondary">
                                         <i style="font-size:15px" class="fa">&#xf095;</i>
-                                    </div>
+                                    </label>
                                 </div>
                                 <input type="tel" class="form-control" id="phoneno" placeholder="Telephone"
                                        name="regis_phone" required/>
@@ -290,9 +290,9 @@
 
                             <div class="input-group">
                                 <div class="input-group-btn">
-                                    <div class="btn btn-secondary">
+                                    <label for="email" class="btn btn-secondary">
                                         <i style="font-size:15px" class="fa">&#xf0e0;</i>
-                                    </div>
+                                    </label>
                                 </div>
                                 <input type="email" class="form-control" id="email" placeholder="E-mail"
                                        name="regis_email" required/>
@@ -327,7 +327,7 @@
 
 <script>
     $(document).ready(function(){
-        var date_input=$('input[name="datesignup"]'); //our date input has the name "date"
+        var date_input=$('input[name="birthday"]'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
         date_input.datepicker({
             format: 'dd-mm-yyyy',
