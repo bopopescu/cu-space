@@ -15,5 +15,3 @@ pytz==2017.2
 six==1.11.0
 virtualenv==15.2.0
 virtualenv-clone==0.3.0
-Werkzeug==0.12.1
-https://pypi.python.org/packages/21/79/2ff01ab7aa08db3a16b70b990c579c1024c6b2a734263cc7513a758867de/mysql-connector-python-rf-2.2.2.tar.gz#md5=408bece21692cecf1aa48e8bdba2e861
