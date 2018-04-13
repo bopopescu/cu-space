@@ -18,6 +18,14 @@
 //         $(this).css("border-color", "#0080ff");
 //
 // });
+$("#username").focusout(function () {
+    var value = $(this).val()
+    if (checkusernamesignup(value) == 1) {
+        // $(this).css("border-color", "#FF0000");
+    } else {
+        // $(this).css("border-color", "#00CD00");
+    }
+})
 $("#password").focusout(function () {
     var value = $(this).val()
     if (checkpasswordsignup(value) == 1) {
@@ -50,7 +58,6 @@ $("#email").focusout(function () {
         // $(this).css("border-color", "#00CD00");
     }
 })
-
 $("#usrname").focusout(function () {
     var value = $(this).val()
     if (checkusernamelogin(value) == 1) {
@@ -59,7 +66,6 @@ $("#usrname").focusout(function () {
         // $(this).css("border-color", "#00CD00");
     }
 });
-
 $("#psw").focusout(function () {
     var value = $(this).val()
     if (checkpasswordlogin(value) == 1) {
@@ -68,8 +74,6 @@ $("#psw").focusout(function () {
         // $(this).css("border-color", "#00CD00");
     }
 });
-
-
 $("#phoneno").focusout(function () {
     var value = $(this).val();
     // console.log('hi phonenumber validation');
@@ -97,6 +101,13 @@ function checkpasswordlogin(value) {
         document.getElementById('passwordloginstatus').innerHTML = 'X Password must not contain whitespaces';
         return 1
     }
+    if (isValid(value) == false) {
+        document.getElementById('passwordloginstatus').innerHTML = 'X Password must not contain only letters and numbers';
+        return 1
+    }
+    if (hasUnderscore(value) == 1) {
+        document.getElementById('passwordloginstatus').innerHTML = 'X Password must not contain only letters and numbers';
+    }
     else {
         document.getElementById('passwordloginstatus').innerHTML = '';
         return 0;
@@ -108,12 +119,70 @@ function checkpasswordsignup(value) {
     if (value.length < 8 || value.length > 16) {
         document.getElementById('passwordsignupstatus').innerHTML = 'X Password must be between 8 and 16 characters';
         return 1;
-    } else if (value.indexOf(' ') >= 0) {
+    }
+    if (value.indexOf(' ') >= 0) {
         document.getElementById('passwordsignupstatus').innerHTML = 'X Password must not contain whitespaces';
         return 1
     }
+    if (isValid(value) == false) {
+        document.getElementById('passwordsignupstatus').innerHTML = 'X Password must not contain only letters and numbers';
+        return 1
+    }
+    if (hasUnderscore(value) == 1) {
+        document.getElementById('passwordsignupstatus').innerHTML = 'X Password must not contain only letters and numbers';
+    }
     else {
-        document.getElementById('passwordsignupstatus,').innerHTML = '';
+        document.getElementById('passwordsignupstatus').innerHTML = '';
+        return 0;
+    }
+}
+
+function checkusernamesignup(value) {
+    document.getElementById('usernamesignupstatus').style.color = "red";
+    if (value.length < 1 || value.length > 16) {
+        document.getElementById('usernamesignupstatus').innerHTML = 'X Username must be between 1 and 16 characters';
+        return 1;
+    }
+    if (value.indexOf(' ') >= 0) {
+        document.getElementById('usernamesignupstatus').innerHTML = 'X Username must not contain whitespaces';
+        return 1
+    }
+    if (isValid(value) == false) {
+        document.getElementById('usernamesignupstatus').innerHTML = 'X Username must not contain only letters and numbers';
+        return 1
+    }
+    if (hasUnderscore(value) == 1) {
+        document.getElementById('usernamesignupstatus').innerHTML = 'X Username must not contain only letters and numbers';
+    }
+    else {
+        document.getElementById('usernamesignupstatus').innerHTML = '';
+        return 0;
+    }
+}
+
+function checkusernamelogin(value) {
+    document.getElementById('usernameloginstatus').style.color = "red";
+    if (value.length < 1) {
+        document.getElementById('usernameloginstatus').innerHTML = 'X Please enter your username';
+        return 1;
+    }
+    if (value.length < 1 || value.length > 16) {
+        document.getElementById('usernameloginstatus').innerHTML = 'X Username must be between 1 and 16 characters';
+        return 1;
+    }
+    if (value.indexOf(' ') >= 0) {
+        document.getElementById('usernameloginstatus').innerHTML = 'X Username must not contain whitespaces';
+        return 1
+    }
+    if (isValid(value) == false) {
+        document.getElementById('usernameloginstatus').innerHTML = 'X Username must not contain only letters and numbers';
+        return 1
+    }
+    if (hasUnderscore(value) == 1) {
+        document.getElementById('usernameloginstatus').innerHTML = 'X Username must not contain only letters and numbers';
+    }
+    else {
+        document.getElementById('usernameloginstatus').innerHTML = '';
         return 0;
     }
 }
@@ -274,10 +343,10 @@ function hasAlphabet(myString) {
     return /[a-zA-Z]/.test(myString)
 }
 
-function hasWWW(myString) {
+function hasUnderscore(myString) {
     // alert('emb');
     // console.log('embed');
-    substring = "www.";
+    substring = "_";
     if (myString.includes(substring) == true) {
         return 1;
     } else {
@@ -292,7 +361,7 @@ function checkall() {
     var passwordvalue = $('#password').val();
     var emailvalue = $('#email').val();
     var phonenovalue = $('#phoneno').val();
-    var dateofbirthsignupvalue = $('[name=dateofbirthsignup]').val();
+    var dateofbirthsignupvalue = $('[name=birthday]').val();
 
     if (checkfirstnamesignup(firstnamevalue) == 1 ||
         checklastnamesignup(lastnamevalue) == 1 ||
@@ -305,16 +374,8 @@ function checkall() {
     }
 }
 
-
-function checkusernamelogin(value) {
-    document.getElementById('usernameloginstatus').style.color = "red";
-    if (value.length <= 1) {
-        document.getElementById('usernameloginstatus').innerHTML = 'X Please enter your username';
-        return 1;
-    } else {
-        document.getElementById('usernameloginstatus').innerHTML = '';
-        return 0;
-    }
+function isValid(str) {
+    return /^\w+$/.test(str);
 }
 
 
@@ -335,6 +396,7 @@ function checkDateOfBirthSignUp(date1) {
     // alert('asdf');
     document.getElementById('dateofbirthsignupstatus').style.color = "red";
     var today = new Date();
+    today2 = today;
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!
     var yyyy = today.getFullYear();
@@ -345,19 +407,22 @@ function checkDateOfBirthSignUp(date1) {
         mm = '0' + mm
     }
     // hundredyrsago = yyyy-100;
-    var hundredyrsago = today.getFullYear()-100;
+    var hundredyrsago = today.getFullYear() - 100;
     today = dd + '-' + mm + '-' + yyyy;
     // hundredyrsagodate = mm + '/' + dd + '/' + hundredyrsago;
+    var inputdate = date1.split("-");
+    var inputdate2 = new Date(inputdate[2], inputdate[1] - 1, inputdate[0]);
 
-    var day,year;
-     if (date1.length <= 1) {
+    var day, year;
+    if (date1.length <= 1) {
         document.getElementById('dateofbirthsignupstatus').innerHTML = "X Please enter the date of birth";
         return 1;
     }
     if (date1.length !== 10) {
         document.getElementById('dateofbirthsignupstatus').innerHTML = "X Please enter the date of birth correctly";
         return 1;
-    }if (date1.substring(2, 3) !== '-' || date1.substring(5, 6) !== '-') {
+    }
+    if (date1.substring(2, 3) !== '-' || date1.substring(5, 6) !== '-') {
         document.getElementById('dateofbirthsignupstatus').innerHTML = "X Please enter the date of birth correctly";
         return 1;
     }
@@ -370,10 +435,15 @@ function checkDateOfBirthSignUp(date1) {
     }
 
 
-    if(date1 == today){
+    if (inputdate2 == today2) {
         document.getElementById('dateofbirthsignupstatus').innerHTML = "X You can't be born today right!?";
         return 1;
     }
+    if (inputdate2 >= today2) {
+        document.getElementById('dateofbirthsignupstatus').innerHTML = "X You are not coming from the future right!?";
+        return 1;
+    }
+
 
     else {
         document.getElementById('dateofbirthsignupstatus').innerHTML = "";
