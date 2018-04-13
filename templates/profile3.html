@@ -5,13 +5,41 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" xmlns="http://www.w3.org/1999/html">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+{#    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">#}
+{#    <script src="//code.jquery.com/jquery-1.10.2.js"></script>#}
+{#    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>#}
 
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css"/>
+
+    <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css"/>
+{#    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>#}
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+    <script>
+        $(document).ready(function () {
+            var date_input = $('input[name="editdateofbirth"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            date_input.datepicker({
+                format: 'dd-mm-yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            })
+        });
+
+    </script>
 
 
     <style>
+
+        #datepicker{margin-left: 0px;}
+
+        #signupbutton{
+            margin-left: 5%;
+        }
 
         #usernameloginstatus, #passwordloginstatus {
             margin-left: 5%;
@@ -105,7 +133,7 @@
 
                 <div class="w3-white w3-text-grey w3-card-4">
                     <div class="w3-display-container">
-                        <img src="/static/img/user/{{ tutor[0] }}/{{ tutor[2] }}" style="width:100%" alt="Avatar">
+                        <img src="/static/img/user/{{ tutor[0] }}/{{ tutor[2] }}" style="width:100%; max-height: 500px;" alt="Avatar">
                         <div class="w3-display-bottomright w3-container w3-text-black">
                             <button style="margin-bottom: 10%;" class="btn btn-primary btn-md" data-title="Edit"
                                     data-toggle="modal"
@@ -428,46 +456,62 @@
                         </div>
                         <div class="modal-body form-horizontal">
                             <div id="endorsement-form-container" class="">
-                                <form class="form-horizontal" onsubmit="return checkalledit()" method="POST" action="{{ url_for("edit_tutor_profile", tutor_id = tutor[0]) }}">
+                                <form class="form-horizontal" onsubmit="return checkalledit()" method="POST"
+                                      action="{{ url_for("edit_tutor_profile", tutor_id = tutor[0]) }}">
                                     <div class="form-group">
 
                                         <div>
                                             <label for=><span style="color: red;">*</span> First Name:</label><br>
-{#                                            <input type="text" class="form-control" id="firstnamevalue">#}
-{#                                            <label for=>First Name:</label><br>#}
-                                            <input type="text" class="form-control" id="firstnamevalue" name="firstname" value="{{ tutor[3] }}"
+                                            {#                                            <input type="text" class="form-control" id="firstnamevalue">#}
+                                            {#                                            <label for=>First Name:</label><br>#}
+                                            <input type="text" class="form-control" id="firstnamevalue" name="firstname"
+                                                   value="{{ tutor[3] }}"
                                                    placeholder="Edit your first name here" required/>
                                         </div>
                                         <div id="firstnamestatuses" style="margin-left: 5%;">
                                         </div>
                                         <div>
                                             <label for=><span style="color: red;">*</span> Last Name:</label><br>
-{#                                            <input type="text" class="form-control" id="lastnamevalue"#}
-{#                                            <label for=>Last Name:</label><br>#}
-                                            <input type="text" class="form-control" id="lastnamevalue" name="lastname" value="{{ tutor[4] }}"
+                                            {#                                            <input type="text" class="form-control" id="lastnamevalue"#}
+                                            {#                                            <label for=>Last Name:</label><br>#}
+                                            <input type="text" class="form-control" id="lastnamevalue" name="lastname"
+                                                   value="{{ tutor[4] }}"
                                                    placeholder="Edit your last name here" required/>
                                         </div>
                                         <div id="lastnamestatuses" style="margin-left: 5%;">
                                         </div>
                                         <div>
-                                            <label for=age><span style="color: red;">*</span> Date of birth:</label><br>
-                                                <div><input class="form-control" type="text" id="datepicker" name="dateofbirth"
-                                                            style="margin-left: 5%;" placeholder="Edit your date of birth here" required/></div>
+                                            <label for=age><span style=" color: red;">*</span> Date of birth:</label><br>
+                                            {#                                            <input type="number" class="form-control" id="age" min="0"#}
+                                            {#                                                   placeholder="Edit your age here" required/>#}
+                                            {#                                            <form method="post" action="/post-views-counter/">#}
+                                            <div>
+                                                {#                                                <input value="{{ birthday }}" type="text" id="datepicker"#}
+                                                {#                                                        name="dateofbirth"#}
+                                                {#                                                        style="margin-left: 5%;"#}
+                                                {#                                                        placeholder="Edit your date of birth here" required/>#}
 
-{#                                            </form>#}
-{#                                            <label for=>Age:</label><br>#}
-{#                                            <input type="number" class="form-control" id="age" min="0" name="age" value="{{ birthday }}"#}
-{#                                                   placeholder="Edit your age here" required/>#}
+                                                <input value="{{ birthday }}" style="margin-left: 5%;"
+                                                       class="form-control" id="editdateofbirth" name="editdateofbirth"
+                                                       placeholder="DD-MM-YYYY" type="text" required/>
+
+                                            </div>
+
+                                            {#                                            </form>#}
+                                            {#                                            <label for=>Age:</label><br>#}
+                                            {#                                            <input type="number" class="form-control" id="age" min="0" name="age" value="{{ birthday }}"#}
+                                            {#                                                   placeholder="Edit your age here" required/>#}
                                         </div>
                                         <div id="dateofbirthstatuses" style="margin-left: 5%;">
                                         </div>
                                         <div>
                                             <label for=><span style="color: red;">*</span> Email:</label><br>
-{#                                            <input type="text" class="form-control" id="emailvalue"#}
-{#                                                   placeholder="Edit your email here" required/>#}
-{#                                            <label for=>Email:</label><br>#}
-                                            <input type="text" class="form-control" id="emailvalue" name="email" value="{{ tutor[11] }}"
-                                               placeholder="Edit your email here" required/>
+                                            {#                                            <input type="text" class="form-control" id="emailvalue"#}
+                                            {#                                                   placeholder="Edit your email here" required/>#}
+                                            {#                                            <label for=>Email:</label><br>#}
+                                            <input type="text" class="form-control" id="emailvalue" name="email"
+                                                   value="{{ tutor[11] }}"
+                                                   placeholder="Edit your email here" required/>
                                         </div>
                                         <div id="emailvaluestatus" style="margin-left: 5%;">
                                         </div>
@@ -475,36 +519,40 @@
                                             <label for=>LINE ID:</label>
 
 
-                                            <input type="text" class="form-control" id="line" name="line" value="{{ tutor[7] }}"
+                                            <input type="text" class="form-control" id="line" name="line"
+                                                   value="{{ tutor[7] }}"
                                                    placeholder="Edit your LINE ID here (OPTIONAL)">
-{#                                            <label for=>LINE ID:</label><br>#}
-{#                                            <input type="text" class="form-control" id="line" name="line" value="{{ tutor[7] }}"#}
-{#                                                   placeholder="Edit your LINE ID here">#}
+                                            {#                                            <label for=>LINE ID:</label><br>#}
+                                            {#                                            <input type="text" class="form-control" id="line" name="line" value="{{ tutor[7] }}"#}
+                                            {#                                                   placeholder="Edit your LINE ID here">#}
                                         </div>
                                         <div>
                                             <label for=>Facebook:</label>
-                                            <input type="text" class="form-control" id="facebook" name="facebook" value="{{ tutor[8] }}"
+                                            <input type="text" class="form-control" id="facebook" name="facebook"
+                                                   value="{{ tutor[8] }}"
                                                    placeholder="Edit your facebook here (OPTIONAL)">
-{#                                            <label for=>Facebook:</label><br>#}
-{#                                            <input type="text" class="form-control" id="facebook" name="facebook" value="{{ tutor[8] }}"#}
-{#                                                   placeholder="Edit your facebook here">#}
+                                            {#                                            <label for=>Facebook:</label><br>#}
+                                            {#                                            <input type="text" class="form-control" id="facebook" name="facebook" value="{{ tutor[8] }}"#}
+                                            {#                                                   placeholder="Edit your facebook here">#}
                                         </div>
                                         <div>
                                             <label for=><span style="color: red;">*</span> Telephone:</label><br>
-{#                                            <input type="tel" class="form-control" id="phonenumber" #}
-{#                                            <label for=>Telephone:</label><br>#}
-                                            <input type="tel" class="form-control" id="phonenumber" name="phone" value="{{ tutor[9] }}"
+                                            {#                                            <input type="tel" class="form-control" id="phonenumber" #}
+                                            {#                                            <label for=>Telephone:</label><br>#}
+                                            <input type="tel" class="form-control" id="phonenumber" name="phone"
+                                                   value="{{ tutor[9] }}"
                                                    placeholder="Edit your telephone here" required/>
                                         </div>
                                         <div id="phonenumberstatus" style="margin-left: 5%;">
                                         </div>
                                         <div>
                                             <label for=><span style="color: red;">*</span> Information:</label><br>
-{#                                            <textarea type="text" class="form-control" id="info"#}
-{#                                                      placeholder="Edit your information here" required/></textarea>#}
-{#                                            <label for=>Information:</label><br>#}
+                                            {#                                            <textarea type="text" class="form-control" id="info"#}
+                                            {#                                                      placeholder="Edit your information here" required/></textarea>#}
+                                            {#                                            <label for=>Information:</label><br>#}
                                             <textarea type="text" class="form-control" id="info" name="info"
-                                                      placeholder="Edit your information here" required/> {{ tutor[1] }} </textarea>
+                                                      placeholder="Edit your information here"
+                                                      required/> {{ tutor[1] }} </textarea>
                                         </div>
                                         <div id="posstatus" style="margin-left: 5%;">
                                         </div>
@@ -516,9 +564,10 @@
                                                 Share > Embed > Copy just the attribute in the src="" into this form.
                                             </div>
 
-{#                                            <input type="text" class="form-control" id="detail"#}
-{#                                            <label for=>Video Introduction:</label><br>#}
-                                            <input type="text" class="form-control" id="detail" name="video_link" value="{{ tutor[6] }}"
+                                            {#                                            <input type="text" class="form-control" id="detail"#}
+                                            {#                                            <label for=>Video Introduction:</label><br>#}
+                                            <input type="text" class="form-control" id="detail" name="video_link"
+                                                   value="{{ tutor[6] }}"
                                                    placeholder="Edit your video introduction here" required/>
                                         </div>
                                         <div id="detailstatus" style="margin-left: 5%;">
@@ -551,19 +600,22 @@
                                     class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                             <h4 class="modal-title custom_align" id="Heading">Upload Your Profile Picture</h4>
                         </div>
-                        <form enctype="multipart/form-data" class="form-horizontal" onsubmit="return checkuploadpicture()" method="POST"
-                        action = {{ url_for('edit_tutor_picture', tutor_id = tutor[0]) }}>
+                        <form enctype="multipart/form-data" class="form-horizontal"
+                              onsubmit="return checkuploadpicture()" method="POST"
+                              action= {{ url_for('edit_tutor_picture', tutor_id = tutor[0]) }}>
                             <div style="text-align: center; width:100%" class="modal-body">
                                 <div>
-                                    <img id="img0" src="#" alt="" style="display: none; width:90%; height:90%;" />
-                                    <button id="buttonUpload" onclick="uploadFile()" type="button" class="btn btn-secondary btn-lg">
+                                    <img id="img0" src="#" alt="" style="display: none; width:90%; height:90%;"/>
+                                    <button id="buttonUpload" onclick="uploadFile()" type="button"
+                                            class="btn btn-secondary btn-lg">
                                         +
                                     </button>
                                     <input id="input-image-3" name="input-image" type="file"
                                            class="btn btn-secondary btn-lg"
                                            onchange="readURL2(this) ;" accept="image/*"
                                            multiple style="display: none">
-                                    <button id="changePicture" onclick="uploadFile()" type="button" class="btn btn-secondary btn-lg" style="display:  none; margin-top:2%">
+                                    <button id="changePicture" onclick="uploadFile()" type="button"
+                                            class="btn btn-secondary btn-lg" style="display:  none; margin-top:2%">
                                     </button>
 
 

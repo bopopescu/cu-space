@@ -224,20 +224,21 @@ function checkalledit() {
     var infovalue = $('#info').val();
     var firstnamevalue = $('#firstnamevalue').val();
     var lastnamevalue = $('#lastnamevalue').val();
-    var agevalue = $('#age').val();
+    var dateofbirth = $('#editdateofbirth').val();
     var detailvalue = $('#detail').val();
     var phonevalue = $('#phonenumber').val();
     var emailvalue = $('#emailvalue').val();
+
     if (checkpos(infovalue) == 1 ||
         checkdetail(detailvalue) == 1 ||
         checkphone(phonevalue) == 1 ||
         checkphone2(phonevalue) == 2 ||
         checkfirstname(firstnamevalue) == 1 ||
         checklastname(lastnamevalue) == 1 ||
-        checkage(agevalue) == 1 ||
+        checkDateOfBirth(dateofbirth) == 1 ||
         checkemailvalue(emailvalue) == 1
     ) {
-        alert("Please enter all of the information");
+        alert("Please enter all of the information correctly");
         // console.log(phonevalue)
         return false;
     } else {
@@ -268,16 +269,16 @@ function checklastname(value) {
     }
 }
 
-function checkage(value) {
-    document.getElementById('agestatus').style.color = "red";
-    if (value <= 0) {
-        document.getElementById('agestatus').innerHTML = 'X Please enter your age';
-        return 1;
-    } else {
-        document.getElementById('agestatus').innerHTML = '';
-        return 0;
-    }
-}
+// function checkage(value) {
+//     document.getElementById('agestatus').style.color = "red";
+//     if (value <= 0) {
+//         document.getElementById('agestatus').innerHTML = 'X Please enter your age';
+//         return 1;
+//     } else {
+//         document.getElementById('agestatus').innerHTML = '';
+//         return 0;
+//     }
+// }
 
 function checkphone2(value) {
     console.log("enter leawwww");
@@ -371,12 +372,16 @@ function checkcoursecategory(value) {
 }
 
 function checkcourseprice(value) {
-    document.getElementById('coursepricestatus').style.color = "red";
+    document.getElementById('pricestatus').style.color = "red";
     if (value <= 0) {
-        document.getElementById('coursepricestatus').innerHTML = 'X Please enter the course price';
+        document.getElementById('pricestatus').innerHTML = 'X Please enter the course price';
         return 1;
-    } else {
-        document.getElementById('coursepricestatus').innerHTML = '';
+    }if(/^\d+$/.test(value) == false){
+        document.getElementById('pricestatus').innerHTML = 'X Price must contains only number';
+        return 1;
+    }
+    else {
+        document.getElementById('pricestatus').innerHTML = '';
         return 0;
     }
 }
@@ -398,7 +403,6 @@ function checkaddcourse() {
     }
 
 }
-
 
 function checkaddcoursename(value) {
     document.getElementById('addcoursenamestatus').style.color = "red";
@@ -501,21 +505,18 @@ function checkDateOfBirth(date1) {
     }
     // hundredyrsago = yyyy-100;
     var hundredyrsago = today.getFullYear()-100;
-    today = mm + '/' + dd + '/' + yyyy;
+    today = dd + '-' + mm + '-' + yyyy;
     hundredyrsagodate = mm + '/' + dd + '/' + hundredyrsago;
-
     if (date1.length <= 1 ) {
         document.getElementById('dateofbirthstatuses').innerHTML = "X Please enter the date of birth";
         return 1;
     }if(date1 == today){
         document.getElementById('dateofbirthstatuses').innerHTML = "X You can't be born today right!?";
         return 1;
+    }if(date1 >= today){
+        document.getElementById('dateofbirthstatuses').innerHTML = "X You are not from the future right!?";
+        return 1;
     }
-    // if(date1 <= hundredyrsagodate){
-    //     document.getElementById('dateofbirthstatuses').innerHTML = "X You can't be more than a 100 years old right!?";
-    //     return 1;
-    // }
-
     else{
         document.getElementById('dateofbirthstatuses').innerHTML = "";
         return 0;
@@ -524,11 +525,10 @@ function checkDateOfBirth(date1) {
 
 }
 
-$("#datepicker").focusout(function () {
-    var date1 = $('[name=dateofbirth]').val();
+$("#editdateofbirth").focusout(function () {
+    var date1 = $('[name=editdateofbirth]').val();
     if (checkDateOfBirth(date1) == 1) {
     } else {
-        // $('#datepicker').css("border-color", "#00CD00");
     }
 });
 

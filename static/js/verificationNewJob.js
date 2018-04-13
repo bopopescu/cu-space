@@ -196,27 +196,6 @@ $("#website").focusout(function () {
         // $(this).css("border-color", "#00CD00");
     }
 });
-$("#datepicker").focusout(function () {
-    var date1 = $('[name=date1]').val();
-    var date2 = $('[name=date2]').val();
-    if (checkDate(date1,date2) == 1 ) {
-
-        // $('#datepicker').css("border-color", "#FF0000");
-    } else {
-        // $('#datepicker').css("border-color", "#00CD00");
-    }
-});
-$("#datepicker2").focusout(function () {
-    var date1 = $('[name=date1]').val();
-    var date2 = $('[name=date2]').val();
-
-    if (checkDate(date1,date2) == 1 ) {
-
-        // $('#datepicker2').css("border-color", "#FF0000");
-    } else {
-        // $('#datepicker2').css("border-color", "#00CD00");
-    }
-});
 
 function checkcompanyname(value) {
     document.getElementById('companynamestatus').style.color = "red";
@@ -329,25 +308,138 @@ function hasWWW(myString) {
     }
 
 }
+
 function checkDate(date1,date2) {
-    document.getElementById('datestatuses').style.color = "red";
+
+    document.getElementById('datestatus').style.color = "red";
     if (date1>date2 ) {
 
-        document.getElementById('datestatuses').innerHTML = "X Start date can't be more than End date";
+        document.getElementById('datestatus').innerHTML = "X Start date can't be more than End date";
         return 1;
 
     }if(date1.length<=1 || date2.length<=1){
 
-       document.getElementById('datestatuses').innerHTML = "X Please enter both of the date";
+       document.getElementById('datestatus').innerHTML = "X Please enter both of the date";
         return 1;
     }else{
-        document.getElementById('datestatuses').innerHTML = "";
+        document.getElementById('datestatus').innerHTML = "";
         return 0;
 
     }
 
 }
 
+
+//////////
+function checkDateApplicationStart(date1) {
+    // console.log('enter checkdateofbirth ')
+    // alert('asdf');
+    document.getElementById('startdatestatus').style.color = "red";
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    // hundredyrsago = yyyy-100;
+    var hundredyrsago = today.getFullYear()-100;
+    today = dd + '-' + mm + '-' + yyyy;
+    // hundredyrsagodate = mm + '/' + dd + '/' + hundredyrsago;
+
+    var day,year;
+     if (date1.length <= 1) {
+        document.getElementById('startdatestatus').innerHTML = "X Please enter the application start date";
+        return 1;
+    }
+    if (date1.length !== 10) {
+        document.getElementById('startdatestatus').innerHTML = "X Please enter the application start date correctly";
+        return 1;
+    }if (date1.substring(2, 3) !== '-' || date1.substring(5, 6) !== '-') {
+        document.getElementById('startdatestatus').innerHTML = "X Please enter the application start date correctly";
+        return 1;
+    }
+    day = date1.substring(0, 2) - 1; // because months in JS start from 0
+    month = date1.substring(3, 5) - 0;
+    year = date1.substring(6, 10) - 0;
+    if (year < 1000 || year > 3000) {
+        document.getElementById('startdatestatus').innerHTML = "X Please enter the application start date correctly";
+        return 1;
+    }
+    else {
+        document.getElementById('startdatestatus').innerHTML = "";
+        return 0;
+
+    }
+
+}
+function checkDateApplicationEnd(date1) {
+    // console.log('enter checkdateofbirth ')
+    // alert('asdf');
+    document.getElementById('enddatestatus').style.color = "red";
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    // hundredyrsago = yyyy-100;
+    var hundredyrsago = today.getFullYear()-100;
+    today = dd + '-' + mm + '-' + yyyy;
+    // hundredyrsagodate = mm + '/' + dd + '/' + hundredyrsago;
+
+    var day,year;
+     if (date1.length <= 1) {
+        document.getElementById('enddatestatus').innerHTML = "X Please enter the application end date";
+        return 1;
+    }
+    if (date1.length !== 10) {
+        document.getElementById('enddatestatus').innerHTML = "X Please enter the application end date correctly";
+        return 1;
+    }if (date1.substring(2, 3) !== '-' || date1.substring(5, 6) !== '-') {
+        document.getElementById('enddatestatus').innerHTML = "X Please enter the application end date correctly";
+        return 1;
+    }
+    day = date1.substring(0, 2) - 1; // because months in JS start from 0
+    month = date1.substring(3, 5) - 0;
+    year = date1.substring(6, 10) - 0;
+    if (year < 1000 || year > 3000) {
+        document.getElementById('enddatestatus').innerHTML = "X Please enter the application end date correctly";
+        return 1;
+    }
+    else {
+        document.getElementById('enddatestatus').innerHTML = "";
+        return 0;
+
+    }
+
+}
+
+
+$("#applicationstartdate").focusout(function () {
+    // alert('kao leaw')
+    var date1 = $('[name=applicationstartdate]').val();
+    if (checkDateApplicationStart(date1) == 1) {
+    } else {
+        // $('#datepicker').css("border-color", "#00CD00");
+    }
+});
+$("#applicationenddate").focusout(function () {
+    // alert('kao leaw')
+    var date1 = $('[name=applicationenddate]').val();
+    if (checkDateApplicationEnd(date1) == 1) {
+    } else {
+        // $('#datepicker').css("border-color", "#00CD00");
+    }
+});
+/////
 
 
 
@@ -362,8 +454,8 @@ function checkallpost() {
     var phonenovalue = $('#phonenumber').val();
     var emailvalue = $('#emailvalue').val();
     var websitevalue = $('#website').val();
-    var startdate = $('[name=date1]').val();
-    var enddate = $('[name=date2]').val();
+    var startdate = $('[name=applicationstartdate]').val();
+    var enddate = $('[name=applicationenddate]').val();
 
     var $fileUpload = $("#input-image-3");
         if (parseInt($fileUpload.get(0).files.length) <1) {
@@ -379,6 +471,8 @@ function checkallpost() {
         checkphone(phonenovalue) == 2 ||
             checkemail(emailvalue) == 1 ||
             checkwebsite(websitevalue) ==1 ||
+            checkDateApplicationStart(startdate)==1 ||
+            checkDateApplicationEnd(enddate) ==1 ||
     checkDate(startdate,enddate) ==1){
         alert("Please enter all of the information");
         console.log(websitevalue);
