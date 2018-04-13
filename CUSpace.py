@@ -1,13 +1,18 @@
 from datetime import date
 from datetime import datetime
 from random import randrange
-
+from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for
 import math
 #NOTE!!
 #install flask-mysql first by writing in terminal "pip install flask-mysql" in order to use
 from flaskext.mysql import MySQL
+uploadPictureFolder = "../static/img"
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
+app.config['uploadPictureFolder'] = uploadPictureFolder
+
+
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
@@ -128,7 +133,7 @@ def add_subject(tutor_id):
 def edit_tutor_profile(tutor_id):
     firstname = request.form.get("firstname")
     lastname = request.form.get("lastname")
-    #age = request.form.get("age")
+    birthday = request.form.get("dateofbirth")
     email = request.form.get("email")
     line = request.form.get("line")
     facebook = request.form.get("facebook")
@@ -137,22 +142,27 @@ def edit_tutor_profile(tutor_id):
     video_link = request.form.get("video_link")
     conn= mysql.connect()
     cursor = conn.cursor()
+    print(birthday)
     edit_tutorSQL = """UPDATE `tutor` 
                        SET `information`= %s,`Video`= %s,`Facebook`= %s,`Line`= %s,`Phone`= %s
                        WHERE `User_id` = %s"""
     edit_userSQL = """UPDATE `user` 
-                      SET `Email`=%s,`Firstname`=%s,`Lastname`=%s 
+                      SET `Email`=%s,`Firstname`=%s,`Lastname`=%s , `DateOfBirth`=%s
                       WHERE `User_id` = %s"""
     try:
         cursor.execute(edit_tutorSQL, (info, video_link, facebook, line,phone, tutor_id))
         try:
-            cursor.execute(edit_userSQL, (email, firstname, lastname, tutor_id))
+            cursor.execute(edit_userSQL, (email, firstname, lastname, tutor_id, birthday))
             conn.commit()
         except:
             print("Cannot update user table")
     except:
         print("Cannot update tutor table")
     return redirect(url_for("profile", tutor_id = tutor_id))
+
+# @app.route('/tutor/<tutor_id>/edit_tutor_picture' , methods=['GET', 'POST'])
+# def edit_tutor_picture(tutor_id):
+#
 
 @app.route('/tutor/<tutor_id>/delete_subject/<subject_group_id>')
 def delete_subject_course(tutor_id, subject_group_id):
@@ -341,6 +351,10 @@ def getSub():
 def calculate_age(born):
     today = date.today()
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 if __name__ == '__main__':
     app.run()

@@ -476,10 +476,11 @@ function checkDateOfBirth(date1) {
     }if(date1 == today){
         document.getElementById('dateofbirthstatuses').innerHTML = "X You can't be born today right!?";
         return 1;
-    } if(date1 <= hundredyrsagodate){
-        document.getElementById('dateofbirthstatuses').innerHTML = "X You can't be more than a 100 years old right!?";
-        return 1;
     }
+    // if(date1 <= hundredyrsagodate){
+    //     document.getElementById('dateofbirthstatuses').innerHTML = "X You can't be more than a 100 years old right!?";
+    //     return 1;
+    // }
 
     else{
         document.getElementById('dateofbirthstatuses').innerHTML = "";

@@ -451,12 +451,8 @@
                                         </div>
                                         <div>
                                             <label for=age><span style="color: red;">*</span> Date of birth:</label><br>
-                                            {#                                            <input type="number" class="form-control" id="age" min="0"#}
-                                            {#                                                   placeholder="Edit your age here" required/>#}
-{#                                            <form method="post" action="/post-views-counter/">#}
-                                                <div><input value="{{ birthday }}" type="text" id="datepicker" name="dateofbirth"
-                                                            style="margin-left: 5%;" placeholder="Edit your age here" required/></div>
-
+                                                <div><input class="form-control" type="text" id="datepicker" name="dateofbirth"
+                                                            style="margin-left: 5%;" placeholder="Edit your date of birth here" required/></div>
 
 {#                                            </form>#}
 {#                                            <label for=>Age:</label><br>#}
@@ -555,7 +551,7 @@
                                     class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                             <h4 class="modal-title custom_align" id="Heading">Upload Your Profile Picture</h4>
                         </div>
-                        <form class="form-horizontal" onsubmit="return checkuploadpicture()" method="POST">
+                        <form enctype="multipart/form-data" class="form-horizontal" onsubmit="return checkuploadpicture()" method="POST">
                             <div class="modal-body">
                                 <div>
 

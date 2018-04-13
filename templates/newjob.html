@@ -381,7 +381,7 @@
 
                     <form method="post" action="/post-views-counter/">
                         <label for="jobcategory">Application Start Date</label><br>
-                        <div><input type="text" id="datepicker" name="date1" required/></div>
+                        <div><input type="text" id="datepicker3" name="date1" required/></div>
                         <br>
                         <label for="jobcategory">Application End Date</label><br>
                         <input type="text" id="datepicker2" name="date2" required/>
@@ -392,7 +392,7 @@
                     </div>
 
                     <br>
-                    <input id="finalbutton" type="submit" class="btn btn-primary" value="Create a discussion"></input>
+                    <input id="finalbutton" type="submit" class="btn btn-primary" value="Create a discussion">
                 </div>
             </div>
         </form>
@@ -405,9 +405,11 @@
     <script>
         $(function () {
         $("#datepicker").datepicker();
+        $("#datepicker3").datepicker();
         $("#datepicker2").datepicker();
     });
     </script>
+
 
 
 {% endblock %}
