@@ -76,11 +76,11 @@ def profile(tutor_id):
     subject = getSub()
     try:
         tutorSQL = """SELECT t.user_id, t.information, prof.picture, user.Firstname, user.Lastname, user.Ban_status,
-                      t.video, t.line, t.facebook, t.phone, user.dateofbirth, user.Email, prof.Picture_id
+                      t.video, t.line, t.facebook, t.phone, user.dateofbirth, user.Email
                       FROM `tutor` t
                       INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
                       INNER JOIN `user` ON user.User_id = t.user_id
-                      WHERE t.user_id = %s  ORDER BY `picture_id` DESC """
+                      WHERE t.user_id = %s """
         cursor.execute(tutorSQL, tutor_id)
         tutor_info = cursor.fetchone()
         try:
@@ -185,7 +185,7 @@ def edit_tutor_picture(tutor_id):
             file.save(os.path.join(app.config['uploadPictureFolder'],tutor_id, filename))
             conn = mysql.connect()
             cursor = conn.cursor()
-            pictureSQL = """INSERT INTO `profile_picture`(`Picture`, `User_id`) VALUES (%s,%s)"""
+            pictureSQL = """UPDATE `profile_picture` SET `Picture`= %s WHERE `User_id` = %s"""
             try:
                 cursor.execute(pictureSQL, (filename, tutor_id))
                 conn.commit()
