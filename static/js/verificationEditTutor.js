@@ -62,6 +62,40 @@
 //     }
 // });
 
+function uploadFile() {
+    var $fileUpload = $("#input-image-3");
+    $fileUpload.trigger('click');
+}
+
+function readURL2(input) {
+    document.getElementById("img0").style.display = "none";
+    var buttonUpload = document.getElementById('buttonUpload');
+    var changePicture = document.getElementById('changePicture');
+    if (input.files.length >1) {
+        alert("Can upload a maximum of 1 images");
+    } else {
+        if (input.files[0]) {
+            for (i = 0; i < input.files.length; i++)
+                showImage(input, i);
+            buttonUpload.style.display = "none";
+            changePicture.style.display = "inline-block";
+            document.getElementById("changePicture").innerHTML = "Change picture";
+        }
+    }
+}
+
+function showImage(input, n) {
+    var reader = new FileReader();
+    var str = '#img' + n;
+
+    reader.onload = function (e) {
+        $(str)
+            .attr('src', e.target.result)
+    };
+
+    reader.readAsDataURL(input.files[n]);
+    $(str).show();
+}
 
 $("#firstnamevalue").focusout(function () {
     var value = $(this).val()

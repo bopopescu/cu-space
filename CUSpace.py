@@ -1,17 +1,22 @@
 from datetime import date
 from datetime import datetime
 from random import randrange
+
+import os
 from werkzeug.utils import secure_filename
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for , send_from_directory , flash
 import math
 #NOTE!!
 #install flask-mysql first by writing in terminal "pip install flask-mysql" in order to use
 from flaskext.mysql import MySQL
-uploadPictureFolder = "../static/img"
+path = os.path.dirname(__file__)
+relpath = os.path.relpath(path)
+# uploadPictureFolder = "C:/Users/natta/Desktop/Senior Project/static/img"
+uploadPictureFolder = os.path.join(relpath,"static/img/user")
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 app.config['uploadPictureFolder'] = uploadPictureFolder
-
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -71,11 +76,11 @@ def profile(tutor_id):
     subject = getSub()
     try:
         tutorSQL = """SELECT t.user_id, t.information, prof.picture, user.Firstname, user.Lastname, user.Ban_status,
-                      t.video, t.line, t.facebook, t.phone, user.dateofbirth, user.Email
+                      t.video, t.line, t.facebook, t.phone, user.dateofbirth, user.Email, prof.Picture_id
                       FROM `tutor` t
                       INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
                       INNER JOIN `user` ON user.User_id = t.user_id
-                      WHERE t.user_id = %s """
+                      WHERE t.user_id = %s  ORDER BY `picture_id` DESC """
         cursor.execute(tutorSQL, tutor_id)
         tutor_info = cursor.fetchone()
         try:
@@ -160,9 +165,32 @@ def edit_tutor_profile(tutor_id):
         print("Cannot update tutor table")
     return redirect(url_for("profile", tutor_id = tutor_id))
 
-# @app.route('/tutor/<tutor_id>/edit_tutor_picture' , methods=['GET', 'POST'])
-# def edit_tutor_picture(tutor_id):
-#
+@app.route('/tutor/<tutor_id>/edit_tutor_picture' , methods=['GET', 'POST'])
+def edit_tutor_picture(tutor_id):
+    print("success")
+    if request.method == 'POST':
+        if 'input-image' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['input-image']
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            if not os.path.exists(os.path.join(app.config['uploadPictureFolder'],tutor_id)):
+                os.makedirs(os.path.join(app.config['uploadPictureFolder'],tutor_id))
+            file.save(os.path.join(app.config['uploadPictureFolder'],tutor_id, filename))
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            pictureSQL = """INSERT INTO `profile_picture`(`Picture`, `User_id`) VALUES (%s,%s)"""
+            try:
+                cursor.execute(pictureSQL, (filename, tutor_id))
+                conn.commit()
+            except:
+                print("Cannot insert picture to database")
+            return redirect(url_for('profile', tutor_id = tutor_id))
+
 
 @app.route('/tutor/<tutor_id>/delete_subject/<subject_group_id>')
 def delete_subject_course(tutor_id, subject_group_id):
@@ -356,5 +384,9 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    app.secret_key = 'super secret key'
+    app.config['SESSION_TYPE'] = 'filesystem'
+
+    app.debug = True
     app.run()

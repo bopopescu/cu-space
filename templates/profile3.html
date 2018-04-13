@@ -105,7 +105,7 @@
 
                 <div class="w3-white w3-text-grey w3-card-4">
                     <div class="w3-display-container">
-                        <img src="/static/img/{{ tutor[2] }}" style="width:100%" alt="Avatar">
+                        <img src="/static/img/user/{{ tutor[0] }}/{{ tutor[2] }}" style="width:100%" alt="Avatar">
                         <div class="w3-display-bottomright w3-container w3-text-black">
                             <button style="margin-bottom: 10%;" class="btn btn-primary btn-md" data-title="Edit"
                                     data-toggle="modal"
@@ -551,21 +551,20 @@
                                     class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                             <h4 class="modal-title custom_align" id="Heading">Upload Your Profile Picture</h4>
                         </div>
-                        <form enctype="multipart/form-data" class="form-horizontal" onsubmit="return checkuploadpicture()" method="POST">
-                            <div class="modal-body">
+                        <form enctype="multipart/form-data" class="form-horizontal" onsubmit="return checkuploadpicture()" method="POST"
+                        action = {{ url_for('edit_tutor_picture', tutor_id = tutor[0]) }}>
+                            <div style="text-align: center; width:100%" class="modal-body">
                                 <div>
-
-                                    <p>Upload your profile picture</p>
-                                    <br>
-                                    <img id="img0" src="#" alt="" style="display: none"/>
-                                    <button id="b1" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">
+                                    <img id="img0" src="#" alt="" style="display: none; width:90%; height:90%;" />
+                                    <button id="buttonUpload" onclick="uploadFile()" type="button" class="btn btn-secondary btn-lg">
                                         +
                                     </button>
                                     <input id="input-image-3" name="input-image" type="file"
                                            class="btn btn-secondary btn-lg"
-                                           onchange="readURL(this) ;" accept="image/*"
+                                           onchange="readURL2(this) ;" accept="image/*"
                                            multiple style="display: none">
-                                    <br>
+                                    <button id="changePicture" onclick="uploadFile()" type="button" class="btn btn-secondary btn-lg" style="display:  none; margin-top:2%">
+                                    </button>
 
 
                                 </div>
