@@ -2,12 +2,22 @@ from datetime import date
 from datetime import datetime
 from random import randrange
 
+import os
 from flask import Flask, render_template, request, redirect, url_for
 import math
 #NOTE!!
 #install flask-mysql first by writing in terminal "pip install flask-mysql" in order to use
 from flaskext.mysql import MySQL
+
+path = os.path.dirname(__file__)
+relpath = os.path.relpath(path)
+# uploadPictureFolder = "C:/Users/natta/Desktop/Senior Project/static/img"
+uploadPictureFolder = os.path.join(relpath,"static/img/user")
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
+app.config['uploadPictureFolder'] = uploadPictureFolder
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
@@ -24,6 +34,10 @@ def index():
     data = cursor.fetchall()
     categoryList = [ i[1] for i in data]
     return render_template('index4.html', catlist = categoryList)
+
+@app.route('/login')
+def login():
+    return render_template('index4.html')
 
 @app.route('/tutor/' , defaults={'page':1})
 @app.route('/tutor/page/<page>')
