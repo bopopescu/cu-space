@@ -1,11 +1,13 @@
 import datetime
 
+import os
 from flask import Flask, render_template
 from random import choice, randrange
 import hashlib, uuid
 #NOTE!!
 #install flask-mysql first by writing in terminal "pip install flask-mysql"
 from flaskext.mysql import MySQL
+import shutil
 app = Flask('__CUSpace__')
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -31,82 +33,8 @@ conn = mysql.connect()
 #     print("Fail to insert category list")
 # cursor.close()
 
-#---------------------------------------------------INSERTING RANDOM DATA INTO CATEGORY DATA USING EXISTING USER-------------------------------------------
-#
-content = "Why are we still here? Just to suffer? Every night, I can feel my leg… and my arm… even my fingers. The body I’ve lost… the comrades I’ve lost… won’t stop hurting… It’s like they’re all still there. You feel it, too, don’t you? "
-topic = "What is the answer of life and death"
-password = "he11o".encode('utf-8')
-user_key = hashlib.md5()
-user_key.update(password)
-user_key= user_key.hexdigest()
-print(user_key)
-firstname = "John"
-lastname = "Cena"
-dateOfbirth = datetime.datetime.today().strftime('%Y-%m-%d')
-print(dateOfbirth)
-role ="Wrestler"
-ban_status ="0"
-for i in range(500):
-    while True:
-        try:
-            dis_id = 0
-            dis_cat_id = 0
-            email = "hello" + str(randrange(1, 1000000)) + "@world.com"
-            username = "hello" + str(randrange(1, 1000000)) + "world"
-            cursor = conn.cursor()
-            usercursor = conn.cursor()
-            select_user__SQL = """SELECT * FROM `user` ORDER BY RAND()"""
-            try:
-                usercursor.execute(select_user__SQL)
-                user_id = usercursor.fetchone()[0]
-                usercursor.close()
-            except:
-                print("fail to insert user, probably same user id, retry loop")
-                continue
-            sql2 = "INSERT INTO `discussion`(`User_id`, `Topic`, `Content`) VALUES (%s,%s,%s)"
-            try:
-                cursor.execute(sql2, (user_id, topic, content))
-                conn.commit()
-            except:
-                print("SHIT")
-            sqlFordis_id = """SELECT `dis_id` FROM `discussion`"""
-            sqlFordis_cat_id = """SELECT `dis_cat_id` FROM `dis_category`"""
-            try:
-                cursor.execute(sqlFordis_id)
-                dis_idList = cursor.fetchall()
-                if(dis_idList.__len__() >1):
-                    dis_idList = [i[0] for i in dis_idList]
-                    dis_id = choice(dis_idList)
-                else:
-                    dis_id = [i[0] for i in dis_idList][0]
-            except:
-                print("Cannot query dis_id")
-            try:
-                cursor.execute(sqlFordis_cat_id)
-                dis_cat_idList = cursor.fetchall()
-                if (dis_cat_idList.__len__() > 1):
-                    dis_cat_idList = [i[0] for i in dis_cat_idList]
-                    dis_cat_id = choice(dis_cat_idList)
-                else:
-                    dis_cat_id = [i[0] for i in dis_cat_idList][0]
-            except:
-                print("cannot query dis_cat_id")
-            sql3 = "INSERT INTO `dis_category_group`(`Dis_id`, `Dis_cat_id`) VALUES ({},{})".format(dis_id,dis_cat_id)
-            try:
-                cursor.execute(sql3)
-                conn.commit()
-            except:
-                print("Cannot insert dis_cat_group")
-            print(i)
-        except:
-            print("Something bad is happening!!")
-            continue
-        break
-cursor.close()
-conn.close()
-
-# #-------------------------------------- INSERT TUTOR, USER , SUBJECT, PROFILE PIC,SUBJECT GROUP--------------------------------------
-# #USER INFO
+#-------------------------------------- INSERT TUTOR, USER , SUBJECT, PROFILE PIC,SUBJECT GROUP--------------------------------------
+#USER INFO
 #
 # password = "he11o".encode('utf-8')
 # user_key = hashlib.md5()
@@ -118,7 +46,7 @@ conn.close()
 # dateOfbirth = datetime.datetime.today().strftime('%Y-%m-%d')
 # print(dateOfbirth)
 # tutor_create_time = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-# role ="Wrestler"
+# role =0 #user
 # ban_status ="0"
 #
 # #TUTOR INFO
@@ -126,7 +54,16 @@ conn.close()
 # video ="https://www.youtube.com/embed/c0sGiqOWt1w"
 # phone ="0123456789"
 # #PROFILE PIC INFO
-# picture = "abcdegf.jpg"
+# picture = "dummy.jpeg"
+# path = os.path.dirname(__file__)
+# relpath = os.path.relpath(path)
+# uploadPictureFolder = os.path.join(relpath,"static/img/user")
+# PictureFolder = os.path.join(relpath,"static/img")
+# ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+# def allowed_file(filename):
+#     return '.' in filename and \
+#            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+#
 #
 # #SUBJECT
 # #NONE
@@ -185,8 +122,15 @@ conn.close()
 #             except:
 #                 print("Cannot insert subject group")
 #             try:
+#                 os.makedirs(os.path.join(uploadPictureFolder, str(tutor_and_user)))
+#                 filelist = os.listdir(PictureFolder)
+#                 for files in filelist:
+#                     if files.startswith('dummy'):
+#                         shutil.copy2(os.path.join(os.path.dirname(__file__), 'static/img', files),
+#                                      os.path.join(os.path.dirname(__file__), 'static/img/user', str(tutor_and_user)))
+#                         break
 #                 profile_picSQL = """INSERT INTO `profile_picture`(`Picture`, `User_id`)
-#                                     VALUES (%s,%s)"""
+#                                                     VALUES (%s,%s)"""
 #                 user_and_tutor_cursor.execute(profile_picSQL, (picture, tutor_and_user))
 #                 conn.commit()
 #             except:
@@ -197,5 +141,108 @@ conn.close()
 #             break
 #         break
 # user_and_tutor_cursor.close()
-# conn.close()
+
+# ---------------------------------------------------INSERTING RANDOM DATA INTO CATEGORY DATA USING EXISTING USER-------------------------------------------
 #
+# content = "Why are we still here? Just to suffer? Every night, I can feel my leg… and my arm… even my fingers. The body I’ve lost… the comrades I’ve lost… won’t stop hurting… It’s like they’re all still there. You feel it, too, don’t you? "
+# topic = "What is the answer of life and death"
+# password = "he11o".encode('utf-8')
+# user_key = hashlib.md5()
+# user_key.update(password)
+# user_key= user_key.hexdigest()
+# print(user_key)
+# firstname = "John"
+# lastname = "Cena"
+# dateOfbirth = datetime.datetime.today().strftime('%Y-%m-%d')
+# print(dateOfbirth)
+# role = 0 #user
+# ban_status ="0"
+# for i in range(500):
+#     while True:
+#         try:
+#             dis_id = 0
+#             dis_cat_id = 0
+#             email = "hello" + str(randrange(1, 1000000)) + "@world.com"
+#             username = "hello" + str(randrange(1, 1000000)) + "world"
+#             cursor = conn.cursor()
+#             usercursor = conn.cursor()
+#             select_user__SQL = """SELECT * FROM `user` ORDER BY RAND()"""
+#             try:
+#                 usercursor.execute(select_user__SQL)
+#                 user_id = usercursor.fetchone()[0]
+#                 usercursor.close()
+#             except:
+#                 print("fail to insert user, probably same user id, retry loop")
+#                 continue
+#             sql2 = "INSERT INTO `discussion`(`User_id`, `Topic`, `Content`) VALUES (%s,%s,%s)"
+#             try:
+#                 cursor.execute(sql2, (user_id, topic, content))
+#                 conn.commit()
+#             except:
+#                 print("SHIT")
+#             sqlFordis_id = """SELECT `dis_id` FROM `discussion`"""
+#             sqlFordis_cat_id = """SELECT `dis_cat_id` FROM `dis_category`"""
+#             try:
+#                 cursor.execute(sqlFordis_id)
+#                 dis_idList = cursor.fetchall()
+#                 if(dis_idList.__len__() >1):
+#                     dis_idList = [i[0] for i in dis_idList]
+#                     dis_id = choice(dis_idList)
+#                 else:
+#                     dis_id = [i[0] for i in dis_idList][0]
+#             except:
+#                 print("Cannot query dis_id")
+#             try:
+#                 cursor.execute(sqlFordis_cat_id)
+#                 dis_cat_idList = cursor.fetchall()
+#                 if (dis_cat_idList.__len__() > 1):
+#                     dis_cat_idList = [i[0] for i in dis_cat_idList]
+#                     dis_cat_id = choice(dis_cat_idList)
+#                 else:
+#                     dis_cat_id = [i[0] for i in dis_cat_idList][0]
+#             except:
+#                 print("cannot query dis_cat_id")
+#             sql3 = "INSERT INTO `dis_category_group`(`Dis_id`, `Dis_cat_id`) VALUES ({},{})".format(dis_id,dis_cat_id)
+#             try:
+#                 cursor.execute(sql3)
+#                 conn.commit()
+#             except:
+#                 print("Cannot insert dis_cat_group")
+#             print(i)
+#         except:
+#             print("Something bad is happening!!")
+#             continue
+#         break
+# cursor.close()
+#------------------------------INSERT COMMENT INTO RANDOM DISCUSSION
+commentcursor = conn.cursor()
+content = "Don't walk behind me; I may not lead. Don't walk in front of me; I may not follow. Just walk beside me and be my friend. - Albert Camus"
+for i in range(500):
+    while True:
+        try:
+            select_discussion_SQL = """SELECT * FROM `discussion` ORDER BY RAND()"""
+            select_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
+            try:
+                commentcursor.execute(select_discussion_SQL)
+                dis_id = commentcursor.fetchone()[0]
+                try:
+                    commentcursor.execute(select_user_SQL)
+                    user_id = commentcursor.fetchone()[0]
+                    insert_comment_sql = """INSERT INTO `comment`(`Dis_id`, `User_id`, `Content`) VALUES (%s,%s,%s)"""
+                    try:
+                        commentcursor.execute(insert_comment_sql,(dis_id, user_id, content))
+                        conn.commit()
+                    except:
+                        print("fail to insert comment")
+                except:
+                    print("fail to query user")
+                    continue
+            except:
+                print("fail to query discussion")
+                continue
+            print(i)
+        except:
+            print("Something bad is going on")
+            continue
+        break;
+commentcursor.close()

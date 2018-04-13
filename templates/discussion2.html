@@ -47,24 +47,24 @@
                 <div class="main-wrapper">
                     <div class="main-right">
                         <h6 class="section-title">
-                            <i class="far fa-edit"></i> {{ comment[loop.index-1] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <i class="far fa-clock"></i> {{ time[loop.index-1] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="far fa-edit"></i> {{ comment[loop.index - 1] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="far fa-clock"></i> {{ time[loop.index - 1] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <i class="fas fa-user"></i> {{ data[8] }} {{ data[9] }}
                         </h6>
                     </div>
                     <div class="main-left">
                         <div class="profile-img"><img class="rounded-circle"
-                                                      src="/static/img/{{ data[10] }}"
+                                                      src="/static/img/user/{{ data[4] }}/{{ data[10] }}"
                                                       alt="Generic placeholder image" width="45" height="45">
                         </div>
                         <h4 class="section-title"><a
                                 href="{{ url_for('discussion_post', category = cat, dis_id = data[1]) }}">{{ data[5] }}</a>
                         </h4>
-                        <h6 class="section-title">{{ content[loop.index-1] }}</h6>
+                        <h6 class="section-title">{{ content[loop.index - 1] }}</h6>
                     </div>
                     <div class="main-right-small">
                         <h6 class="section-title">
-                            <i class="far fa-clock"></i> {{ time[loop.index-1] }} &nbsp;
+                            <i class="far fa-clock"></i> {{ time[loop.index - 1] }} &nbsp;
                             <i class="fas fa-user"></i> {{ data[8] }} {{ data[9] }}
                         </h6>
                     </div>

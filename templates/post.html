@@ -52,7 +52,7 @@
                     <a href="#"> {# url to user #}
                         <div class="profile-img">
                             <img class="rounded-circle"
-                                 src="{{ comment[6] }}"
+                                 src="/static/img/user/{{ comment[7] }}/{{ comment[6] }}"
                                  alt="Generic placeholder image" width="45" height="45">
                             <br>
                         </div>
@@ -60,7 +60,7 @@
                     <div class="content">
                         <p class="section-title"> {{ comment[0] }}</p>
                         <h6 class="section-title">Posted on {{ comment[1].strftime('%H:%M %d-%m-%Y') }}
-                            by {{ comment[4] }} {{ comment[5] }}</h6>
+                            by {{ comment[3] }} {{ comment[4] }}</h6>
                     </div>
                     <hr>
                 </div>

@@ -426,7 +426,7 @@ def discussion_post(category,dis_id, page):
         topicInfo = cursor.fetchone()
     except:
         print("cannot query discussion")
-    commentSQL = """SELECT content,Create_time,email,firstname,lastname,ban_status,picture 
+    commentSQL = """SELECT content,Create_time,email,firstname,lastname,ban_status,picture, com.User_id 
                     FROM `comment` com INNER JOIN user ON user.User_id = com.user_id 
                     INNER JOIN profile_picture pic ON pic.User_id = com.user_id 
                     WHERE com.dis_id = %s ORDER BY Create_time DESC"""
@@ -488,7 +488,7 @@ def discussion(category, page):
         except:
             print("Cannot query the data in Category: " + category)
 
-        sqlWanted = """SELECT catgrp.dis_cat_group_id
+        discussion_info_SQL = """SELECT catgrp.dis_cat_group_id
                 ,catgrp.dis_id
                 ,catgrp.dis_cat_id
                 ,cat.Dis_cat_name
@@ -506,7 +506,7 @@ def discussion(category, page):
                 INNER JOIN `profile_picture`pic ON pic.user_id = dis.user_id
                 WHERE cat.Dis_cat_name = %s ORDER BY dis.create_time DESC LIMIT %s OFFSET %s """
         try:
-            cursor.execute(sqlWanted, (category,15,numDataStart))
+            cursor.execute(discussion_info_SQL, (category,15,numDataStart))
             dataWanted = cursor.fetchall()
             numPage = int(math.ceil(float(numOfData[0])/float(15)))
         except:
