@@ -1,9 +1,8 @@
-from datetime import date
-from datetime import datetime
+from datetime import date,datetime
 from random import randrange
 import hashlib, uuid
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session, g
 import math
 import shutil
 import re
@@ -18,7 +17,9 @@ relpath = os.path.relpath(path)
 uploadPictureFolder = os.path.join(relpath,"static/img/user")
 PictureFolder = os.path.join(relpath,"static/img")
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 app.config['uploadPictureFolder'] = uploadPictureFolder
 app.config['PictureFolder'] = PictureFolder
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
@@ -40,9 +41,21 @@ def index(fail_id):
     print(facultyList)
     print(otherList)
     if not fail_id:
-        return render_template('index4.html', faclist=facultyList, othList=otherList)
+        if g.user:
+            return render_template('index4.html', faclist=facultyList, othList=otherList, login = g.user, user_id = g.user_id)
+        else:
+            return render_template('index4.html', faclist=facultyList, othList=otherList)
     else:
         return render_template('index4.html', faclist=facultyList, othList=otherList, fail = 1)
+
+@app.before_request
+def before_request():
+    g.user = None
+    g.user_id = None
+    if 'user' in session:
+        g.user = session['user']
+        g.user_id = session['user_id']
+
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form.get('login_username')
@@ -54,7 +67,7 @@ def login():
     cursor = conn.cursor()
     category = getCat()
     categoryList = [cat[1] for cat in category ]
-    checkSQL =  """SELECT * FROM `user` WHERE `Username` = %s and `User_key`= %s"""
+    checkSQL =  """SELECT Firstname,Lastname, User_id FROM `user` WHERE `Username` = %s and `User_key`= %s"""
     try:
         cursor.execute(checkSQL, (username, user_key))
         dataexist = cursor.fetchone()
@@ -62,7 +75,9 @@ def login():
             print("hello")
             return redirect(url_for('index', fail_id = 1))
         else:
-            return render_template('index4.html', user = dataexist, catlist = categoryList )
+            session['user'] = dataexist[0] + ' ' + dataexist[1]
+            session['user_id'] = dataexist[2]
+            return redirect(redirect_url())
     except:
         print("Cannot query user")
     return render_template('index4.html', catlist = categoryList)
@@ -85,7 +100,8 @@ def sign_in():
     ban_status = 0 #0 for not ban, 1 for ban
     conn = mysql.connect()
     cursor = conn.cursor()
-    create_userSQL = """INSERT INTO `user`(`User_id`, `Email`, `Username`, `User_key`, `Firstname`, `Lastname`, `Role`, `Ban_status`, `DateOfBirth`) 
+    create_userSQL = """INSERT INTO `user`(`User_id`, `Email`, `Username`, `User_key`, `Firstname`, `Lastname`, `Role`,
+                        `Ban_status`, `DateOfBirth`) 
                         VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
     try:
         cursor.execute(create_userSQL,(user_id, email, username, user_key, first_name, last_name, role, ban_status, birthday_date))
@@ -93,17 +109,22 @@ def sign_in():
         filelist = os.listdir(app.config['PictureFolder'])
         for files in filelist:
             if files.startswith('dummy'):
-                shutil.copy2(os.path.join(os.path.dirname(__file__),'static/img',files), os.path.join(os.path.dirname(__file__),'static/img/user',user_id))
-        profilePictureSQL = """INSERT INTO `profile_picture`(Picture`, `User_id`) VALUES (%s,%s)"""
+                shutil.copy2(os.path.join(os.path.dirname(__file__),'static/img',files),
+                             os.path.join(os.path.dirname(__file__),'static/img/user',user_id))
+        profilePictureSQL = """INSERT INTO `profile_picture`(`Picture`, `User_id`) VALUES (%s,%s)"""
         picture = "dummy.jpeg"
         try:
             cursor.execute(profilePictureSQL,(picture, user_id))
             conn.commit()
+            name = first_name+' '+last_name
+            session['user'] = name
+            session['user_id'] = user_id
+            return redirect(redirect_url())
         except:
             print("Cannot insert profile picture")
     except:
         print("Cannot create user")
-    return redirect(url_for('index'))
+    return redirect(url_for('index'), fail_id=2)
 
 @app.route('/user/<user_id>')
 def userprofile(user_id):
@@ -121,7 +142,10 @@ def userprofile(user_id):
             print("Cannot query picture data")
     except:
         print("Cannot query user data")
-    return render_template('userprofile.html', user = userdata, picture = picturedata)
+    if g.user:
+        return render_template('userprofile.html', user=userdata, picture=picturedata, login = g.user, user_id = g.user_id)
+    else:
+        return render_template('userprofile.html', user = userdata, picture = picturedata)
 
 @app.route('/user/<user_id>/edit_user', methods=['POST'])
 def edit_user(user_id):
@@ -201,7 +225,11 @@ def tutor(page):
         print(tutorData)
     except:
         print("Cannot query tutor data")
-    return render_template('tutor2.html', tutorList = tutorData, numofPage = numPage, subList = subjectList, page = int(page))
+    if g.user:
+        return render_template('tutor2.html', tutorList=tutorData, numofPage=numPage, subList=subjectList,
+                               page=int(page), login=g.user, user_id=g.user_id)
+    else:
+        return render_template('tutor2.html', tutorList = tutorData, numofPage = numPage, subList = subjectList, page = int(page))
 
 
 @app.route('/tutor/<tutor_id>')
@@ -229,7 +257,12 @@ def profile(tutor_id):
             age = calculate_age(datetime.combine(tutor_info[10], datetime.min.time()))
             print(age)
             print(subject_info)
-            return render_template('profile3.html', subInfo = subject_info, tutor = tutor_info, birthday = age, sub = subject, birthdate = tutor_info[10])
+            if g.user:
+                return render_template('profile3.html', subInfo = subject_info, tutor = tutor_info, birthday = age, sub = subject, birthdate = tutor_info[10],
+                                       login = g.user, user_id = g.user_id)
+            else:
+                return render_template('profile3.html', subInfo=subject_info, tutor=tutor_info, birthday=age,
+                                       sub=subject, birthdate=tutor_info[10])
         except:
             print("Cannot retrieve subject info")
             return render_template('error.html')
@@ -343,67 +376,93 @@ def delete_subject_course(tutor_id, subject_group_id):
 
 @app.route('/newtutor')
 def registernewtutor():
-    return render_template('newtutor.html', sub = getSub())
+    if g.user:
+        return render_template('newtutor.html', sub=getSub(), login = g.user, user_id = g.user_id)
+    else:
+        return redirect(url_for('tutor',page = 1))
 
 @app.route('/newjob')
 def registernewjob():
-    return render_template('newjob.html', sub = getSub())
+    if g.user:
+        return render_template('newjob.html', sub=getSub(), login = g.user, user_id = g.user_id)
+    else:
+        return render_template('newjob.html', sub = getSub())
 
 @app.route('/newtutor/create_new_tutor', methods = ['POST'])
 def create_tutor():
-    #trong me input pen user id duay
-    user_id = str(randrange(1,10000000))
-    numberOfCourse = int(request.form["hiddenvalue"])
-    link = request.form["link"]
-    facebook = request.form["facebook"]
-    info = request.form['info']
-    phone = request.form["phonenumber"]
-    line = request.form["line"]
-    subject = request.form.getlist('coursecat')
-    course = request.form.getlist('course')
-    price = request.form.getlist("courseprice")
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    subjectList = getSub()
-    tutorSQL = """INSERT INTO `tutor`(`User_id`, `Information`, `Video`, `Facebook`, `Line`, `Phone`, `tutor_create_time`)
-                          VALUES (%s,%s,%s,%s,%s,%s,%s)"""
-    try:
-        create_time = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        cursor.execute(tutorSQL, (user_id, info, link, facebook, line, phone, create_time))
-        conn.commit()
-    except:
-        print("Cannot insert tutor")
-    for i in range(numberOfCourse):
-        subjectName = subjectList[int(subject[i])-1][1]
-        print(subjectName)
-        subjectSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`)
-                            VALUES (%s,%s,%s,%s)"""
+    if g.user:
+        user_id = g.user_id
+        numberOfCourse = int(request.form["hiddenvalue"])
+        link = request.form["link"]
+        facebook = request.form["facebook"]
+        info = request.form['info']
+        phone = request.form["phonenumber"]
+        line = request.form["line"]
+        subject = request.form.getlist('coursecat')
+        course = request.form.getlist('course')
+        price = request.form.getlist("courseprice")
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        subjectList = getSub()
+        role = 1 #tutor
+        tutorSQL = """INSERT INTO `tutor`(`User_id`, `Information`, `Video`, `Facebook`, `Line`, `Phone`, `tutor_create_time`)
+                              VALUES (%s,%s,%s,%s,%s,%s,%s)"""
+        update_user_role_SQL = """UPDATE `user` SET `Role`=%s WHERE `User_id` = %s"""
         try:
-            cursor.execute(subjectSQL, (user_id, subject[i], price[i], course[i]))
-            conn.commit()
+            create_time = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            cursor.execute(tutorSQL, (user_id, info, link, facebook, line, phone, create_time))
+            try:
+                cursor.execute(update_user_role_SQL, (role, user_id))
+                conn.commit()
+            except:
+                print("Cannot change role in tutor")
         except:
-            print("Cannot insert subject")
-    cursor.close()
-    conn.close()
+            print("Cannot insert tutor")
+        for i in range(numberOfCourse):
+            subjectName = subjectList[int(subject[i])-1][1]
+            print(subjectName)
+            subjectSQL = """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`)
+                                VALUES (%s,%s,%s,%s)"""
+            try:
+                cursor.execute(subjectSQL, (user_id, subject[i], price[i], course[i]))
+                conn.commit()
+            except:
+                print("Cannot insert subject")
+        cursor.close()
+        conn.close()
+    else:
+        return redirect(url_for("tutor", page=1))
     return redirect(url_for("profile", tutor_id=user_id))
 
 @app.route('/job')
 def job():
-    return render_template('job.html')
+    if g.user:
+        return render_template('job.html', login = g.user , user_id = g.user_id)
+    else:
+        return render_template('job.html')
 
 @app.route('/job-profile')
 def jobProfile():
-    return render_template('job-profile.html')
+    if g.user:
+        return render_template('job-profile.html', login = g.user , user_id = g.user_id)
+    else:
+        return render_template('job-profile.html')
 
 @app.route('/company')
 def company():
-    return render_template('company.html')
+    if g.user:
+        return render_template('company.html', login = g.user , user_id = g.user_id)
+    else:
+        return render_template('company.html')
 
 @app.route('/<category>/newpost')
 def newpost(category):
     categorySet = getCat()
     categoryDetail = [i for i in categorySet if i[1] == category][0]
-    return render_template('newpost.html' , cat = categorySet, currentCat = category, currentCatDetail = categoryDetail)
+    if g.user:
+        return render_template('newpost.html', cat=categorySet, currentCat=category, currentCatDetail=categoryDetail, login = g.user, user_id=g.user_id)
+    else:
+        return render_template('newpost.html' , cat = categorySet, currentCat = category, currentCatDetail = categoryDetail)
 
 @app.route('/discussion/<category>/<dis_id>/' , defaults={'page': 1})
 @app.route('/discussion/<category>/<dis_id>/page/<page>')
@@ -436,35 +495,41 @@ def discussion_post(category,dis_id, page):
         print(commentList)
     except:
         print("Fail to query comment")
-    return render_template('post.html', topic = topicInfo, comList =commentList)
+    if g.user:
+        return render_template('post.html', topic=topicInfo, comList=commentList, login = g.user, user_id = g.user_id)
+    else:
+        return render_template('post.html', topic = topicInfo, comList =commentList)
 
-@app.route('/newpost/create_new_discussion', methods=['POST'])
-def createnewpost():
+@app.route('/<category>/newpost/create_new_discussion', methods=['POST'])
+def createnewpost(category):
     topic = request.form['topic_name']
     categoryList = request.form.getlist('category_name')
     discussion = request.form['content']
-    user_id = "10517053" #change later
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    try:
-        sqlPostDis = """INSERT INTO `discussion`(`User_id`, `Topic`, `Content`)
-                        VALUES (%s,%s,%s)"""
-        cursor.execute(sqlPostDis, (user_id, topic, discussion))
-        print(cursor.lastrowid)
-        dis_id = cursor.lastrowid
+    if g.user:
+        user_id = g.user_id
+        conn = mysql.connect()
+        cursor = conn.cursor()
         try:
-            for category in categoryList:
-                sqlPostDis_Cat_Grp = """INSERT INTO `dis_category_group`(`Dis_id`, `Dis_cat_id`)
-                                        VALUES (%s,%s)"""
-                cursor.execute(sqlPostDis_Cat_Grp, (dis_id, category))
-                conn.commit()
-            cursor.close()
-            conn.close()
+            sqlPostDis = """INSERT INTO `discussion`(`User_id`, `Topic`, `Content`)
+                            VALUES (%s,%s,%s)"""
+            cursor.execute(sqlPostDis, (user_id, topic, discussion))
+            print(cursor.lastrowid)
+            dis_id = cursor.lastrowid
+            try:
+                for category in categoryList:
+                    sqlPostDis_Cat_Grp = """INSERT INTO `dis_category_group`(`Dis_id`, `Dis_cat_id`)
+                                            VALUES (%s,%s)"""
+                    cursor.execute(sqlPostDis_Cat_Grp, (dis_id, category))
+                    conn.commit()
+                cursor.close()
+                conn.close()
+            except:
+                print("Cannot Insert into dis_category_group")
         except:
-            print("Cannot Insert into dis_category_group")
-    except:
-        print("Cannot Insert value into discussion")
-    return redirect(url_for("newpost"))
+            print("Cannot Insert value into discussion")
+        return redirect(url_for("discussion_post", category = category, dis_id = dis_id, page =0))
+    else:
+        return redirect(url_for("newpost", category = category))
 
 @app.route('/discussion/<category>/', defaults={'page':1})
 @app.route('/discussion/<category>/page/<page>')
@@ -517,7 +582,12 @@ def discussion(category, page):
         content = [removeHTML(dataList[6]) for dataList in dataWanted]
         cursor.close()
         conn.close()
-        return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage,
+        if g.user:
+            return render_template('discussion2.html', cat=category, discussion=dataWanted, numofPage=numPage,
+                                   catDetail=categoryDetail, catList=categoryList, content=content,
+                                   comment=numOfCommentinDiscussion, time=time, page=int(page), login = g.user, user_id = g.user_id)
+        else:
+            return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage,
                                catDetail = categoryDetail, catList = categoryList, content = content, comment = numOfCommentinDiscussion, time = time, page = int(page))
 
 
@@ -599,5 +669,19 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def getsession():
+    if 'user' in session:
+        return session['user']
+    else:
+        return False
+
+def dropsession():
+    session.pop('user', None)
+
+def redirect_url(default='index'):
+    return request.args.get('next') or \
+           request.referrer or \
+           url_for(default)
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

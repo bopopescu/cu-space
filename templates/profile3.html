@@ -130,6 +130,7 @@
                 <div class="w3-white w3-text-grey w3-card-4">
                     <div class="w3-display-container">
                         <img src="/static/img/user/{{ tutor[0] }}/{{ tutor[2] }}" style="width:100%; max-height: 500px;" alt="Avatar">
+                        {% if user_id == tutor[0] %}
                         <div class="w3-display-bottomright w3-container w3-text-black">
                             <button style="margin-bottom: 10%;" class="btn btn-primary btn-md" data-title="Edit"
                                     data-toggle="modal"
@@ -137,6 +138,7 @@
                                     class="glyphicon glyphicon-pencil"></span>
                             </button>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="w3-container">
 
@@ -168,9 +170,11 @@
                         </p>
 
                         <hr>
+                        {% if user_id == tutor[0] %}
                         <button type="button" data-toggle="modal" data-title="Edit" class="btn btn-primary"
                                 data-target="#editprofile" style="margin-bottom: 5%;">Edit Profile
                         </button>
+                        {% endif %}
 
                     </div>
                 </div>
@@ -197,8 +201,10 @@
                             <th>Course Name</th>
                             <th>Course Category</th>
                             <th>Price (Baht/Hr)</th>
+                            {% if user_id == tutor[0] %}
                             <th>Edit</th>
                             <th>Delete</th>
+                            {% endif %}
                             </thead>
                             <tbody>
                             {% for subject in subInfo %}
@@ -207,6 +213,7 @@
                                     <td>{{ subject[2] }}</td>
                                     <td>{{ subject[0] }}</td>
                                     <td>{{ subject[1] }}</td>
+                                    {% if user_id == tutor[0] %}
                                     <td>
                                         <p data-placement="top" data-toggle="tooltip" title="Edit">
                                             <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
@@ -224,6 +231,7 @@
                                             </button>
                                         </p>
                                     </td>
+                                {% endif %}
                                 </tr>
 
                                 {# MODAL FOR UPDATE COURSE#}
@@ -330,11 +338,12 @@
                             </tbody>
 
                         </table>
-
+                        {% if user_id == tutor[0] %}
                         <button type="button" data-toggle="modal" data-title="Edit" class="btn btn-primary"
                                 data-target="#addcourse" style="margin-bottom: 2%; float:right; margin-right: 5%;">Add
                             course
                         </button>
+                    {% endif %}
                     </div>
                 </div>
                 <br>
@@ -518,7 +527,7 @@
                                         <div id="phonenumberstatus" style="margin-left: 5%;">
                                         </div>
                                         <div>
-                                            <label for="info"><span style="color: red;">*</span> Information:</label><br>=
+                                            <label for="info"><span style="color: red;">*</span> Information:</label><br>
                                             <textarea type="text" class="form-control" id="info" name="info"
                                                       placeholder="Edit your information here"
                                                       required/> {{ tutor[1] }} </textarea>

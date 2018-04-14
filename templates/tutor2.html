@@ -187,9 +187,11 @@
                         <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                         </button>
                     </div>
+                    {% if login %}
                     <div class="form-group">
                         <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('registernewtutor') }}">BECOME A TUTOR <i class="fas fa-pencil-alt" style="font-size: 14px; padding-bottom: 3px"></i></a>
                     </div>
+                    {% endif %}
                 </form>
             </div>
         </div>

@@ -28,11 +28,13 @@
         <div class="wrapper">
             <div class="top-search-bar">
                 <form class="form-inline" action="#">
+                    {% if login %}
                     <div class="form-group">
                         <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('newpost',category = cat) }}"
                            style="border-color: {{ catDetail[3] }}; color: {{ catDetail[3] }};">NEW DISCUSSION
                             <i class="fas fa-plus" style="font-size: 14px; padding-bottom: 1px"></i></a>
                     </div>
+                    {% endif %}
                     <div class="form-group">
                         <input type="text" placeholder="SEARCH" name="search">
                         <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -46,7 +48,7 @@
             {% for data in discussion %}
                 <div class="main-wrapper">
                     <div class="main-right">
-                        <h6 class="section-title">
+                        <h6 class="section-title" style="text-align: justify;">
                             <i class="far fa-edit"></i> {{ comment[loop.index - 1] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <i class="far fa-clock"></i> {{ time[loop.index - 1] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <i class="fas fa-user"></i> {{ data[8] }} {{ data[9] }}

@@ -152,10 +152,10 @@
                 <a href="/">Home</a>
                 <a href="/tutor">Tutors</a>
                 <a href="/job">Jobs</a>
-                {% if not user %}
+                {% if not login %}
                     <a href="#" type="button" id="myBtn" class="signin">Sign In</a>
                 {% else %}
-                    <a href="{{ url_for('userprofile', user_id = user[0]) }}" type="button" id="myBtn" style="word-spacing: normal" >{{ user[4] }} {{ user[5] }}</a>
+                    <a href="{{ url_for('userprofile', user_id = user_id) }}" type="button" style="word-spacing: normal" >{{ login }}</a>
                 {% endif %}
             </div>
         </div>
@@ -163,6 +163,12 @@
         <div class="alert alert-danger fade in alert-dismissible" style="margin-bottom: 0px">
           <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close" style="color: inherit !important; background-color: transparent">x</a>
             Invalid Username or password. Please try again.
+        </div>
+        {% endif %}
+        {% if fail == 2 %}
+        <div class="alert alert-danger fade in alert-dismissible" style="margin-bottom: 0px">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close" style="color: inherit !important; background-color: transparent">x</a>
+            This Username or Email has already been registered before
         </div>
         {% endif %}
         <!-- LOG IN Modal -->

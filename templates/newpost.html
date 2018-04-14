@@ -355,7 +355,7 @@
     <div class="container wrap">
         <!-- Content here -->
         <form method="POST" enctype=multipart/form-data onsubmit="return checkallpost()"
-              action="{{ url_for("createnewpost") }}">
+              action="{{ url_for("createnewpost", category = currentCat) }}">
             <div class="row">
                 <div class="col-md-6">
                     <label for="discussion">Enter topic</label>
