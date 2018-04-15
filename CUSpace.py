@@ -538,7 +538,7 @@ def createnewpost(category):
                 print("Cannot Insert into dis_category_group")
         except:
             print("Cannot Insert value into discussion")
-        return redirect(url_for("discussion_post", category = category, dis_id = dis_id, page =0))
+        return redirect(url_for("discussion_post", category = category, dis_id = dis_id, page =1))
     else:
         return redirect(url_for("newpost", category = category))
 
