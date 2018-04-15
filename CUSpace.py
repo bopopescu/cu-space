@@ -473,6 +473,7 @@ def newpost(category):
 @app.route('/discussion/<category>/<dis_id>/' , defaults={'page': 1})
 @app.route('/discussion/<category>/<dis_id>/page/<page>')
 def discussion_post(category,dis_id, page):
+    numDataStart = ((int(page) - 1) * 15)
     conn = mysql.connect()
     cursor = conn.cursor()
     topicSQL = """SELECT topic,content,
@@ -496,15 +497,19 @@ def discussion_post(category,dis_id, page):
                     INNER JOIN profile_picture pic ON pic.User_id = com.user_id 
                     WHERE com.dis_id = %s ORDER BY Create_time DESC"""
     try:
-        cursor.execute(commentSQL, dis_id)
+        cursor.execute(commentSQL,dis_id)
         commentList = cursor.fetchall()
+        commentShow = commentList[numDataStart:numDataStart+10]
+        numPage = int(math.ceil(float(commentList.__len__()/float(10))))
         print(commentList)
     except:
         print("Fail to query comment")
     if g.user:
-        return render_template('post.html', topic=topicInfo, comList=commentList, login = g.user, user_id = g.user_id)
+        return render_template('post.html', topic=topicInfo, comList=commentShow, login = g.user, user_id = g.user_id
+                               , page = int(page), numofPage = numPage, dis_id = dis_id, cat = category)
     else:
-        return render_template('post.html', topic = topicInfo, comList =commentList)
+        return render_template('post.html', topic = topicInfo, comList =commentShow, page = int(page),
+                               numofPage = numPage, disID = dis_id, cat = category)
 
 @app.route('/<category>/newpost/create_new_discussion', methods=['POST'])
 def createnewpost(category):
