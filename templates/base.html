@@ -156,7 +156,7 @@
                     <a href="#" type="button" id="myBtn" class="signin">Sign In</a>
                 {% else %}
                     <a href="{{ url_for('userprofile', user_id = user_id) }}" type="button" style="word-spacing: normal" >{{ login }}</a>
-                    <a href="#" type="button" id="logout" class="logout">Logout</a>
+                    <a href="{{ url_for('logout') }}" type="button" id="logout" class="logout">Logout</a>
                 {% endif %}
             </div>
         </div>

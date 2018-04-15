@@ -56,6 +56,12 @@ def before_request():
         g.user = session['user']
         g.user_id = session['user_id']
 
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    session.pop('user_id', None)
+    return redirect(redirect_url())
+
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form.get('login_username')
