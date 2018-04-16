@@ -470,6 +470,44 @@ def newpost(category):
     else:
         return render_template('newpost.html' , cat = categorySet, currentCat = category, currentCatDetail = categoryDetail)
 
+@app.route('/discussion/<category>/<dis_id>/comment_id/<comment_id>/post_id/<poster_id>/voting_up/<voting>/comment/<comment_or_not>')
+def voting_up(category, dis_id, poster_id, voting, comment_id, comment_or_not):
+    voter_id = g.user_id # person who vote
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    voting_score = int(voting)
+    if(voting_score == 1):
+        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`, `comment`) VALUES (%s,%s,%s,%s,%s)
+                       ON DUPLICATE KEY UPDATE   `Score` = 1"""
+    else:
+        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`,`comment`) VALUES (%s,%s,%s,%s,%s)
+                       ON DUPLICATE KEY UPDATE `Score` = 0"""
+    try:
+        cursor.execute(voteupSQL,(voter_id, comment_id, poster_id, voting_score, comment_or_not))
+        conn.commit()
+        return redirect(url_for('discussion_post', category = category, dis_id= dis_id))
+    except:
+        print("fail to insert vote up into db")
+
+@app.route('/discussion/<category>/<dis_id>/comment_id/<comment_id>/post_id/<poster_id>/voting_down/<voting>/comment/<comment_or_not>')
+def voting_down(category, dis_id, poster_id, voting, comment_id, comment_or_not):
+    voter_id = g.user_id # person who vote
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    voting_score = int(voting)
+    if(voting_score == -1):
+        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`, `comment`) VALUES (%s,%s,%s,%s,%s)
+                       ON DUPLICATE KEY UPDATE   `Score` = -1"""
+    else:
+        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`,`comment`) VALUES (%s,%s,%s,%s,5s)
+                       ON DUPLICATE KEY UPDATE `Score` = 0"""
+    try:
+        cursor.execute(voteupSQL,(voter_id, comment_id, poster_id, voting_score, comment_or_not))
+        conn.commit()
+        return redirect(url_for('discussion_post', category = category, dis_id= dis_id))
+    except:
+        print("fail to insert vote up into db")
+
 @app.route('/discussion/<category>/<dis_id>/' , defaults={'page': 1})
 @app.route('/discussion/<category>/<dis_id>/page/<page>')
 def discussion_post(category,dis_id, page):
@@ -482,34 +520,38 @@ def discussion_post(category,dis_id, page):
                   firstname,
                   lastname,
                   `user`.user_id,
-                  picture
+                  picture,
+                  `vote`.Post_id,
+                   sum(vote.Score) as noOfComment
                   FROM `discussion` dis 
                   INNER JOIN `user` ON `user`.User_id = dis.user_id 
                   INNER JOIN profile_picture pic ON `user`.`User_id` = pic.User_id
-                  WHERE dis.dis_id = %s"""
+                  LEFT JOIN `vote` ON `vote`.Post_id = dis.Dis_id
+                  WHERE dis.dis_id = %s and `vote`.comment = 0"""
     try:
         cursor.execute(topicSQL, dis_id)
         topicInfo = cursor.fetchone()
     except:
         print("cannot query discussion")
-    commentSQL = """SELECT content,Create_time,email,firstname,lastname,ban_status,picture, com.User_id 
+    commentSQL = """SELECT content,Create_time,email,firstname,lastname,ban_status,picture, com.User_id, com.Comment_id
                     FROM `comment` com INNER JOIN user ON user.User_id = com.user_id 
-                    INNER JOIN profile_picture pic ON pic.User_id = com.user_id 
+                    INNER JOIN profile_picture pic ON pic.User_id = com.user_id
                     WHERE com.dis_id = %s ORDER BY Create_time DESC"""
     try:
         cursor.execute(commentSQL,dis_id)
         commentList = cursor.fetchall()
-        commentShow = commentList[numDataStart:numDataStart+10]
-        numPage = int(math.ceil(float(commentList.__len__()/float(10))))
+        commentShow = commentList[numDataStart:numDataStart + 10]
+        sumofVote = getNumberofVoteFromComment([comment[8] for comment in commentShow])
+        numPage = int(math.ceil(float(commentList.__len__() / float(10))))
         print(commentList)
     except:
         print("Fail to query comment")
     if g.user:
         return render_template('post.html', topic=topicInfo, comList=commentShow, login = g.user, user_id = g.user_id
-                               , page = int(page), numofPage = numPage, dis_id = dis_id, cat = category)
+                               , page = int(page), numofPage = numPage, dis_id = dis_id, cat = category, voteCount = sumofVote)
     else:
         return render_template('post.html', topic = topicInfo, comList =commentShow, page = int(page),
-                               numofPage = numPage, disID = dis_id, cat = category)
+                               numofPage = numPage, dis_id = dis_id, cat = category, voteCount = sumofVote)
 
 @app.route('/<category>/newpost/create_new_discussion', methods=['POST'])
 def createnewpost(category):
@@ -601,8 +643,6 @@ def discussion(category, page):
             return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage,
                                catDetail = categoryDetail, catList = categoryList, content = content, comment = numOfCommentinDiscussion, time = time, page = int(page))
 
-
-
 def getCat():
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -637,6 +677,31 @@ def getComment(dis_id):
         return comment
     except:
         print("Cannot query category name")
+    conn.close()
+
+def getNumberofVoteFromComment(comment_id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    vote = []
+    if isinstance(comment_id, list) or isinstance(comment_id, tuple):
+        for comment in comment_id:
+            sqlvote = """SELECT sum(score) as sumofvote FROM `vote` WHERE `vote`.`Post_id` = %s and `comment` = 1  GROUP BY `Post_id`"""
+            try:
+                cursor.execute(sqlvote, comment)
+                com_id = cursor.fetchone()
+                if not com_id:
+                    com_id = [0]
+                vote = vote + [int(number) for number in com_id]
+            except:
+                print("Cannot query category name")
+    else:
+        sqlvote = """SELECT sum(score) as sumofvote FROM `vote` WHERE `vote`.`Post_id` = %s and `comment` = 1  GROUP BY `Post_id`"""
+        try:
+            cursor.execute(sqlvote, comment_id)
+            vote = cursor.fetchone()
+        except:
+            print("Cannot query category name")
+    return vote
     conn.close()
 
 def calculate_age(born):
