@@ -22,17 +22,28 @@
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+
         <!-- WYSIWYG -->
-        <link href='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.6/css/froala_editor.min.css'
-              rel='stylesheet' type='text/css'/>
-        <link href='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.6/css/froala_style.min.css'
-              rel='stylesheet' type='text/css'/>
-        <script type='text/javascript'
-                src='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.6/js/froala_editor.min.js'></script>
+        <script src="/static/ckeditor/ckeditor.js"></script>
+        {#        <script src="//cdn.ckeditor.com/4.9.1/full/ckeditor.js"></script>#}
+        {#        <script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-beta.1/classic/ckeditor.js"></script>#}
+        {#        <link href='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.6/css/froala_editor.min.css'#}
+        {#              rel='stylesheet' type='text/css'/>#}
+        {#        <link href='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.6/css/froala_style.min.css'#}
+        {#              rel='stylesheet' type='text/css'/>#}
+        {#        <script type='text/javascript'#}
+        {#                src='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.6/js/froala_editor.min.js'></script>#}
+
+        <!-- Font Awesome -->
         <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"
                 integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl"
                 crossorigin="anonymous"></script>
-        <script src="//cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
+
+        <!-- Code Theme highlight.js -->
+        <link rel="stylesheet"
+              href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
 
 
 
@@ -121,10 +132,11 @@
                 color: white;
             }
 
-            input:focus{
+            input:focus {
                 outline: none;
             }
-            button:focus{
+
+            button:focus {
                 outline: none;
             }
 
@@ -387,6 +399,9 @@
                     $("#logIN").modal();
                 });
             });
+
+            {# Code Theme #}
+            hljs.initHighlightingOnLoad();
         </script>
         <script src="/static/js/registration.js"></script>
 

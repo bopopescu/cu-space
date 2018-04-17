@@ -29,7 +29,7 @@ a:hover {
   text-decoration: none;
 }
 p {
-  line-height: 1.5;
+  color: #000;
 }
 .header {
   background-color: white;
@@ -63,8 +63,9 @@ p {
   background: #fff;
   padding: 40px;
 }
-.top-main-wrapper img{
+.top-main-wrapper img, table{
   max-width: 100%;
+  margin: 10px;
 }
 .poster-wrapper {
   background: #fff;

@@ -633,6 +633,7 @@ def discussion(category, page):
         numOfCommentinDiscussion = [getComment(comment).__len__() for comment in dis_id]
         time = [timesince(dataList[7]) for dataList in dataWanted]
         content = [removeHTML(dataList[6]) for dataList in dataWanted]
+        content = [each.replace('&nbsp;', ' ') for each in content]
         cursor.close()
         conn.close()
         if g.user:
