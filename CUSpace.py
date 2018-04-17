@@ -88,8 +88,8 @@ def login():
         print("Cannot query user")
     return render_template('index4.html', catlist = categoryList)
 
-@app.route('/sign_in', methods=['POST'])
-def sign_in():
+@app.route('/sign_up', methods=['POST'])
+def sign_up():
     password = request.form.get('regis_pass').encode('utf-8')
     username = request.form.get('regis_username')
     user_key = hashlib.md5()
@@ -470,39 +470,39 @@ def newpost(category):
     else:
         return render_template('newpost.html' , cat = categorySet, currentCat = category, currentCatDetail = categoryDetail)
 
-@app.route('/discussion/<category>/<dis_id>/comment_id/<comment_id>/post_id/<poster_id>/voting_up/<voting>/comment/<comment_or_not>')
-def voting_up(category, dis_id, poster_id, voting, comment_id, comment_or_not):
+@app.route('/discussion/<category>/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/voting_up/<voting>')
+def voting_up(category, dis_id, poster_id, voting, post_id):
     voter_id = g.user_id # person who vote
     conn = mysql.connect()
     cursor = conn.cursor()
     voting_score = int(voting)
     if(voting_score == 1):
-        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`, `comment`) VALUES (%s,%s,%s,%s,%s)
+        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`, `dis_id`) VALUES (%s,%s,%s,%s,%s)
                        ON DUPLICATE KEY UPDATE   `Score` = 1"""
     else:
-        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`,`comment`) VALUES (%s,%s,%s,%s,%s)
+        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`,`dis_id`) VALUES (%s,%s,%s,%s,%s)
                        ON DUPLICATE KEY UPDATE `Score` = 0"""
     try:
-        cursor.execute(voteupSQL,(voter_id, comment_id, poster_id, voting_score, comment_or_not))
+        cursor.execute(voteupSQL,(voter_id, post_id, poster_id, voting_score, dis_id))
         conn.commit()
         return redirect(url_for('discussion_post', category = category, dis_id= dis_id))
     except:
         print("fail to insert vote up into db")
 
-@app.route('/discussion/<category>/<dis_id>/comment_id/<comment_id>/post_id/<poster_id>/voting_down/<voting>/comment/<comment_or_not>')
-def voting_down(category, dis_id, poster_id, voting, comment_id, comment_or_not):
+@app.route('/discussion/<category>/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/voting_down/<voting>')
+def voting_down(category, dis_id, poster_id, voting, post_id):
     voter_id = g.user_id # person who vote
     conn = mysql.connect()
     cursor = conn.cursor()
     voting_score = int(voting)
     if(voting_score == -1):
-        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`, `comment`) VALUES (%s,%s,%s,%s,%s)
+        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`, `dis_id`) VALUES (%s,%s,%s,%s,%s)
                        ON DUPLICATE KEY UPDATE   `Score` = -1"""
     else:
-        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`,`comment`) VALUES (%s,%s,%s,%s,5s)
+        voteupSQL = """INSERT INTO `vote` (`Voter_id`,`Post_id`,`Poster_id`,`Score`,`dis_id`) VALUES (%s,%s,%s,%s,%s)
                        ON DUPLICATE KEY UPDATE `Score` = 0"""
     try:
-        cursor.execute(voteupSQL,(voter_id, comment_id, poster_id, voting_score, comment_or_not))
+        cursor.execute(voteupSQL,(voter_id, post_id, poster_id, voting_score, dis_id))
         conn.commit()
         return redirect(url_for('discussion_post', category = category, dis_id= dis_id))
     except:
@@ -527,9 +527,9 @@ def discussion_post(category,dis_id, page):
                   INNER JOIN `user` ON `user`.User_id = dis.user_id 
                   INNER JOIN profile_picture pic ON `user`.`User_id` = pic.User_id
                   LEFT JOIN `vote` ON `vote`.Post_id = dis.Dis_id
-                  WHERE dis.dis_id = %s and `vote`.comment = 0"""
+                  WHERE dis.dis_id = %s and `vote`.post_id = %s"""
     try:
-        cursor.execute(topicSQL, dis_id)
+        cursor.execute(topicSQL, (dis_id,dis_id))
         topicInfo = cursor.fetchone()
     except:
         print("cannot query discussion")
@@ -542,16 +542,50 @@ def discussion_post(category,dis_id, page):
         commentList = cursor.fetchall()
         commentShow = commentList[numDataStart:numDataStart + 10]
         sumofVote = getNumberofVoteFromComment([comment[8] for comment in commentShow])
+        checkVote = diduserVote([comment[8] for comment in commentShow], g.user_id)
+        maxList = getTopComment(dis_id)
+        if maxList:
+            checkuservotetopComment = diduserVote(maxList[0], g.user_id)
+        else:
+            checkuservotetopComment = 0
+        checkuservotediscussionTopic = diduserVote(dis_id, g.user_id)
         numPage = int(math.ceil(float(commentList.__len__() / float(10))))
+        totalnumofComment = int(commentList.__len__())
         print(commentList)
+        print(checkVote)
     except:
         print("Fail to query comment")
     if g.user:
-        return render_template('post.html', topic=topicInfo, comList=commentShow, login = g.user, user_id = g.user_id
-                               , page = int(page), numofPage = numPage, dis_id = dis_id, cat = category, voteCount = sumofVote)
+        getloginuserinfoSQL = """SELECT user.Email, user.Firstname, user.Lastname, user.Role, user.Ban_status, pic.picture 
+                             FROM user 
+                             INNER JOIN profile_picture pic ON pic.User_id = user.User_id 
+                             WHERE user.user_id = %s"""
+        try:
+            cursor.execute(getloginuserinfoSQL, g.user_id )
+            login_user_info = cursor.fetchone()
+        except:
+            print("cannot get login user info")
+        return render_template('post2.html', topic=topicInfo, comList=commentShow, login = g.user, user_id = g.user_id
+                               , page = int(page), numofPage = numPage, dis_id = dis_id, cat = category
+                               , voteCount = sumofVote, check = checkVote, top = maxList, totalcomment = totalnumofComment,
+                               checkTop = checkuservotetopComment, checkTopic = checkuservotediscussionTopic, login_user = login_user_info  )
     else:
-        return render_template('post.html', topic = topicInfo, comList =commentShow, page = int(page),
-                               numofPage = numPage, dis_id = dis_id, cat = category, voteCount = sumofVote)
+        return render_template('post2.html', topic = topicInfo, comList =commentShow, page = int(page),
+                               numofPage = numPage, dis_id = dis_id, cat = category, voteCount = sumofVote, check = checkVote,top = maxList,
+                               totalcomment = totalnumofComment, checkTop = checkuservotetopComment, checkTopic = checkuservotediscussionTopic)
+
+@app.route("/discussion/<category>/<dis_id>/addcomment/user/<user_id>/", methods=['POST'])
+def add_comment_into_discussion(category, dis_id,user_id):
+    content = request.form.get('content')
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    addcommentSQL = """INSERT INTO `comment`(`Dis_id`, `User_id`, `Content`) VALUES (%s,%s,%s)"""
+    try:
+        cursor.execute(addcommentSQL,(dis_id,user_id,content))
+        conn.commit()
+    except:
+        print("Fail to insert comment into discussion")
+    return redirect(url_for('discussion_post', category = category, dis_id=dis_id))
 
 @app.route('/<category>/newpost/create_new_discussion', methods=['POST'])
 def createnewpost(category):
@@ -677,7 +711,7 @@ def getComment(dis_id):
         comment = cursor.fetchall()
         return comment
     except:
-        print("Cannot query category name")
+        print("Cannot query subject name")
     conn.close()
 
 def getNumberofVoteFromComment(comment_id):
@@ -686,7 +720,7 @@ def getNumberofVoteFromComment(comment_id):
     vote = []
     if isinstance(comment_id, list) or isinstance(comment_id, tuple):
         for comment in comment_id:
-            sqlvote = """SELECT sum(score) as sumofvote FROM `vote` WHERE `vote`.`Post_id` = %s and `comment` = 1  GROUP BY `Post_id`"""
+            sqlvote = """SELECT sum(score) as sumofvote FROM `vote` WHERE `vote`.`Post_id` = %s and `vote`.`Post_id` != `vote`.`Dis_id`  GROUP BY `Post_id`"""
             try:
                 cursor.execute(sqlvote, comment)
                 com_id = cursor.fetchone()
@@ -694,15 +728,71 @@ def getNumberofVoteFromComment(comment_id):
                     com_id = [0]
                 vote = vote + [int(number) for number in com_id]
             except:
-                print("Cannot query category name")
+                print("Cannot query number of comment")
     else:
-        sqlvote = """SELECT sum(score) as sumofvote FROM `vote` WHERE `vote`.`Post_id` = %s and `comment` = 1  GROUP BY `Post_id`"""
+        sqlvote = """SELECT sum(score) as sumofvote FROM `vote` WHERE `vote`.`Post_id` = %s and `vote`.`Post_id` != `vote`.`Dis_id` GROUP BY `Post_id`"""
         try:
             cursor.execute(sqlvote, comment_id)
             vote = cursor.fetchone()
         except:
-            print("Cannot query category name")
+            print("Cannot query number of comment")
     return vote
+    conn.close()
+
+def getTopComment(dis_id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sqlvote = """SELECT vote.post_id,comment.Content, comment.Create_time, user.User_id, user.Email, 
+                 user.Firstname, user.Lastname, user.Role,user.Ban_status,vote.Dis_id,pic.picture,sum(score) as sumofvote 
+                 FROM `vote` 
+                 INNER JOIN comment ON comment.Comment_id = vote.Post_id
+                 INNER JOIN user ON user.User_id = comment.User_id
+                 INNER JOIN profile_picture pic ON pic.User_id = user.User_id
+                 WHERE `vote`.`dis_id` = %s and `vote`.`Post_id` != `vote`.`Dis_id` 
+                 GROUP BY `Post_id` 
+                 ORDER BY sumofvote desc, post_id ASC"""
+    try:
+        cursor.execute(sqlvote, dis_id)
+        comment = cursor.fetchone()
+    except:
+        print("Cannot query number of comment")
+    return comment
+    conn.close()
+
+def diduserVote(comment_id, user_id):
+    if user_id:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        ListofcheckVoting = []
+        if isinstance(comment_id, list) or isinstance(comment_id, tuple):
+            for comment in comment_id:
+                sqlcheckvote = """SELECT * FROM `vote` WHERE `vote`.`Post_id` = %s and vote.Voter_id = %s"""
+                try:
+                    cursor.execute(sqlcheckvote, (comment, user_id))
+                    check = cursor.fetchone()
+                    if not check:
+                        checkVote = 0
+
+                    else:
+                        checkVote = check[4]
+                    ListofcheckVoting = ListofcheckVoting + [checkVote]
+                except:
+                    print("Cannot query checklist of voting")
+        else:
+            sqlcheckvote = """SELECT * FROM `vote` WHERE `vote`.`Post_id` = %s and vote.Voter_id = %s"""
+            try:
+                cursor.execute(sqlcheckvote, (comment_id, user_id))
+                check = cursor.fetchone()
+                if not check:
+                    ListofcheckVoting = 0
+
+                else:
+                    ListofcheckVoting = check[4]
+            except:
+                print("Cannot query checklist of voting")
+    else:
+        return 0 #False
+    return ListofcheckVoting
     conn.close()
 
 def calculate_age(born):

@@ -245,26 +245,35 @@ conn = mysql.connect()
 #             print("Something bad is going on")
 #             continue
 #         break;
-# commentcursor.close()
-#
+#commentcursor.close()
 # #------------------------------HAVE A EXISTING USER VOTE IN A EXISTING COMMENT INSIDE POST-----------------------------------
 votecursor = conn.cursor()
+sizecursor = conn.cursor()
+comment_lengthSQL = """SELECT count(*) FROM `comment`"""
+try:
+    sizecursor.execute(comment_lengthSQL)
+    size = sizecursor.fetchone()[0] +1
+except:
+    print("cannot get comment size")
+sizecursor.close()
 for i in range(500):
     while True:
         try:
             SCORE = 1 if (uniform(-1, 1)) > 0 else -1
-            select_comment_SQL = """SELECT * FROM `comment` ORDER BY RAND()"""
-            select_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
+            comment_id = randrange(1,size)
+            select_comment_SQL = """SELECT * FROM `comment` WHERE `Comment_id` = %s"""
+            select_another_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
             try:
-                votecursor.execute(select_comment_SQL)
-                person_comment_id = votecursor.fetchone()[2]
-                comment_id = votecursor.fetchone()[0]
+                votecursor.execute(select_comment_SQL, comment_id)
+                com_info = votecursor.fetchone()
+                dis_id = com_info[1]
+                user_id = com_info[2]
                 try:
-                    votecursor.execute(select_user_SQL)
-                    user_id = votecursor.fetchone()[0]
-                    insert_vote_sql = """INSERT INTO `vote`(`Voter_id`, `Post_id`, `Poster_id`, `Score`) VALUES (%s,%s,%s,%s)"""
+                    votecursor.execute(select_another_user_SQL)
+                    another_user_id = votecursor.fetchone()[0]
+                    insert_vote_sql = """INSERT INTO `vote`(`Voter_id`, `Post_id`, `Poster_id`, `Score`, `dis_id`) VALUES (%s,%s,%s,%s,%s)"""
                     try:
-                        votecursor.execute(insert_vote_sql,(user_id, comment_id, person_comment_id, SCORE))
+                        votecursor.execute(insert_vote_sql,(another_user_id, comment_id, user_id, SCORE,dis_id))
                         conn.commit()
                     except:
                         print("fail to insert vote")
@@ -279,26 +288,35 @@ for i in range(500):
             print("Something bad is going on")
             continue
         break;
+
 # ------------------------------HAVE A EXISTING USER VOTE IN A EXISTING Discussion post-----------------------------------
+sizecursor = conn.cursor()
+comment_lengthSQL = """SELECT count(*) FROM `discussion`"""
+try:
+    sizecursor.execute(comment_lengthSQL)
+    size = sizecursor.fetchone()[0] +1
+except:
+    print("cannot get discussion size")
+sizecursor.close()
 for i in range(500):
     while True:
         try:
             SCORE = 1 if (uniform(-1, 1)) > 0 else -1
-            select_comment_SQL = """SELECT * FROM `comment` ORDER BY RAND()"""
-            select_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
-            select_poster = """SELECT `user_id` FROM `discussion` ORDER  BY RAND()"""
+            discussion_id = randrange(1,size)
+            select_another_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
+            select_poster = """SELECT `dis_id`,`user_id` FROM `discussion` WHERE dis_id = %s """
             try:
-                votecursor.execute(select_comment_SQL)
-                dis_id = votecursor.fetchone()[1]
                 try:
-                    votecursor.execute(select_user_SQL)
-                    user_id = votecursor.fetchone()[0]
+                    votecursor.execute(select_another_user_SQL)
+                    another_user_id = votecursor.fetchone()[0]
                     try:
-                        votecursor.execute(select_poster)
-                        person_comment_id = votecursor.fetchone()[0]
-                        insert_vote_sql = """INSERT INTO `vote`(`Voter_id`, `Post_id`, `Poster_id`, `Score`,`comment`) VALUES (%s,%s,%s,%s,%s)"""
+                        votecursor.execute(select_poster, discussion_id)
+                        dis_info = votecursor.fetchone()
+                        person_post_dis_user_id = dis_info[1]
+                        dis_id = dis_info[0]
+                        insert_vote_sql = """INSERT INTO `vote`(`Voter_id`, `Post_id`, `Poster_id`, `Score`,`dis_id`) VALUES (%s,%s,%s,%s,%s)"""
                         try:
-                            votecursor.execute(insert_vote_sql,(user_id, dis_id, person_comment_id, SCORE, 0))
+                            votecursor.execute(insert_vote_sql,(another_user_id, dis_id, person_post_dis_user_id, SCORE, dis_id))
                             conn.commit()
                         except:
                             print("fail to insert vote")
@@ -316,4 +334,3 @@ for i in range(500):
             continue
         break;
 votecursor.close()
-

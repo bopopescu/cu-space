@@ -292,7 +292,6 @@ a:hover {
     text-align: center;
     padding-right: 3px;
     font-size: 1em;
-    display: none;
 }
 
 .profile .vote-down {
@@ -301,7 +300,6 @@ a:hover {
     text-align: center;
     padding-right: 5px;
     font-size: 1em;
-    display: none;
 }
 
 .profile2 .vote {
@@ -319,7 +317,6 @@ a:hover {
     text-align: center;
     padding-top: 5px;
     font-size: 1em;
-    display: none;
 }
 
 .profile2 .vote-down {
@@ -328,7 +325,6 @@ a:hover {
     text-align: center;
     padding-top: 5px;
     font-size: 1em;
-    display: none;
 }
 
 .up {
@@ -395,6 +391,7 @@ a:hover {
     /*margin-right: 20px;*/
 
 }
+
 .profile-hover{
     position: absolute;
     float: left;
