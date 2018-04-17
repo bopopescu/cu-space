@@ -514,6 +514,9 @@ def discussion_post(category,dis_id, page):
     numDataStart = ((int(page) - 1) * 15)
     conn = mysql.connect()
     cursor = conn.cursor()
+    categoryList = getCat()
+    categoryName = [i[1] for i in categoryList]
+    categoryDetail = [i for i in categoryList if i[1] == category][0]
     topicSQL = """SELECT topic,content,
                   Create_Time, 
                   email,
@@ -527,9 +530,9 @@ def discussion_post(category,dis_id, page):
                   INNER JOIN `user` ON `user`.User_id = dis.user_id 
                   INNER JOIN profile_picture pic ON `user`.`User_id` = pic.User_id
                   LEFT JOIN `vote` ON `vote`.Post_id = dis.Dis_id
-                  WHERE dis.dis_id = %s and `vote`.post_id = %s"""
+                  WHERE dis.dis_id = %s"""
     try:
-        cursor.execute(topicSQL, (dis_id,dis_id))
+        cursor.execute(topicSQL, dis_id)
         topicInfo = cursor.fetchone()
     except:
         print("cannot query discussion")
@@ -568,11 +571,13 @@ def discussion_post(category,dis_id, page):
         return render_template('post2.html', topic=topicInfo, comList=commentShow, login = g.user, user_id = g.user_id
                                , page = int(page), numofPage = numPage, dis_id = dis_id, cat = category
                                , voteCount = sumofVote, check = checkVote, top = maxList, totalcomment = totalnumofComment,
-                               checkTop = checkuservotetopComment, checkTopic = checkuservotediscussionTopic, login_user = login_user_info  )
+                               checkTop = checkuservotetopComment, checkTopic = checkuservotediscussionTopic, login_user = login_user_info,
+                               catDetail =categoryDetail, catList = categoryName)
     else:
         return render_template('post2.html', topic = topicInfo, comList =commentShow, page = int(page),
                                numofPage = numPage, dis_id = dis_id, cat = category, voteCount = sumofVote, check = checkVote,top = maxList,
-                               totalcomment = totalnumofComment, checkTop = checkuservotetopComment, checkTopic = checkuservotediscussionTopic)
+                               totalcomment = totalnumofComment, checkTop = checkuservotetopComment, checkTopic = checkuservotediscussionTopic,
+                               catDetail=categoryDetail, catList=categoryName)
 
 @app.route("/discussion/<category>/<dis_id>/addcomment/user/<user_id>/", methods=['POST'])
 def add_comment_into_discussion(category, dis_id,user_id):
@@ -791,7 +796,12 @@ def diduserVote(comment_id, user_id):
             except:
                 print("Cannot query checklist of voting")
     else:
-        return 0 #False
+        ListofcheckVoting = []
+        if isinstance(comment_id, list) or isinstance(comment_id, tuple):
+            for i in range(len(comment_id)):
+                ListofcheckVoting = ListofcheckVoting + [0]
+        else:
+            ListofcheckVoting = 0
     return ListofcheckVoting
     conn.close()
 

@@ -9,15 +9,16 @@
     <link id="theme-style" rel="stylesheet" href="/static/css/post/styles2.css">
 {% endblock %}
 {% block content %}
-    <div class="top-bar">
+    <div class="top-bar" style="background-color: {{ catDetail[3] }}">
         <div class="top-title">
-            <i class="fas fa-briefcase" style="font-size: 35px;"></i><br>
-            <a type="button" id="catBtn" class="dropdown">Category <span
+            <i class="{{ catDetail[2] }}" style="font-size: 35px;"></i><br>
+            <a type="button" id="catBtn" class="dropdown">{{ cat }} <span
                     style="position: absolute; padding-left: 5px;"><i class="fas fa-caret-down" id="catBtn"></i></span></a>
             <div id="myDropdown" class="dropdown-content" align="center">
-                <a href="#">Engineer</a>
-                <a href="#">Arts</a>
-                <a href="#">Science</a>
+                {% for categoryList in catList %}
+                    <a href="{{ url_for('discussion', category = categoryList, page = 1) }}">{{ categoryList }}</a>
+                {% endfor %}
+
             </div>
         </div>
     </div>
@@ -36,6 +37,7 @@
                                      alt="Generic placeholder image" width="45" height="45">
                             </a>
                         </div>
+                    {% if topic[9] %}
                         {% if login %}
                             {% if checkTopic == 0 %}
                         <div class="vote">
@@ -62,6 +64,35 @@
                             {{ topic[9] }}
                             <a href="" id="myBtn" class="up"><span class="far fa-thumbs-up"></span></a>
                     </div>
+                    {% endif %}
+                    {% else %}
+                    {% if login %}
+                            {% if checkTopic == 0 %}
+                        <div class="vote">
+                            <a href="{{ url_for('voting_down', category = cat, dis_id = dis_id, post_id= topic[8],poster_id = topic[6], voting = -1) }}" class="down"><span class="far fa-thumbs-down"></span></a>
+                            0
+                            <a href="{{ url_for('voting_up', category = cat, dis_id = dis_id, post_id= topic[8],poster_id = topic[6], voting = 1) }}" class="up"><span class="far fa-thumbs-up"></span></a>
+                            </div>
+                            {% elif checkTopic == 1 %}
+                        <div class="vote-up">
+                            <a href="{{ url_for('voting_down', category = cat, dis_id = dis_id, post_id = topic[8],poster_id = topic[6], voting = -1) }}" class="down"><span class="far fa-thumbs-down"></span></a>
+                            0
+                            <a href="{{ url_for('voting_up', category = cat, dis_id = dis_id, post_id= topic[8],poster_id = topic[6], voting = 0) }}" class="up"><span class="fas fa-thumbs-up"></span></a>
+                            </div>
+                            {% elif checkTopic == -1 %}
+                        <div class="vote-down">
+                            <a href="{{ url_for('voting_down', category = cat, dis_id = dis_id, post_id= topic[8],poster_id = topic[6], voting = 0) }}" class="down"><span class="fas fa-thumbs-down"></span></a>
+                            0
+                            <a href="{{ url_for('voting_up', category = cat, dis_id = dis_id, post_id= topic[8],poster_id = topic[6], voting = 1) }}" class="up"><span class="far fa-thumbs-up"></span></a>
+                            </div>
+                                {% endif %}
+                        {% else%}
+                    <div class="vote">
+                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-down"></span></a>
+                            0
+                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-up"></span></a>
+                    </div>
+                    {% endif %}
                     {% endif %}
                     </div>
                     <div class="profile-hover">
@@ -118,6 +149,7 @@
                     </div>
                 </div>
             {% if totalcomment >1 %}
+                {% if top %}
                 <div class="top-reply">
                     <h1>Top Reply</h1>
                 </div>
@@ -217,6 +249,7 @@
                     </div>
                 </div>
             {% endif %}
+            {% endif %}
             </div>
                 <div class="top-reply">
                     <h1>{{ totalcomment }} Replies</h1>
@@ -258,9 +291,9 @@
                                 {% endif %}
                         {% else%}
                      <div class="vote">
-                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-up"></span></a>
+                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-up"></span></a>
                             {{voteCount[loop.index - 1] }}
-                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-down"></span></a>
+                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-down"></span></a>
                     </div>
                     {%endif %}
                     </div>
@@ -296,9 +329,9 @@
                                 {% endif %}
                         {% else%}
                      <div class="vote">
-                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-up"></span></a>
+                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-up"></span></a>
                             {{voteCount[loop.index - 1] }}
-                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-down"></span></a>
+                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-down"></span></a>
                     </div>
                     {%endif %}
                         <div class="profile-img">
@@ -317,9 +350,9 @@
 
                     </div>
                 </div>
+                    <hr>
                 {% endfor %}
             {% endif %}
-                <hr>
                 {#            Add comment    #}
             {% if login %}
                 <div class="post">
