@@ -21,9 +21,15 @@
             <hr>
             <div class="poster-wrapper">
                 <div class="vote">
-                    <div><a href="#" class="up"><span class="glyphicon glyphicon-thumbs-up"></span> </a></div>
-                    <div> 221</div>
-                    <div><a href="#" class="down"><span class="glyphicon glyphicon-thumbs-down"></span> </a></div>
+                    <div>
+                        <a href="{{ url_for('voting_up', category = cat, dis_id = dis_id, comment_id= dis_id ,poster_id = topic[6], voting = 1, comment_or_not= 0) }}" class="up">
+                        <span class="glyphicon glyphicon-thumbs-up"></span> </a>
+                    </div>
+                    <div> {{topic[9]}}</div>
+                    <div>
+                        <a href="{{ url_for('voting_down', category = cat, dis_id = dis_id, comment_id= dis_id ,poster_id = topic[6], voting = 1, comment_or_not = 1) }}" class="down">
+                        <span class="glyphicon glyphicon-thumbs-down"></span> </a>
+                    </div>
                 </div>
                 <a href="#"> {# url to user page #}
                     <div class="poster-profile-img">
@@ -45,9 +51,19 @@
             {% for comment in comList %}
                 <div class="main-wrapper">
                     <div class="vote">
-                        <div><a href="#" class="up"><span class="glyphicon glyphicon-thumbs-up"></span> </a></div>
-                        <div> 221</div>
-                        <div><a href="#" class="down"><span class="glyphicon glyphicon-thumbs-down"></span> </a></div>
+                        {% if login %}
+                        <div>
+                            <a href="{{ url_for('voting_up', category = cat, dis_id = dis_id, comment_id= comment[8],poster_id = comment[7], voting = 1, comment_or_not = 1) }}" class="up">
+                            <span class="glyphicon glyphicon-thumbs-up"></span> </a>
+                        </div>
+                        {% endif %}
+                        <div> {{voteCount[loop.index - 1] }}</div>
+                    {% if login %}
+                        <div>
+                            <a href="{{ url_for('voting_down', category = cat, dis_id = dis_id, comment_id= comment[8],poster_id = comment[7], voting = 1, comment_or_not = 1) }}" class="down">
+                            <span class="glyphicon glyphicon-thumbs-down"></span> </a>
+                        </div>
+                    {% endif %}
                     </div>
                     <a href="#"> {# url to user #}
                         <div class="profile-img">
@@ -84,21 +100,45 @@
         </div>
     </div>
     <br>
-    {#    <nav class="navPage">#}
-    {#        <ul class="pagination">#}
-    {#            <li class="page-item">#}
-    {#                <a class="page-link" href="#">Previous</a>#}
-    {#            </li>#}
-    {#            {% for page in range(numofPage) %}#}
-    {#            <li class="page-item">#}
-    {#                <a class="page-link" href="{{ url_for('discussion',category = cat, page = loop.index) }}">{{ loop.index }}</a>#}
-    {#            </li>#}
-    {#            {% endfor %}#}
-    {#            <li class="page-item">#}
-    {#                <a class="page-link" href="#">Next</a>#}
-    {#            </li>#}
-    {#        </ul>#}
-    {#    </nav>#}
+    <nav class="navPage" style="text-align: center">
+            <ul class="pagination">
+                {% if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="{{ url_for('discussion_post',category = cat,dis_id = dis_id, page = page - 1) }}">Previous</a>
+                    </li>
+                {% endif %}
+                {% if numofPage < 10 %}
+                    {% for pages in range(1,numofPage + 1) %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="{{ url_for('discussion_post',category = cat, dis_id = dis_id , page = pages  ) }}">{{ pages }}</a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    {% if page <5 %}
+                        {% for pages in range(1,10) %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="{{ url_for('discussion_post',category = cat, dis_id = dis_id , page =pages  ) }}">{{ pages }}</a>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        {% for pages in range(page - 5,page + 5,1) %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="{{ url_for('discussion_post',category = cat, dis_id = dis_id , page =pages  ) }}">{{ pages }}</a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+                {% if page < numofPage %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('discussion_post',category = cat ,dis_id = dis_id , page = page + 1) }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
     <script>
         $(function () {
             $('textarea#froala-editor').froalaEditor({

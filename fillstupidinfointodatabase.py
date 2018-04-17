@@ -1,8 +1,10 @@
 import datetime
 
 import os
+
+import math
 from flask import Flask, render_template
-from random import choice, randrange
+from random import choice, randrange, uniform
 import hashlib, uuid
 #NOTE!!
 #install flask-mysql first by writing in terminal "pip install flask-mysql"
@@ -34,7 +36,7 @@ conn = mysql.connect()
 # cursor.close()
 
 #-------------------------------------- INSERT TUTOR, USER , SUBJECT, PROFILE PIC,SUBJECT GROUP--------------------------------------
-#USER INFO
+# USER INFO
 #
 # password = "he11o".encode('utf-8')
 # user_key = hashlib.md5()
@@ -91,8 +93,6 @@ conn = mysql.connect()
 # for i in range(1000):
 #     while True:
 #         try:
-#     # tutor_and_user = uuid.uuid4().hex
-#             picture_id = randrange(1, 1000000)
 #             tutor_and_user = randrange(1, 100000000)
 #             user_and_tutor_cursor = conn.cursor()
 #             email = "hello" + str(randrange(1, 1000000)) + "@world.com"
@@ -141,8 +141,8 @@ conn = mysql.connect()
 #             break
 #         break
 # user_and_tutor_cursor.close()
-
-# ---------------------------------------------------INSERTING RANDOM DATA INTO CATEGORY DATA USING EXISTING USER-------------------------------------------
+#
+# # ---------------------------------------------------INSERTING RANDOM DATA INTO CATEGORY DATA USING EXISTING USER-------------------------------------------
 #
 # content = "Why are we still here? Just to suffer? Every night, I can feel my leg… and my arm… even my fingers. The body I’ve lost… the comrades I’ve lost… won’t stop hurting… It’s like they’re all still there. You feel it, too, don’t you? "
 # topic = "What is the answer of life and death"
@@ -214,35 +214,123 @@ conn = mysql.connect()
 #             continue
 #         break
 # cursor.close()
-#------------------------------INSERT COMMENT INTO RANDOM DISCUSSION
-commentcursor = conn.cursor()
-content = "Don't walk behind me; I may not lead. Don't walk in front of me; I may not follow. Just walk beside me and be my friend. - Albert Camus"
+# #------------------------------INSERT COMMENT INTO RANDOM DISCUSSION-----------------------------------
+# commentcursor = conn.cursor()
+# content = "Don't walk behind me; I may not lead. Don't walk in front of me; I may not follow. Just walk beside me and be my friend. - Albert Camus"
+# for i in range(1000):
+#     while True:
+#         try:
+#             select_discussion_SQL = """SELECT * FROM `discussion` ORDER BY RAND()"""
+#             select_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
+#             try:
+#                 commentcursor.execute(select_discussion_SQL)
+#                 dis_id = commentcursor.fetchone()[0]
+#                 try:
+#                     commentcursor.execute(select_user_SQL)
+#                     user_id = commentcursor.fetchone()[0]
+#                     insert_comment_sql = """INSERT INTO `comment`(`Dis_id`, `User_id`, `Content`) VALUES (%s,%s,%s)"""
+#                     try:
+#                         commentcursor.execute(insert_comment_sql,(dis_id, user_id, content))
+#                         conn.commit()
+#                     except:
+#                         print("fail to insert comment")
+#                 except:
+#                     print("fail to query user")
+#                     continue
+#             except:
+#                 print("fail to query discussion")
+#                 continue
+#             print(i)
+#         except:
+#             print("Something bad is going on")
+#             continue
+#         break;
+#commentcursor.close()
+# #------------------------------HAVE A EXISTING USER VOTE IN A EXISTING COMMENT INSIDE POST-----------------------------------
+votecursor = conn.cursor()
+sizecursor = conn.cursor()
+comment_lengthSQL = """SELECT count(*) FROM `comment`"""
+try:
+    sizecursor.execute(comment_lengthSQL)
+    size = sizecursor.fetchone()[0] +1
+except:
+    print("cannot get comment size")
+sizecursor.close()
 for i in range(500):
     while True:
         try:
-            select_discussion_SQL = """SELECT * FROM `discussion` ORDER BY RAND()"""
-            select_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
+            SCORE = 1 if (uniform(-1, 1)) > 0 else -1
+            comment_id = randrange(1,size)
+            select_comment_SQL = """SELECT * FROM `comment` WHERE `Comment_id` = %s"""
+            select_another_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
             try:
-                commentcursor.execute(select_discussion_SQL)
-                dis_id = commentcursor.fetchone()[0]
+                votecursor.execute(select_comment_SQL, comment_id)
+                com_info = votecursor.fetchone()
+                dis_id = com_info[1]
+                user_id = com_info[2]
                 try:
-                    commentcursor.execute(select_user_SQL)
-                    user_id = commentcursor.fetchone()[0]
-                    insert_comment_sql = """INSERT INTO `comment`(`Dis_id`, `User_id`, `Content`) VALUES (%s,%s,%s)"""
+                    votecursor.execute(select_another_user_SQL)
+                    another_user_id = votecursor.fetchone()[0]
+                    insert_vote_sql = """INSERT INTO `vote`(`Voter_id`, `Post_id`, `Poster_id`, `Score`, `dis_id`) VALUES (%s,%s,%s,%s,%s)"""
                     try:
-                        commentcursor.execute(insert_comment_sql,(dis_id, user_id, content))
+                        votecursor.execute(insert_vote_sql,(another_user_id, comment_id, user_id, SCORE,dis_id))
                         conn.commit()
                     except:
-                        print("fail to insert comment")
+                        print("fail to insert vote")
                 except:
                     print("fail to query user")
                     continue
             except:
-                print("fail to query discussion")
+                print("fail to query comment")
                 continue
             print(i)
         except:
             print("Something bad is going on")
             continue
         break;
-commentcursor.close()
+
+# ------------------------------HAVE A EXISTING USER VOTE IN A EXISTING Discussion post-----------------------------------
+sizecursor = conn.cursor()
+comment_lengthSQL = """SELECT count(*) FROM `discussion`"""
+try:
+    sizecursor.execute(comment_lengthSQL)
+    size = sizecursor.fetchone()[0] +1
+except:
+    print("cannot get discussion size")
+sizecursor.close()
+for i in range(500):
+    while True:
+        try:
+            SCORE = 1 if (uniform(-1, 1)) > 0 else -1
+            discussion_id = randrange(1,size)
+            select_another_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
+            select_poster = """SELECT `dis_id`,`user_id` FROM `discussion` WHERE dis_id = %s """
+            try:
+                try:
+                    votecursor.execute(select_another_user_SQL)
+                    another_user_id = votecursor.fetchone()[0]
+                    try:
+                        votecursor.execute(select_poster, discussion_id)
+                        dis_info = votecursor.fetchone()
+                        person_post_dis_user_id = dis_info[1]
+                        dis_id = dis_info[0]
+                        insert_vote_sql = """INSERT INTO `vote`(`Voter_id`, `Post_id`, `Poster_id`, `Score`,`dis_id`) VALUES (%s,%s,%s,%s,%s)"""
+                        try:
+                            votecursor.execute(insert_vote_sql,(another_user_id, dis_id, person_post_dis_user_id, SCORE, dis_id))
+                            conn.commit()
+                        except:
+                            print("fail to insert vote")
+                    except:
+                            print("fail to query poster id")
+                except:
+                    print("fail to query user")
+                    continue
+            except:
+                print("fail to query comment")
+                continue
+            print(i)
+        except:
+            print("Something bad is going on")
+            continue
+        break;
+votecursor.close()

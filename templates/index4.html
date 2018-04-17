@@ -22,6 +22,8 @@
 
         .btn-outline {
             background-color: transparent;
+            border-color: #000;
+            color: #000;
             border-radius: 2px;
         }
 
@@ -178,7 +180,7 @@
             <p>Your all in one community for university life!</p>
             <br>
             <br>
-            <button class="btn btn-outline btn-lg">View All Discussion</button>
+            <a href="{{ url_for('newpost',category = cat) }}" class="btn btn-outline btn-lg">Start New Discussion</a>
             <br>
             <br>
             <br>
