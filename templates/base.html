@@ -164,7 +164,7 @@
                 <a href="/tutor">Tutors</a>
                 <a href="/job">Jobs</a>
                 {% if not login %}
-                    <a href="#" type="button" id="myBtn" class="signin">Sign In</a>
+                    <a href="#" type="button" id="myBtn" class="signin" type = "button" data-toggle="modal" data-title="" data-target="#logIN">Sign In</a>
                 {% else %}
                     <a href="{{ url_for('userprofile', user_id = user_id) }}" type="button" style="word-spacing: normal" >{{ login }}</a>
                     <a href="{{ url_for('logout') }}" type="button" id="logout" class="logout">Logout</a>
@@ -386,16 +386,16 @@
         </script>
 
 
-        <script>
-            $(document).ready(function () {
-                $("#myBtn").click(function () {
-                    $("#logIN").modal();
-                });
-            });
-
+{#        <script>#}
+{#            $(document).ready(function () {#}
+{#                $("#myBtn").click(function () {#}
+{#                    $("#logIN").modal();#}
+{#                });#}
+{#            });#}
+{##}
             {# Code Theme #}
-            hljs.initHighlightingOnLoad();
-        </script>
+{#            hljs.initHighlightingOnLoad();#}
+{#        </script>#}
         <script src="/static/js/registration.js"></script>
 
     {% endblock %}
