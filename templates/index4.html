@@ -180,7 +180,14 @@
             <p>Your all in one community for university life!</p>
             <br>
             <br>
-            <a href="{{ url_for('newpost',category = "Architecture") }}" class="btn btn-outline btn-lg">Start New Discussion</a>
+            {% if not login %}
+                    <a href="#" type="button" id="myBtn" class="btn btn-outline btn-lg" type = "button" data-toggle="modal" data-title="" data-target="#logIN">Start New Discussion</a>
+
+                {% else %}
+                   <a href="{{ url_for('newpost',category = "Architecture") }}" class="btn btn-outline btn-lg" >Start New Discussion</a>
+                {% endif %}
+
+
             <br>
             <br>
             <br>
