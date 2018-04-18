@@ -280,34 +280,33 @@ function checkphone(value) {
     document.getElementById('phonenumberstatus').style.color = "red";
     if (value.length == 0) {
         console.log("enter leawwww");
-        document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number!';
+        document.getElementById('phonenumberstatus').innerHTML = "X Please enter your phone number! Don't leave it empty";
         return 2
     }
     if (value.length != 10) {
         if (value.indexOf(' ') >= 0 && !hasNumber(value)) {
-
-            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly! It must be ten digits without any "-" in between';
             return 1
         } else if (value.indexOf(' ') >= 0) {
-            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly! It must be ten digits without any "-" in between';
             return 1
         } else if (!hasNumber(value)) {
-            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly! It must be ten digits without any "-" in between';
             return 1
         } else {
-            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly!';
+            document.getElementById('phonenumberstatus').innerHTML = 'X Please enter your phone number correctly! It must be ten digits without any "-" in between';
             return 1
         }
     } else {
         if (value.indexOf(' ') >= 0 && !hasNumber(value)) {
-            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format!';
+            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format! It must be ten digits without any "-" in between';
             return 1
         } else if (value.indexOf(' ') >= 0) {
             alert("Phonenumber must not contain whitespaces")
-            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format!';
+            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format! It must be ten digits without any "-" in between';
             return 1
         } else if (!hasNumber(value)) {
-            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format1';
+            document.getElementById('phonenumberstatus').innerHTML = 'X Wrong phone number format1 It must be ten digits without any "-" in between';
             return 1
         } else {
             document.getElementById('phonenumberstatus').innerHTML = '';
