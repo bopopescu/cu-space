@@ -228,7 +228,10 @@ def tutor(page):
         cursor.execute(sql, (18, numDataStart))
         numPage = int(math.ceil(float(numOfData[0]) / float(18)))
         tutorData = cursor.fetchall()
-        isuserAtutor = [tutor for tutor in tutorData if tutor[0] == g.user_id][0]
+        if g.user:
+            isuserAtutor = [tutor for tutor in tutorData if tutor[0] == g.user_id][0]
+        else:
+            isuserAtutor = None
         print(tutorData)
     except:
         print("Cannot query tutor data")
