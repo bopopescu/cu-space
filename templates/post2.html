@@ -60,9 +60,12 @@
                                 {% endif %}
                         {% else%}
                     <div class="vote">
-                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-down"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="down"><span class="far fa-thumbs-down"></span></a>
+{#                        <button type="button" data-toggle="modal" data-title="Edit" class="btn btn-primary"#}
+{#                                data-target="#editprofile" style="margin-bottom: 5%;">Edit Profile#}
+{#                        </button>#}
                             {{ topic[9] }}
-                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-up"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="up"><span class="far fa-thumbs-up"></span></a>
                     </div>
                     {% endif %}
                     {% else %}
@@ -88,9 +91,9 @@
                                 {% endif %}
                         {% else%}
                     <div class="vote">
-                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-down"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="down"><span class="far fa-thumbs-down"></span></a>
                             0
-                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-up"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="up"><span class="far fa-thumbs-up"></span></a>
                     </div>
                     {% endif %}
                     {% endif %}
@@ -127,9 +130,9 @@
                                 {% endif %}
                         {% else%}
                     <div class="vote">
-                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-down"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="down"><span class="far fa-thumbs-down"></span></a>
                             {{ topic[9] }}
-                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-up"></span></a>
+                            <a href="" id="myBtn"  type = "button" data-toggle="modal" data-title="" data-target="#logIN"class="up"><span class="far fa-thumbs-up"></span></a>
                     </div>
                     {% endif %}
                         <div class="profile-img">
@@ -189,9 +192,9 @@
                                 {% endif %}
                         {% else%}
                     <div class="vote">
-                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-down"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="down"><span class="far fa-thumbs-down"></span></a>
                             {{ top[11] }}
-                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-up"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="up"><span class="far fa-thumbs-up"></span></a>
                     </div>
                     {% endif %}
                     </div>
@@ -227,9 +230,9 @@
                                 {% endif %}
                         {% else%}
                     <div class="vote">
-                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-down"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="down"><span class="far fa-thumbs-down"></span></a>
                             {{ top[11] }}
-                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-up"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="up"><span class="far fa-thumbs-up"></span></a>
                     </div>
                     {% endif %}
                         <div class="profile-img">
@@ -291,9 +294,11 @@
                                 {% endif %}
                         {% else%}
                      <div class="vote">
-                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-up"></span></a>
+                            <a href="" type="button" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="down"><span class="far fa-thumbs-up"></span></a>
+
+
                             {{voteCount[loop.index - 1] }}
-                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-down"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="up"><span class="far fa-thumbs-down"></span></a>
                     </div>
                     {%endif %}
                     </div>
@@ -329,9 +334,9 @@
                                 {% endif %}
                         {% else%}
                      <div class="vote">
-                            <a href="" id="myBtn" class="down"><span class="far fa-thumbs-up"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="down"><span class="far fa-thumbs-up"></span></a>
                             {{voteCount[loop.index - 1] }}
-                            <a href="" id="myBtn" class="up"><span class="far fa-thumbs-down"></span></a>
+                            <a href="" id="myBtn" type = "button" data-toggle="modal" data-title="" data-target="#logIN" class="up"><span class="far fa-thumbs-down"></span></a>
                     </div>
                     {%endif %}
                         <div class="profile-img">
@@ -498,4 +503,14 @@
             }
         });
     </script>
+    <script>
+            $(document).ready(function () {
+                $(".myBtn").click(function () {
+                    $("#logIN").modal();
+                });
+            });
+
+            {# Code Theme #}
+            hljs.initHighlightingOnLoad();
+        </script>
 {% endblock %}
