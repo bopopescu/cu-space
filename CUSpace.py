@@ -222,14 +222,15 @@ def tutor(page):
         cursor.execute(sql, (18, numDataStart))
         numPage = int(math.ceil(float(numOfData[0]) / float(18)))
         tutorData = cursor.fetchall()
+        isuserAtutor = [tutor for tutor in tutorData if tutor[0] == g.user_id][0]
         print(tutorData)
     except:
         print("Cannot query tutor data")
     if g.user:
         return render_template('tutor2.html', tutorList=tutorData, numofPage=numPage, subList=subjectList,
-                               page=int(page), login=g.user, user_id=g.user_id)
+                               page=int(page), login=g.user, user_id=g.user_id, istutor = isuserAtutor )
     else:
-        return render_template('tutor2.html', tutorList = tutorData, numofPage = numPage, subList = subjectList, page = int(page))
+        return render_template('tutor2.html', tutorList = tutorData, numofPage = numPage, subList = subjectList, page = int(page), istutor = isuserAtutor)
 
 
 @app.route('/tutor/<tutor_id>')

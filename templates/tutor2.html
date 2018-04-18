@@ -188,13 +188,15 @@
                         </button>
                     </div>
                     {% if login %}
-                    <div class="form-group" style="margin-right: 16px;">
-                        <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('registernewtutor') }}">BECOME A TUTOR <i class="fas fa-pencil-alt" style=" font-size: 14px; padding-bottom: 3px"></i></a>
-                    </div>
-
-                         <div class="form-group" >
-                        <a type="button" class="btn btn-outline" id="mytutorprofile" href="">MY TUTOR PROFILE <i class="fas fa-user" style="font-size: 14px; padding-bottom: 3px; "></i></a>
-                    </div>
+                        {% if istutor %}
+                            <div class="form-group" >
+                                <a type="button" class="btn btn-outline" id="mytutorprofile" href="{{ url_for('profile',tutor_id = istutor[0]) }}">MY TUTOR PROFILE <i class="fas fa-user" style="font-size: 14px; padding-bottom: 3px; "></i></a>
+                            </div>
+                            {% else %}
+                            <div class="form-group" style="margin-right: 16px;">
+                                <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('registernewtutor') }}">BECOME A TUTOR <i class="fas fa-pencil-alt" style=" font-size: 14px; padding-bottom: 3px"></i></a>
+                            </div>
+                        {% endif %}
                     {% endif %}
                 </form>
             </div>
