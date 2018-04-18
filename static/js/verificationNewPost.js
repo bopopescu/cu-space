@@ -1,4 +1,4 @@
-var editor = CKEDITOR.replace('detail', {
+var editor = CKEDITOR.replace('cke_detail', {
     uiColor: '#ffffff'
 });
 var detailCheck = 1;

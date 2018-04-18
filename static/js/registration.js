@@ -75,6 +75,14 @@ $("#psw").focusout(function () {
     }
 });
 
+$("#confirmpassword").focusout(function () {
+    var value = $(this).val()
+    if (checkconfirmpasswordsignup(value) == 1) {
+    } else {
+    }
+});
+
+
 function checkpasswordlogin(value) {
     document.getElementById('passwordloginstatus').style.color = "red";
     if (value.length < 8 || value.length > 16) {
@@ -116,6 +124,34 @@ function checkpasswordsignup(value) {
     }
     else {
         document.getElementById('passwordsignupstatus').innerHTML = '';
+        return 0;
+    }
+}
+
+function checkconfirmpasswordsignup(value) {
+    var passwordvalue = $('#password').val();
+    document.getElementById('confirmpasswordsignupstatus').style.color = "red";
+    if (value.length < 8 || value.length > 16) {
+        document.getElementById('confirmpasswordsignupstatus').innerHTML = 'X Password must be between 8 and 16 characters';
+        return 1;
+    }
+    if (value.indexOf(' ') >= 0) {
+        document.getElementById('confirmpasswordsignupstatus').innerHTML = 'X Password must not contain whitespaces';
+        return 1
+    }
+    if (isValid(value) == false) {
+        document.getElementById('confirmpasswordsignupstatus').innerHTML = 'X Password must not contain only english letters and numbers';
+        return 1
+    }
+    if (hasUnderscore(value) == 1) {
+        document.getElementById('confirmpasswordsignupstatus').innerHTML = 'X Password must not contain only english letters and numbers';
+        return 1
+    }if(value != passwordvalue){
+        document.getElementById('confirmpasswordsignupstatus').innerHTML = "X The password doesn't match. Please try again" ;
+        return 1
+    }
+    else {
+        document.getElementById('confirmpasswordsignupstatus').innerHTML = '';
         return 0;
     }
 }
@@ -248,12 +284,14 @@ function checkall() {
     var firstnamevalue = $('#firstname').val();
     var lastnamevalue = $('#lastname').val();
     var passwordvalue = $('#password').val();
+    var confirmpasswordvalue = $('#confirmpassword').val();
     var emailvalue = $('#email').val();
     var dateofbirthsignupvalue = $('[name=birthday]').val();
 
     if (checkfirstnamesignup(firstnamevalue) == 1 ||
         checklastnamesignup(lastnamevalue) == 1 ||
         checkpasswordsignup(passwordvalue) == 1 ||
+        checkconfirmpasswordsignup(confirmpasswordvalue) == 1 ||
         checkemailsignup(emailvalue) == 1 ||
         checkDateOfBirthSignUp(dateofbirthsignupvalue) == 1) {
         alert("Please enter all of the field correctly");
