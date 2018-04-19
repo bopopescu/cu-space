@@ -474,8 +474,8 @@ def newpost(category):
     else:
         return render_template('newpost.html' , cat = categorySet, currentCat = category, currentCatDetail = categoryDetail)
 
-@app.route('/discussion/<category>/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/voting_up/<voting>')
-def voting_up(category, dis_id, poster_id, voting, post_id):
+@app.route('/discussion/<category>/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/page/<page_no>/voting_up/<voting>')
+def voting_up(category, dis_id, poster_id, voting, post_id, page_no):
     voter_id = g.user_id # person who vote
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -489,12 +489,12 @@ def voting_up(category, dis_id, poster_id, voting, post_id):
     try:
         cursor.execute(voteupSQL,(voter_id, post_id, poster_id, voting_score, dis_id))
         conn.commit()
-        return redirect(url_for('discussion_post', category = category, dis_id= dis_id))
+        return redirect(url_for('discussion_post', category = category, dis_id= dis_id ,page = page_no))
     except:
         print("fail to insert vote up into db")
 
-@app.route('/discussion/<category>/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/voting_down/<voting>')
-def voting_down(category, dis_id, poster_id, voting, post_id):
+@app.route('/discussion/<category>/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/page/<page_no>/voting_down/<voting>')
+def voting_down(category, dis_id, poster_id, voting, post_id, page_no):
     voter_id = g.user_id # person who vote
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -508,14 +508,14 @@ def voting_down(category, dis_id, poster_id, voting, post_id):
     try:
         cursor.execute(voteupSQL,(voter_id, post_id, poster_id, voting_score, dis_id))
         conn.commit()
-        return redirect(url_for('discussion_post', category = category, dis_id= dis_id))
+        return redirect(url_for('discussion_post', category = category, dis_id= dis_id, page = page_no))
     except:
         print("fail to insert vote up into db")
 
 @app.route('/discussion/<category>/<dis_id>/' , defaults={'page': 1})
 @app.route('/discussion/<category>/<dis_id>/page/<page>')
 def discussion_post(category,dis_id, page):
-    numDataStart = ((int(page) - 1) * 15)
+    numDataStart = ((int(page) - 1) * 10)
     conn = mysql.connect()
     cursor = conn.cursor()
     categoryList = getCat()
@@ -543,7 +543,7 @@ def discussion_post(category,dis_id, page):
     commentSQL = """SELECT content,Create_time,email,firstname,lastname,ban_status,picture, com.User_id, com.Comment_id
                     FROM `comment` com INNER JOIN user ON user.User_id = com.user_id 
                     INNER JOIN profile_picture pic ON pic.User_id = com.user_id
-                    WHERE com.dis_id = %s ORDER BY Create_time DESC"""
+                    WHERE com.dis_id = %s ORDER BY Create_time ASC"""
     try:
         cursor.execute(commentSQL,dis_id)
         commentList = cursor.fetchall()
@@ -583,8 +583,8 @@ def discussion_post(category,dis_id, page):
                                totalcomment = totalnumofComment, checkTop = checkuservotetopComment, checkTopic = checkuservotediscussionTopic,
                                catDetail=categoryDetail, catList=categoryName)
 
-@app.route("/discussion/<category>/<dis_id>/addcomment/user/<user_id>/", methods=['POST'])
-def add_comment_into_discussion(category, dis_id,user_id):
+@app.route("/discussion/<category>/<dis_id>/addcomment/user/<user_id>/page/<page_no>", methods=['POST'])
+def add_comment_into_discussion(category, dis_id,user_id, page_no):
     content = request.form.get('content')
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -594,7 +594,7 @@ def add_comment_into_discussion(category, dis_id,user_id):
         conn.commit()
     except:
         print("Fail to insert comment into discussion")
-    return redirect(url_for('discussion_post', category = category, dis_id=dis_id))
+    return redirect(url_for('discussion_post', category = category, dis_id=dis_id, page = page_no))
 
 @app.route('/<category>/newpost/create_new_discussion', methods=['POST'])
 def createnewpost(category):
