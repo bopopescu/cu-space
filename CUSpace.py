@@ -474,7 +474,7 @@ def newpost(category):
     else:
         return render_template('newpost.html' , cat = categorySet, currentCat = category, currentCatDetail = categoryDetail)
 
-@app.route('/discussion/<category>/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/page/<page_no>/voting_up/<voting>')
+@app.route('/discussion/<category>/discussion/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/page/<page_no>/voting_up/<voting>')
 def voting_up(category, dis_id, poster_id, voting, post_id, page_no):
     voter_id = g.user_id # person who vote
     conn = mysql.connect()
@@ -493,7 +493,7 @@ def voting_up(category, dis_id, poster_id, voting, post_id, page_no):
     except:
         print("fail to insert vote up into db")
 
-@app.route('/discussion/<category>/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/page/<page_no>/voting_down/<voting>')
+@app.route('/discussion/<category>/discussion/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/page/<page_no>/voting_down/<voting>')
 def voting_down(category, dis_id, poster_id, voting, post_id, page_no):
     voter_id = g.user_id # person who vote
     conn = mysql.connect()
@@ -512,8 +512,8 @@ def voting_down(category, dis_id, poster_id, voting, post_id, page_no):
     except:
         print("fail to insert vote up into db")
 
-@app.route('/discussion/<category>/<dis_id>/' , defaults={'page': 1})
-@app.route('/discussion/<category>/<dis_id>/page/<page>')
+@app.route('/discussion/<category>/discussion/<dis_id>/' , defaults={'page': 1})
+@app.route('/discussion/<category>/discussion/<dis_id>/page/<page>')
 def discussion_post(category,dis_id, page):
     numDataStart = ((int(page) - 1) * 10)
     conn = mysql.connect()
@@ -583,7 +583,7 @@ def discussion_post(category,dis_id, page):
                                totalcomment = totalnumofComment, checkTop = checkuservotetopComment, checkTopic = checkuservotediscussionTopic,
                                catDetail=categoryDetail, catList=categoryName)
 
-@app.route("/discussion/<category>/<dis_id>/addcomment/user/<user_id>/page/<page_no>", methods=['POST'])
+@app.route("/discussion/<category>/discussion/<dis_id>/addcomment/user/<user_id>/page/<page_no>", methods=['POST'])
 def add_comment_into_discussion(category, dis_id,user_id, page_no):
     content = request.form.get('content')
     conn = mysql.connect()
@@ -686,6 +686,81 @@ def discussion(category, page):
         else:
             return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage,
                                catDetail = categoryDetail, catList = categoryList, content = content, comment = numOfCommentinDiscussion, time = time, page = int(page))
+@app.route('/discussion/<category>/serachtopic', methods=['POST'])
+def searchtopic(category):
+    topic = request.form.get('searchtopic')
+    if topic:
+        return redirect(url_for('searchfordiscussion', category = category, topic_name= topic, page = 1))
+    else:
+        return redirect(url_for('discussion', category=category, page=1))
+
+@app.route('/discussion/<category>/topic/<topic_name>', defaults={'page':1})
+@app.route('/discussion/<category>/topic/<topic_name>/page/<page>')
+def searchfordiscussion(category,topic_name,page):
+    numDataStart = ((int(page) - 1) * 15)
+    conn = mysql.connect()
+    categoryList = getCat()
+    categoryName = [i[1] for i in categoryList]
+    categoryDetail = [i for i in categoryList if i[1] == category][0]
+    if (category in categoryName):
+        cursor = conn.cursor()
+        discussionSQL = """SELECT catgrp.dis_cat_group_id
+                ,catgrp.dis_id
+                ,catgrp.dis_cat_id
+                ,cat.Dis_cat_name
+                ,dis.User_id
+                ,dis.Topic
+                ,dis.Content
+                ,dis.Create_Time
+                ,`user`.firstname
+                ,`user`.lastname
+                , pic.picture
+                FROM `dis_category_group` catgrp
+                INNER JOIN `dis_category` cat ON catgrp.dis_cat_id = cat.Dis_cat_id
+                INNER JOIN `discussion` dis ON dis.Dis_id = catgrp.dis_id
+                INNER JOIN `user` ON `user`.user_id = dis.user_id 
+                INNER JOIN `profile_picture`pic ON pic.user_id = dis.user_id
+                WHERE cat.Dis_cat_name = %s and dis.Topic LIKE %s ORDER BY dis.create_time"""
+        try:
+            cursor.execute(discussionSQL, (category,("%" + topic_name + "%")))
+            discussion = cursor.fetchall()
+            if discussion:
+                numOfData = discussion.__len__()
+                discussion_per_page = discussion[numDataStart: numDataStart+15]
+            else:
+                numOfData = 0
+            numPage = int(math.ceil(float(numOfData) / float(15)))
+        except:
+            print("Cannot query discussion")
+        if discussion:
+            dis_id = [dataList[1] for dataList in discussion_per_page]
+            numOfCommentinDiscussion = [getComment(comment).__len__() for comment in dis_id]
+            time = [timesince(dataList[7]) for dataList in discussion_per_page]
+            content = [removeHTML(dataList[6]) for dataList in discussion_per_page]
+            content = [each.replace('&nbsp;', ' ') for each in content]
+        cursor.close()
+        conn.close()
+        if g.user:
+            if discussion:
+                return render_template('discussion2.html', cat=category, discussion=discussion_per_page, numofPage=numPage,
+                                       catDetail=categoryDetail, catList=categoryList, content=content,
+                                       comment=numOfCommentinDiscussion, time=time, page=int(page), login=g.user,
+                                       user_id=g.user_id, topic_name = topic_name)
+            else:
+                return render_template('discussion2.html', cat=category, discussion=None,
+                                       numofPage=numPage,
+                                       catDetail=categoryDetail, catList=categoryList, page=int(page), login=g.user,
+                                       user_id=g.user_id, topic_name = topic_name)
+        else:
+            if discussion:
+                return render_template('discussion2.html', cat=category, discussion=discussion_per_page, numofPage=numPage,
+                                   catDetail=categoryDetail, catList=categoryList, content=content,
+                                   comment=numOfCommentinDiscussion, time=time, page=int(page), topic_name = topic_name)
+            else:
+                return render_template('discussion2.html', cat=category, discussion=None,
+                                       numofPage=numPage, catDetail=categoryDetail, catList=categoryList,
+                                       page=int(page), topic_name = topic_name)
+
 
 def getCat():
     conn = mysql.connect()

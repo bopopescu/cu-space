@@ -27,7 +27,7 @@
 
         <div class="wrapper">
             <div class="top-search-bar">
-                <form class="form-inline" action="#">
+                <form method="POST" class="form-inline" enctype=multipart/form-data action="{{ url_for("searchtopic", category = cat ) }}">
                     {% if login %}
                     <div class="form-group">
                         <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('newpost',category = cat) }}"
@@ -36,7 +36,11 @@
                     </div>
                     {% endif %}
                     <div class="form-group">
-                        <input type="text" placeholder="SEARCH" name="search">
+                        {% if topic_name %}
+                            <input type="text" placeholder="SEARCH FOR TOPIC" value="{{ topic_name }}" name="searchtopic">
+                        {% else %}
+                            <input type="text" placeholder="SEARCH FOR TOPIC" name="searchtopic">
+                        {% endif %}
                         <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                         </button>
                     </div>
@@ -45,6 +49,7 @@
             </div>
         </div>
         <div class="wrapper">
+        {% if discussion %}
             {% for data in discussion %}
                 <div class="main-wrapper">
                     <div class="main-right">
@@ -73,6 +78,7 @@
                 </div>
                 <hr>
             {% endfor %}
+        {% endif %}
         </div>
 
         <nav class="navPage" style="text-align: center">
