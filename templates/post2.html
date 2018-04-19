@@ -374,7 +374,7 @@
                     <form class="content add-comment" method="POST" enctype=multipart/form-data
                           action="{{ url_for('add_comment_into_discussion', category = cat, dis_id = dis_id, user_id = user_id) }}">
                         <textarea class="form-control" rows="5" id="detail" name="content"></textarea>
-                        <input type="submit" value="Submit" class="btn btn-outline disabled" id="submitReply">
+                        <input type="submit" value="Submit" class="btn btn-outline disabled" id="submitReply" disabled>
                         <div id="detailstatus" style="display: inline-block; padding-top: 3px; color: red">
                             &nbsp;
                         </div>
@@ -495,11 +495,14 @@
             if (evt.editor.getData().length > 10000) {
                 $("#detailstatus").html('Content is too long');
                 $('#submitReply').removeClass('active').addClass('disabled');
+                document.getElementById('submitReply').disabled = true;
             } else if (evt.editor.getData().length == 0) {
                 $('#submitReply').removeClass('active').addClass('disabled');
+                document.getElementById('submitReply').disabled = true;
             } else {
                 $("#detailstatus").html('&nbsp;');
                 $('#submitReply').removeClass('disabled')
+                document.getElementById('submitReply').disabled = false;
             }
         });
     </script>
