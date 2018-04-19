@@ -24,7 +24,6 @@
         </div>
     </div>
     <div class="container-body">
-
         <div class="wrapper">
             <div class="top-search-bar">
                 <form method="POST" class="form-inline" enctype=multipart/form-data action="{{ url_for("searchtopic", category = cat ) }}">
@@ -80,20 +79,19 @@
             {% endfor %}
         {% endif %}
         </div>
-{% if topic_name %}
         <nav class="navPage" style="text-align: center">
             <ul class="pagination">
                 {% if page > 1 %}
                     <li class="page-item">
                         <a class="page-link"
-                           href="{{ url_for('searchfordiscussion',category = cat,topic_name = topic_name, page = page - 1) }}">Previous</a>
+                           href="{{ url_for('discussion',category = cat,topic_name = topic_name, page = page - 1) }}">Previous</a>
                     </li>
                 {% endif %}
                 {% if numofPage < 10 %}
                     {% for pages in range(1,numofPage + 1) %}
                         <li class="page-item">
                             <a class="page-link"
-                               href="{{ url_for('searchfordiscussion',category = cat,topic_name = topic_name, page = pages  ) }}">{{ pages }}</a>
+                               href="{{ url_for('discussion',category = cat,topic_name = topic_name, page = pages  ) }}">{{ pages }}</a>
                         </li>
                     {% endfor %}
                 {% else %}
@@ -101,66 +99,25 @@
                         {% for pages in range(1,10) %}
                             <li class="page-item">
                                 <a class="page-link"
-                                   href="{{ url_for('searchfordiscussion',category = cat,topic_name = topic_name, page =pages  ) }}">{{ pages }}</a>
+                                   href="{{ url_for('discussion',category = cat,topic_name = topic_name, page =pages  ) }}">{{ pages }}</a>
                             </li>
                         {% endfor %}
                     {% else %}
                         {% for pages in range(page - 5,page + 5,1) %}
                             <li class="page-item">
                                 <a class="page-link"
-                                   href="{{ url_for('searchfordiscussion',category = cat, page =pages  ) }}">{{ pages }}</a>
+                                   href="{{ url_for('discussion',category = cat,topic_name = topic_name, page =pages  ) }}">{{ pages }}</a>
                             </li>
                         {% endfor %}
                     {% endif %}
                 {% endif %}
                 {% if page < numofPage %}
                     <li class="page-item">
-                        <a class="page-link" href="{{ url_for('discussion',category = cat, page = page + 1) }}">Next</a>
+                        <a class="page-link" href="{{ url_for('discussion',category = cat,topic_name = topic_name, page = page + 1) }}">Next</a>
                     </li>
                 {% endif %}
             </ul>
         </nav>
-    {% else %}
-        <nav class="navPage" style="text-align: center">
-            <ul class="pagination">
-                {% if page > 1 %}
-                    <li class="page-item">
-                        <a class="page-link"
-                           href="{{ url_for('discussion',category = cat, page = page - 1) }}">Previous</a>
-                    </li>
-                {% endif %}
-                {% if numofPage < 10 %}
-                    {% for pages in range(1,numofPage + 1) %}
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="{{ url_for('discussion',category = cat, page = pages  ) }}">{{ pages }}</a>
-                        </li>
-                    {% endfor %}
-                {% else %}
-                    {% if page <5 %}
-                        {% for pages in range(1,10) %}
-                            <li class="page-item">
-                                <a class="page-link"
-                                   href="{{ url_for('discussion',category = cat, page =pages  ) }}">{{ pages }}</a>
-                            </li>
-                        {% endfor %}
-                    {% else %}
-                        {% for pages in range(page - 5,page + 5,1) %}
-                            <li class="page-item">
-                                <a class="page-link"
-                                   href="{{ url_for('discussion',category = cat, page =pages  ) }}">{{ pages }}</a>
-                            </li>
-                        {% endfor %}
-                    {% endif %}
-                {% endif %}
-                {% if page < numofPage %}
-                    <li class="page-item">
-                        <a class="page-link" href="{{ url_for('discussion',category = cat, page = page + 1) }}">Next</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    {% endif %}
     </div>
 
     <script>
