@@ -247,90 +247,109 @@ conn = mysql.connect()
 #         break;
 #commentcursor.close()
 # #------------------------------HAVE A EXISTING USER VOTE IN A EXISTING COMMENT INSIDE POST-----------------------------------
-votecursor = conn.cursor()
-sizecursor = conn.cursor()
-comment_lengthSQL = """SELECT count(*) FROM `comment`"""
-try:
-    sizecursor.execute(comment_lengthSQL)
-    size = sizecursor.fetchone()[0] +1
-except:
-    print("cannot get comment size")
-sizecursor.close()
-for i in range(500):
-    while True:
-        try:
-            SCORE = 1 if (uniform(-1, 1)) > 0 else -1
-            comment_id = randrange(1,size)
-            select_comment_SQL = """SELECT * FROM `comment` WHERE `Comment_id` = %s"""
-            select_another_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
-            try:
-                votecursor.execute(select_comment_SQL, comment_id)
-                com_info = votecursor.fetchone()
-                dis_id = com_info[1]
-                user_id = com_info[2]
-                try:
-                    votecursor.execute(select_another_user_SQL)
-                    another_user_id = votecursor.fetchone()[0]
-                    insert_vote_sql = """INSERT INTO `vote`(`Voter_id`, `Post_id`, `Poster_id`, `Score`, `dis_id`) VALUES (%s,%s,%s,%s,%s)"""
-                    try:
-                        votecursor.execute(insert_vote_sql,(another_user_id, comment_id, user_id, SCORE,dis_id))
-                        conn.commit()
-                    except:
-                        print("fail to insert vote")
-                except:
-                    print("fail to query user")
-                    continue
-            except:
-                print("fail to query comment")
-                continue
-            print(i)
-        except:
-            print("Something bad is going on")
-            continue
-        break;
+# votecursor = conn.cursor()
+# sizecursor = conn.cursor()
+# comment_lengthSQL = """SELECT count(*) FROM `comment`"""
+# try:
+#     sizecursor.execute(comment_lengthSQL)
+#     size = sizecursor.fetchone()[0] +1
+# except:
+#     print("cannot get comment size")
+# sizecursor.close()
+# for i in range(500):
+#     while True:
+#         try:
+#             SCORE = 1 if (uniform(-1, 1)) > 0 else -1
+#             comment_id = randrange(1,size)
+#             select_comment_SQL = """SELECT * FROM `comment` WHERE `Comment_id` = %s"""
+#             select_another_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
+#             try:
+#                 votecursor.execute(select_comment_SQL, comment_id)
+#                 com_info = votecursor.fetchone()
+#                 dis_id = com_info[1]
+#                 user_id = com_info[2]
+#                 try:
+#                     votecursor.execute(select_another_user_SQL)
+#                     another_user_id = votecursor.fetchone()[0]
+#                     insert_vote_sql = """INSERT INTO `vote`(`Voter_id`, `Post_id`, `Poster_id`, `Score`, `dis_id`) VALUES (%s,%s,%s,%s,%s)"""
+#                     try:
+#                         votecursor.execute(insert_vote_sql,(another_user_id, comment_id, user_id, SCORE,dis_id))
+#                         conn.commit()
+#                     except:
+#                         print("fail to insert vote")
+#                 except:
+#                     print("fail to query user")
+#                     continue
+#             except:
+#                 print("fail to query comment")
+#                 continue
+#             print(i)
+#         except:
+#             print("Something bad is going on")
+#             continue
+#         break;
+#
+# # ------------------------------HAVE A EXISTING USER VOTE IN A EXISTING Discussion post-----------------------------------
+# sizecursor = conn.cursor()
+# comment_lengthSQL = """SELECT count(*) FROM `discussion`"""
+# try:
+#     sizecursor.execute(comment_lengthSQL)
+#     size = sizecursor.fetchone()[0] +1
+# except:
+#     print("cannot get discussion size")
+# sizecursor.close()
+# for i in range(500):
+#     while True:
+#         try:
+#             SCORE = 1 if (uniform(-1, 1)) > 0 else -1
+#             discussion_id = randrange(1,size)
+#             select_another_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
+#             select_poster = """SELECT `dis_id`,`user_id` FROM `discussion` WHERE dis_id = %s """
+#             try:
+#                 try:
+#                     votecursor.execute(select_another_user_SQL)
+#                     another_user_id = votecursor.fetchone()[0]
+#                     try:
+#                         votecursor.execute(select_poster, discussion_id)
+#                         dis_info = votecursor.fetchone()
+#                         person_post_dis_user_id = dis_info[1]
+#                         dis_id = dis_info[0]
+#                         insert_vote_sql = """INSERT INTO `vote`(`Voter_id`, `Post_id`, `Poster_id`, `Score`,`dis_id`) VALUES (%s,%s,%s,%s,%s)"""
+#                         try:
+#                             votecursor.execute(insert_vote_sql,(another_user_id, dis_id, person_post_dis_user_id, SCORE, dis_id))
+#                             conn.commit()
+#                         except:
+#                             print("fail to insert vote")
+#                     except:
+#                             print("fail to query poster id")
+#                 except:
+#                     print("fail to query user")
+#                     continue
+#             except:
+#                 print("fail to query comment")
+#                 continue
+#             print(i)
+#         except:
+#             print("Something bad is going on")
+#             continue
+#         break;
+# votecursor.close()
+# #------------------------------INSERT JOB-----------------------------------
+job_name = "Junior Software Developer"
+job_info = "Agoda is the largest and fastest growing online hotel booking platform in Asia, and is a Booking Holdings (BKNG) company, the world’s leading provider of brands that help people book great."
+start_date = datetime.datetime.today().strftime('%Y-%m-%d')
+end_date = datetime.datetime.today().strftime('%Y-%m-%d')
+company = "Agoda Service Co., Ltd"
+email = "apple@gmsil.com"
+phone = "021444411"
+website = "www.google.com"
+user_id = "0a26cd8d1f5b4b8097efb90b48740347"
 
-# ------------------------------HAVE A EXISTING USER VOTE IN A EXISTING Discussion post-----------------------------------
-sizecursor = conn.cursor()
-comment_lengthSQL = """SELECT count(*) FROM `discussion`"""
+job_sql = """INSERT INTO `job` (`Job_name`, `Job_info`, `Start_date`, `End_date`, `Company`, `Email`, `Phone`, `Website`, `User_id`, `Job_cat_id`)
+                              VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%i)"""
 try:
-    sizecursor.execute(comment_lengthSQL)
-    size = sizecursor.fetchone()[0] +1
+    job_cursor = conn.cursor()
+    job_cursor.execute(job_sql, (job_name, job_info,start_date,end_date,company,email,phone,website, user_id))
+    conn.commit()
 except:
-    print("cannot get discussion size")
-sizecursor.close()
-for i in range(500):
-    while True:
-        try:
-            SCORE = 1 if (uniform(-1, 1)) > 0 else -1
-            discussion_id = randrange(1,size)
-            select_another_user_SQL = """SELECT * FROM `user` ORDER BY RAND()"""
-            select_poster = """SELECT `dis_id`,`user_id` FROM `discussion` WHERE dis_id = %s """
-            try:
-                try:
-                    votecursor.execute(select_another_user_SQL)
-                    another_user_id = votecursor.fetchone()[0]
-                    try:
-                        votecursor.execute(select_poster, discussion_id)
-                        dis_info = votecursor.fetchone()
-                        person_post_dis_user_id = dis_info[1]
-                        dis_id = dis_info[0]
-                        insert_vote_sql = """INSERT INTO `vote`(`Voter_id`, `Post_id`, `Poster_id`, `Score`,`dis_id`) VALUES (%s,%s,%s,%s,%s)"""
-                        try:
-                            votecursor.execute(insert_vote_sql,(another_user_id, dis_id, person_post_dis_user_id, SCORE, dis_id))
-                            conn.commit()
-                        except:
-                            print("fail to insert vote")
-                    except:
-                            print("fail to query poster id")
-                except:
-                    print("fail to query user")
-                    continue
-            except:
-                print("fail to query comment")
-                continue
-            print(i)
-        except:
-            print("Something bad is going on")
-            continue
-        break;
-votecursor.close()
+    print("Cannot insert job")

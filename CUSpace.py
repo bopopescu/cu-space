@@ -444,8 +444,34 @@ def create_tutor():
         return redirect(url_for("tutor", page=1))
     return redirect(url_for("profile", tutor_id=user_id))
 
-@app.route('/job')
-def job():
+@app.route('/job/' , defaults={'page':1})
+@app.route('/job/page/<page>')
+def job(page):
+    numDataStart = ((int(page) - 1) * 18)
+    # numDataEnd = int(page) * 18
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    numOfDataSQL = """SELECT COUNT(*)
+                                  FROM `tutor`"""
+    try:
+        cursor.execute(numOfDataSQL)
+        numOfData = cursor.fetchone()
+        print(numOfData)
+    except:
+        print("Cannot get number of data in job")
+
+    sql = """SELECT *
+             FROM `job` j
+             INNER JOIN `job_category` jc ON j.job_cat_id = jc.job_cat_id
+             WHERE j.End_date >= CURRENT_DATE()
+             ORDER BY j.End_date DESC"""
+    try:
+        cursor.execute(sql, (18, numDataStart))
+        numPage = int(math.ceil(float(numOfData[0]) / float(18)))
+        jobData = cursor.fetchall()
+        print(jobData)
+    except:
+        print("Cannot query job data")
     if g.user:
         return render_template('job.html', login = g.user , user_id = g.user_id)
     else:
