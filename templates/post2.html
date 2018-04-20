@@ -30,7 +30,7 @@
                 <hr>
                 <div class="post">
                     <div class="profile2">
-                        <div class="profile-img">
+                        <div class="profile-img topic-profile-img">
                             <a href="{{ url_for('userprofile',user_id = topic[6]) }}">{# url to user page #}
                                 <img class="rounded-circle"
                                      src="/static/img/user/{{ topic[6] }}/{{ topic[7] }}"
@@ -98,8 +98,8 @@
                     {% endif %}
                     {% endif %}
                     </div>
-                    <div class="profile-hover">
-                        <div class="profile-img">
+                    <div class="profile-hover topic-profile-hover">
+                        <div class="profile-img topic-profile-img">
                             <a href="{{ url_for('userprofile',user_id = topic[6]) }}">
                                 <h5 style="font-weight: 500">{{ topic[4] }} {{ topic[5] }}</h5>
                             </a>
@@ -485,6 +485,11 @@
             $('.top-profile-hover').show();
         }, function () {
             $('.top-profile-hover').hide();
+        });
+        $('.topic-profile-img').hover(function () {
+            $('.topic-profile-hover').show();
+        }, function () {
+            $('.topic-profile-hover').hide();
         });
         var editor = CKEDITOR.replace('detail', {
             uiColor: '#ffffff'
