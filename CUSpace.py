@@ -588,8 +588,8 @@ def voting_down(category, dis_id, poster_id, voting, post_id, page_no):
     except:
         print("fail to insert vote up into db")
 
-@app.route('/discussion/<category>/discussion/<dis_id>/' , defaults={'page': 1})
-@app.route('/discussion/<category>/discussion/<dis_id>/page/<page>')
+@app.route('/discussion/<category>/discussionID/<dis_id>/' , defaults={'page': 1})
+@app.route('/discussion/<category>/discussionID/<dis_id>/page/<page>')
 def discussion_post(category,dis_id, page):
     numDataStart = ((int(page) - 1) * 10)
     conn = mysql.connect()
@@ -604,7 +604,7 @@ def discussion_post(category,dis_id, page):
                   lastname,
                   `user`.user_id,
                   picture,
-                  `vote`.Post_id,
+                  dis.Dis_id,
                    sum(vote.Score) as noOfComment
                   FROM `discussion` dis 
                   INNER JOIN `user` ON `user`.User_id = dis.user_id 
@@ -688,10 +688,10 @@ def createnewpost(category):
             print(cursor.lastrowid)
             dis_id = cursor.lastrowid
             try:
-                for category in categoryList:
+                for categoryValue in categoryList:
                     sqlPostDis_Cat_Grp = """INSERT INTO `dis_category_group`(`Dis_id`, `Dis_cat_id`)
                                             VALUES (%s,%s)"""
-                    cursor.execute(sqlPostDis_Cat_Grp, (dis_id, category))
+                    cursor.execute(sqlPostDis_Cat_Grp, (dis_id, categoryValue))
                     conn.commit()
                 cursor.close()
                 conn.close()
