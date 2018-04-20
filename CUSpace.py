@@ -200,36 +200,69 @@ def edit_user_profile_picture(user_id):
             except:
                 print("Cannot update picture to database")
             return redirect(url_for('userprofile', user_id=user_id))
-@app.route('/tutor/' , defaults={'page':1})
-@app.route('/tutor/page/<page>')
-def tutor(page):
+@app.route('/tutor/' , defaults={'page':1, 'subject' : None, 'keyword': None})
+@app.route('/tutor/subject/<subject>', defaults={'page':1, 'keyword' :None})
+@app.route('/tutor/subject/<subject>/page/<page>', defaults = {'keyword': None})
+@app.route('/tutor/search-keyword/<keyword>', defaults={'page':1, 'subject' : None})
+@app.route('/tutor/search-keyword/<keyword>/page/<page>', defaults={'subject':None})
+@app.route('/tutor/page/<page>', defaults={'subject':None, 'keyword' :None})
+def tutor(page, subject,keyword):
     numDataStart = ((int(page) - 1) * 18)
     #numDataEnd = int(page) * 18
     conn = mysql.connect()
     cursor = conn.cursor()
     subjectList = getSub()
-    numOfDataSQL = """SELECT COUNT(*)
-                              FROM `tutor`"""
+    if not subject and not keyword:
+        sql = """SELECT t.user_id, t.information, prof.picture, sub_grp.subject_id,sub_grp.price, GROUP_CONCAT(sub.subject_name)
+                 as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status, GROUP_CONCAT(sub_grp.subject_description) as subject_description, t.tutor_create_time
+                 FROM `tutor` t
+                 INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
+                 INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id
+                 INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id
+                 INNER JOIN `user` ON user.User_id = t.user_id 
+                 GROUP BY sub_grp.user_id  
+                 ORDER BY t.tutor_create_time DESC"""
+    elif subject:
+        sql = """SELECT t.user_id, t.information, prof.picture, sub_grp.subject_id,sub_grp.price, GROUP_CONCAT(sub.subject_name)
+                         as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status, GROUP_CONCAT(sub_grp.subject_description) as subject_description, t.tutor_create_time
+                         FROM `tutor` t
+                         INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
+                         INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id
+                         INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id
+                         INNER JOIN `user` ON user.User_id = t.user_id
+                         WHERE sub.Subject_id = %s
+                         GROUP BY sub_grp.user_id  
+                         ORDER BY t.tutor_create_time DESC"""
+    elif keyword:
+        sql = """SELECT DISTINCT t.user_id, t.information, prof.picture, sub_grp.subject_id,sub_grp.price, GROUP_CONCAT(sub.subject_name)
+                 as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status, GROUP_CONCAT(sub_grp.subject_description) as subject_description, t.tutor_create_time	
+                 FROM `tutor` t
+                 INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
+                 INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id
+                 INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id
+                 INNER JOIN `user` ON user.User_id = t.user_id 
+                 WHERE firstname LIKE %s OR lastname LIKE %s OR subject_description LIKE %s
+                 GROUP BY sub_grp.user_id  
+                 ORDER BY t.tutor_create_time DESC"""
     try:
-        cursor.execute(numOfDataSQL)
-        numOfData = cursor.fetchone()
-        print(numOfData)
-    except:
-        print("Cannot get number of data in tutor")
-
-    sql = """SELECT t.user_id, t.information, prof.picture, sub_grp.subject_id,sub_grp.price, GROUP_CONCAT(sub.subject_name)
-             as tutor_subjects_name, user.Firstname, user.Lastname, user.Ban_status, sub_grp.subject_description, t.tutor_create_time
-             FROM `tutor` t
-             INNER JOIN `profile_picture` prof ON t.User_id = prof.user_id
-             INNER JOIN `subject_group` sub_grp ON t.user_id = sub_grp.user_id
-             INNER JOIN `subject` sub ON sub.subject_id = sub_grp.subject_id
-             INNER JOIN `user` ON user.User_id = t.user_id GROUP BY sub_grp.user_id  ORDER BY t.tutor_create_time DESC LIMIT %s OFFSET %s"""
-    try:
-        cursor.execute(sql, (18, numDataStart))
-        numPage = int(math.ceil(float(numOfData[0]) / float(18)))
+        subjectname = None
+        if not subject and not keyword:
+            cursor.execute(sql)
+        elif subject:
+            cursor.execute(sql, subject)
+            subjectname = [sub[1] for sub in subjectList if sub[0] == int(subject)][0]
+        elif keyword:
+            word = "%" + keyword + "%"
+            cursor.execute(sql, (word,word,word))
         tutorData = cursor.fetchall()
-        if g.user:
-            isuserAtutor = [tutor for tutor in tutorData if tutor[0] == g.user_id][0]
+        numOfData = tutorData.__len__()
+        tutorData = tutorData[numDataStart: numDataStart+18]
+        numPage = int(math.ceil(float(numOfData) / float(18)))
+        if tutorData:
+            if g.user:
+                isuserAtutor = [tutor for tutor in tutorData if tutor[0] == g.user_id][0]
+            else:
+                isuserAtutor = None
         else:
             isuserAtutor = None
         print(tutorData)
@@ -237,12 +270,29 @@ def tutor(page):
         print("Cannot query tutor data")
     if g.user:
         return render_template('tutor2.html', tutorList=tutorData, numofPage=numPage, subList=subjectList,
-                               page=int(page), login=g.user, user_id=g.user_id, istutor = isuserAtutor )
+                               page=int(page), login=g.user, user_id=g.user_id, istutor = isuserAtutor, subject = subject
+                               , keyword = keyword, subjectname = subjectname)
     else:
-        return render_template('tutor2.html', tutorList = tutorData, numofPage = numPage, subList = subjectList, page = int(page), istutor = isuserAtutor)
+        return render_template('tutor2.html', tutorList = tutorData, numofPage = numPage, subList = subjectList,
+                              page = int(page), istutor = isuserAtutor,  subject = subject, keyword = keyword , subjectname = subjectname)
 
+@app.route('/tutor/search-tutor-by-subject/' , methods= ['POST'])
+def searchtutorbySub():
+    tutor_sub = request.form.get('selecttutor')
+    if tutor_sub:
+        return redirect(url_for('tutor', page = 1, subject = tutor_sub))
+    else:
+        return redirect(url_for('tutor', page=1, subject=None))
 
-@app.route('/tutor/<tutor_id>')
+@app.route('/tutor/search-tutor-by-keyword/' , methods= ['POST'])
+def searchtutorbytutorname():
+    keyword = request.form.get('searchkeyword')
+    if keyword:
+        return redirect(url_for('tutor', page = 1, keyword = keyword))
+    else:
+        return redirect(url_for('tutor', page=1, keyword=None))
+
+@app.route('/tutor/tutor-profile/<tutor_id>')
 def profile(tutor_id):
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -500,7 +550,7 @@ def newpost(category):
     else:
         return render_template('newpost.html' , cat = categorySet, currentCat = category, currentCatDetail = categoryDetail)
 
-@app.route('/discussion/<category>/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/page/<page_no>/voting_up/<voting>')
+@app.route('/discussion/<category>/discussion/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/page/<page_no>/voting_up/<voting>')
 def voting_up(category, dis_id, poster_id, voting, post_id, page_no):
     voter_id = g.user_id # person who vote
     conn = mysql.connect()
@@ -519,7 +569,7 @@ def voting_up(category, dis_id, poster_id, voting, post_id, page_no):
     except:
         print("fail to insert vote up into db")
 
-@app.route('/discussion/<category>/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/page/<page_no>/voting_down/<voting>')
+@app.route('/discussion/<category>/discussion/<dis_id>/post_id/<post_id>/poster_id/<poster_id>/page/<page_no>/voting_down/<voting>')
 def voting_down(category, dis_id, poster_id, voting, post_id, page_no):
     voter_id = g.user_id # person who vote
     conn = mysql.connect()
@@ -538,8 +588,8 @@ def voting_down(category, dis_id, poster_id, voting, post_id, page_no):
     except:
         print("fail to insert vote up into db")
 
-@app.route('/discussion/<category>/<dis_id>/' , defaults={'page': 1})
-@app.route('/discussion/<category>/<dis_id>/page/<page>')
+@app.route('/discussion/<category>/discussion/<dis_id>/' , defaults={'page': 1})
+@app.route('/discussion/<category>/discussion/<dis_id>/page/<page>')
 def discussion_post(category,dis_id, page):
     numDataStart = ((int(page) - 1) * 10)
     conn = mysql.connect()
@@ -609,7 +659,7 @@ def discussion_post(category,dis_id, page):
                                totalcomment = totalnumofComment, checkTop = checkuservotetopComment, checkTopic = checkuservotediscussionTopic,
                                catDetail=categoryDetail, catList=categoryName)
 
-@app.route("/discussion/<category>/<dis_id>/addcomment/user/<user_id>/page/<page_no>", methods=['POST'])
+@app.route("/discussion/<category>/discussion/<dis_id>/addcomment/user/<user_id>/page/<page_no>", methods=['POST'])
 def add_comment_into_discussion(category, dis_id,user_id, page_no):
     content = request.form.get('content')
     conn = mysql.connect()
@@ -653,9 +703,11 @@ def createnewpost(category):
     else:
         return redirect(url_for("newpost", category = category))
 
-@app.route('/discussion/<category>/', defaults={'page':1})
-@app.route('/discussion/<category>/page/<page>')
-def discussion(category, page):
+@app.route('/discussion/<category>/', defaults={'page':1, 'topic_name': None})
+@app.route('/discussion/<category>/page/<page>', defaults={'topic_name': None})
+@app.route('/discussion/<category>/topic/<topic_name>', defaults={'page':1})
+@app.route('/discussion/<category>/topic/<topic_name>/page/<page>')
+def discussion(category, page, topic_name):
     numDataStart = ((int(page)-1)*15)
     #numDataEnd = int(page)*15
     conn = mysql.connect()
@@ -664,54 +716,92 @@ def discussion(category, page):
     categoryDetail = [i for i in categoryList if i[1] == category][0]
     if(category in categoryName):
         cursor = conn.cursor()
-        numOfDataSQL = """SELECT COUNT(*)
-                       FROM `dis_category_group` dis
-                       INNER JOIN dis_category cat ON dis.dis_cat_id = cat.Dis_cat_id
-                       WHERE cat.Dis_cat_name =  %s"""
+        if not topic_name:
+            discussion_info_SQL = """SELECT catgrp.dis_cat_group_id
+                    ,catgrp.dis_id
+                    ,catgrp.dis_cat_id
+                    ,cat.Dis_cat_name
+                    ,dis.User_id
+                    ,dis.Topic
+                    ,dis.Content
+                    ,dis.Create_Time
+                    ,`user`.firstname
+                    ,`user`.lastname
+                    , pic.picture
+                    FROM `dis_category_group` catgrp
+                    INNER JOIN `dis_category` cat ON catgrp.dis_cat_id = cat.Dis_cat_id
+                    INNER JOIN `discussion` dis ON dis.Dis_id = catgrp.dis_id
+                    INNER JOIN `user` ON `user`.user_id = dis.user_id 
+                    INNER JOIN `profile_picture`pic ON pic.user_id = dis.user_id
+                    WHERE cat.Dis_cat_name = %s 
+                    ORDER BY dis.create_time DESC """
+        else:
+            discussion_info_SQL = """SELECT catgrp.dis_cat_group_id
+                            ,catgrp.dis_id
+                            ,catgrp.dis_cat_id
+                            ,cat.Dis_cat_name
+                            ,dis.User_id
+                            ,dis.Topic
+                            ,dis.Content
+                            ,dis.Create_Time
+                            ,`user`.firstname
+                            ,`user`.lastname
+                            , pic.picture
+                            FROM `dis_category_group` catgrp
+                            INNER JOIN `dis_category` cat ON catgrp.dis_cat_id = cat.Dis_cat_id
+                            INNER JOIN `discussion` dis ON dis.Dis_id = catgrp.dis_id
+                            INNER JOIN `user` ON `user`.user_id = dis.user_id 
+                            INNER JOIN `profile_picture`pic ON pic.user_id = dis.user_id
+                            WHERE cat.Dis_cat_name = %s and dis.Topic LIKE %s 
+                            ORDER BY dis.create_time DESC"""
         try:
-            cursor.execute(numOfDataSQL,category)
-            numOfData = cursor.fetchone()
-            print(numOfData)
-        except:
-            print("Cannot query the data in Category: " + category)
-
-        discussion_info_SQL = """SELECT catgrp.dis_cat_group_id
-                ,catgrp.dis_id
-                ,catgrp.dis_cat_id
-                ,cat.Dis_cat_name
-                ,dis.User_id
-                ,dis.Topic
-                ,dis.Content
-                ,dis.Create_Time
-                ,`user`.firstname
-                ,`user`.lastname
-                , pic.picture
-                FROM `dis_category_group` catgrp
-                INNER JOIN `dis_category` cat ON catgrp.dis_cat_id = cat.Dis_cat_id
-                INNER JOIN `discussion` dis ON dis.Dis_id = catgrp.dis_id
-                INNER JOIN `user` ON `user`.user_id = dis.user_id 
-                INNER JOIN `profile_picture`pic ON pic.user_id = dis.user_id
-                WHERE cat.Dis_cat_name = %s ORDER BY dis.create_time DESC LIMIT %s OFFSET %s """
-        try:
-            cursor.execute(discussion_info_SQL, (category,15,numDataStart))
-            dataWanted = cursor.fetchall()
-            numPage = int(math.ceil(float(numOfData[0])/float(15)))
+            if not topic_name:
+                cursor.execute(discussion_info_SQL, category)
+            else:
+                cursor.execute(discussion_info_SQL, (category, ("%" + topic_name + "%")))
+            discussion = cursor.fetchall()
+            numOfData = discussion.__len__()
+            discussion_per_page = discussion[numDataStart:numDataStart+15]
+            numPage = int(math.ceil(float(numOfData)/float(15)))
         except:
             print("Cannot query the data in Category: "+category)
-        dis_id = [dataList[1] for dataList in dataWanted]
-        numOfCommentinDiscussion = [getComment(comment).__len__() for comment in dis_id]
-        time = [timesince(dataList[7]) for dataList in dataWanted]
-        content = [removeHTML(dataList[6]) for dataList in dataWanted]
-        content = [each.replace('&nbsp;', ' ') for each in content]
+        if discussion:
+            dis_id = [dataList[1] for dataList in discussion_per_page]
+            numOfCommentinDiscussion = [getComment(comment).__len__() for comment in dis_id]
+            time = [timesince(dataList[7]) for dataList in discussion_per_page]
+            content = [removeHTML(dataList[6]) for dataList in discussion_per_page]
+            content = [each.replace('&nbsp;', ' ') for each in content]
         cursor.close()
         conn.close()
         if g.user:
-            return render_template('discussion2.html', cat=category, discussion=dataWanted, numofPage=numPage,
-                                   catDetail=categoryDetail, catList=categoryList, content=content,
-                                   comment=numOfCommentinDiscussion, time=time, page=int(page), login = g.user, user_id = g.user_id)
+            if discussion:
+                return render_template('discussion2.html', cat=category, discussion=discussion_per_page, numofPage=numPage,
+                                       catDetail=categoryDetail, catList=categoryList, content=content,
+                                       comment=numOfCommentinDiscussion, time=time, page=int(page), login=g.user,
+                                       user_id=g.user_id, topic_name = topic_name)
+            else:
+                return render_template('discussion2.html', cat=category, discussion=None,
+                                       numofPage=numPage,
+                                       catDetail=categoryDetail, catList=categoryList, page=int(page), login=g.user,
+                                       user_id=g.user_id, topic_name = topic_name)
         else:
-            return render_template('discussion2.html',cat = category, discussion = dataWanted, numofPage = numPage,
-                               catDetail = categoryDetail, catList = categoryList, content = content, comment = numOfCommentinDiscussion, time = time, page = int(page))
+            if discussion:
+                return render_template('discussion2.html', cat=category, discussion=discussion_per_page, numofPage=numPage,
+                                   catDetail=categoryDetail, catList=categoryList, content=content,
+                                   comment=numOfCommentinDiscussion, time=time, page=int(page), topic_name = topic_name)
+            else:
+                return render_template('discussion2.html', cat=category, discussion=None,
+                                       numofPage=numPage, catDetail=categoryDetail, catList=categoryList,
+                                       page=int(page), topic_name = topic_name)
+
+@app.route('/discussion/<category>/searchtopic', methods=['POST'])
+def searchtopic(category):
+    topic = request.form.get('searchtopic')
+    if topic:
+        return redirect(url_for('discussion', category = category, topic_name= topic, page = 1))
+    else:
+        return redirect(url_for('discussion', category=category, topic_name= None, page=1))
+
 
 def getCat():
     conn = mysql.connect()
