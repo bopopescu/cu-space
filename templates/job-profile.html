@@ -3,8 +3,8 @@
 {% block head %}
     {{ super() }}
     {#    Put additional head code here #}
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic'
-          rel='stylesheet' type='text/css'>
+{#    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic'#}
+{#          rel='stylesheet' type='text/css'>#}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link id="theme-style" rel="stylesheet" href="/static/css/job-profile/styles.css">
 {% endblock %}
@@ -18,30 +18,31 @@
             <div class="profile-container">
 {#                <a href="/company"><img class="rounded-circle" src="/static/img/agoda.png" alt="Company logo"#}
 {#                                        width="100" height="100"></a>#}
-                <h1 class="name">Agoda Services Co., Ltd.</a></h1>
+                <h1 class="name">{{ job[6] }}</h1>
                 {#                <h3 class="tagline"><a href="/company">View company profile >></a></h3>#}
             </div><!--//profile-container-->
 
             <div class="contact-container container-block">
                 <ul class="list-unstyled contact-list">
-                    <li class="email"><a href="mailto: yourname@email.com"><i class="fa fa-envelope"></i>
-                        apply@agoda.com</a></li>
-                    <li class="phone"><a href="tel:0123 456 789"><i class="fa fa-phone"></i> 0123456789</a></li>
-                    <li class="website"><a href="http://careersatagoda.com" target="_blank"><i class="fa fa-globe"></i>
-                        Company Website</a></li>
+                    <li class="email"><i class="fa fa-envelope"></i>
+                        {{ job[7] }}</li>
+                    <li class="phone"><i class="fa fa-phone"></i> {{ job[7] }}</li>
                 </ul>
             </div><!--//contact-container-->
             <div class="apply" align="left">
                 <button type="button" class="btn btn-success btn-lg">Apply Now</button>
+                <button type="button" class="btn btn-warning btn-lg">Cancel Application</button>
+                <button type="button" class="btn btn-danger btn-lg">Delete Job</button>
                 <br>
-                <p class="applytag">Your resume will be sent to the recruiter right away!</p>
+                <p></p>
+{#                <p class="applytag">Your resume will be sent to the recruiter right away!</p>#}
             </div>
         </div><!--//sidebar-wrapper-->
 
         <div class="main-wrapper">
 
-            <h2 class="section-title">Senior Mobile API Developer</h2>
-            <p>Application Period: Mar 17, 2018 to Apr 14, 2018</p>
+            <h2 class="section-title">{{ job[1] }}</h2>
+            <p>Application Period: {{ job[3].strftime('%b %d, %Y') }} to {{ job[4].strftime('%b %d, %Y') }}</p>
             <br>
             <embed class="job-description" src="/static/job/job-example.pdf">
                 {#            <embed class="job-description" src= "/static/job/job-example2.jpg">#}

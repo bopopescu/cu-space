@@ -394,9 +394,9 @@ def registernewtutor():
 @app.route('/newjob')
 def registernewjob():
     if g.user:
-        return render_template('newjob.html', sub=getSub(), login = g.user, user_id = g.user_id)
+        return render_template('newjob.html', login = g.user, user_id = g.user_id)
     else:
-        return render_template('newjob.html', sub = getSub())
+        return render_template('newjob.html')
 
 @app.route('/newtutor/create_new_tutor', methods = ['POST'])
 def create_tutor():
@@ -452,7 +452,7 @@ def job(page):
     conn = mysql.connect()
     cursor = conn.cursor()
     numOfDataSQL = """SELECT COUNT(*)
-                                  FROM `tutor`"""
+                                  FROM `job`"""
     try:
         cursor.execute(numOfDataSQL)
         numOfData = cursor.fetchone()
@@ -464,7 +464,7 @@ def job(page):
              FROM `job` j
              INNER JOIN `job_category` jc ON j.job_cat_id = jc.job_cat_id
              WHERE j.End_date >= CURRENT_DATE()
-             ORDER BY j.End_date DESC"""
+             ORDER BY j.End_date ASC LIMIT %s OFFSET %s"""
     try:
         cursor.execute(sql, (18, numDataStart))
         numPage = int(math.ceil(float(numOfData[0]) / float(18)))
@@ -472,17 +472,39 @@ def job(page):
         print(jobData)
     except:
         print("Cannot query job data")
+    jobCatSql = """SELECT Job_cat_name FROM job_category"""
+    try:
+        cursor.execute(jobCatSql)
+        jobCat = cursor.fetchall()
+    except:
+        print("Cannot query job category")
+    cursor.close()
+    conn.close()
     if g.user:
-        return render_template('job.html', login = g.user , user_id = g.user_id)
+        return render_template('job.html', jobList = jobData, numofPage = numPage, page = int(page), jobCatList = jobCat, login = g.user , user_id = g.user_id)
     else:
-        return render_template('job.html')
+        return render_template('job.html', jobList = jobData, numofPage = numPage, jobCatList = jobCat, page = int(page))
 
-@app.route('/job-profile')
-def jobProfile():
+@app.route('/job/<jobID>')
+def jobProfile(jobID):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = """SELECT *
+                 FROM `job` j
+                 INNER JOIN `job_category` jc ON j.job_cat_id = jc.job_cat_id
+                 WHERE j.Job_id = %s"""
+    try:
+        cursor.execute(sql, jobID)
+        job = cursor.fetchone()
+        print(job)
+    except:
+        print("Cannot get job informaiton")
+    cursor.close()
+    conn.close()
     if g.user:
-        return render_template('job-profile.html', login = g.user , user_id = g.user_id)
+        return render_template('job-profile.html', job = job, login = g.user , user_id = g.user_id)
     else:
-        return render_template('job-profile.html')
+        return render_template('job-profile.html', job = job)
 
 @app.route('/company')
 def company():

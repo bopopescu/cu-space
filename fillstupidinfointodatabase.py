@@ -336,7 +336,7 @@ conn = mysql.connect()
 # votecursor.close()
 # #------------------------------INSERT JOB-----------------------------------
 job_name = "Junior Software Developer"
-job_info = "Agoda is the largest and fastest growing online hotel booking platform in Asia, and is a Booking Holdings (BKNG) company, the world’s leading provider of brands that help people book great."
+job_info = "Agoda is the largest and fastest growing online hotel booking platform in Asia, and is a Booking Holdings (BKNG) company, the world’s leading provider of brands that help people book great.largest and fastest growing online hotel booking platform in Asia, and is a Booking Holdings (BKNG) company, the world’s leading provider of brands that help people book great."
 start_date = datetime.datetime.today().strftime('%Y-%m-%d')
 end_date = datetime.datetime.today().strftime('%Y-%m-%d')
 company = "Agoda Service Co., Ltd"
@@ -345,8 +345,9 @@ phone = "021444411"
 website = "www.google.com"
 user_id = "0a26cd8d1f5b4b8097efb90b48740347"
 
+
 job_sql = """INSERT INTO `job` (`Job_name`, `Job_info`, `Start_date`, `End_date`, `Company`, `Email`, `Phone`, `Website`, `User_id`, `Job_cat_id`)
-                              VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%i)"""
+                              VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,6)"""
 try:
     job_cursor = conn.cursor()
     job_cursor.execute(job_sql, (job_name, job_info,start_date,end_date,company,email,phone,website, user_id))
