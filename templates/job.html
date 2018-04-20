@@ -207,10 +207,13 @@
                         <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                         </button>
                     </div>
-                    <div class="form-group">
-                        <a type="button" class="btn btn-outline" id="beatutor" href="/newjob">POST
-                            A JOB</a>
-                    </div>
+                    {% if login %}
+                        <div class="form-group">
+                            <a type="button" class="btn btn-outline" id="beatutor"
+                               href="{{ url_for('registernewjob') }}">POST
+                                A JOB</a>
+                        </div>
+                    {% endif %}
                 </form>
             </div>
         </div>
@@ -248,7 +251,7 @@
                     <p class="job-info">{{ job[2] }}</p>
                     <div class="job-item-footer">
                         <div class="job-cat">
-                            {{ job[13] }}
+                            {{ job[14] }}
                         </div>
                         <div class="job-date">
                             <span class="glyphicon glyphicon-calendar"></span> {{ job[4].strftime('%b %d, %Y') }}
