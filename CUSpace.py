@@ -260,7 +260,9 @@ def tutor(page, subject,keyword):
         numPage = int(math.ceil(float(numOfData) / float(18)))
         if tutorData:
             if g.user:
-                isuserAtutor = [tutor for tutor in tutorData if tutor[0] == g.user_id][0]
+                isuserAtutor = [tutor for tutor in tutorData if tutor[0] == g.user_id]
+                if isuserAtutor:
+                    isuserAtutor = isuserAtutor[0]
             else:
                 isuserAtutor = None
         else:
