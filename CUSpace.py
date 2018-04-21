@@ -677,7 +677,7 @@ def job(page, work, company,job_position):
     conn.close()
     if g.user:
         return render_template('job.html', jobList = jobData, numofPage = numPage, page = int(page), jobCatList = jobCat,
-                               login = g.user , user_id = g.user_i, work = work, company = company, job_position = job_position)
+                               login = g.user , user_id = g.user_id, work = work, company = company, job_position = job_position)
     else:
         return render_template('job.html', jobList = jobData, numofPage = numPage, jobCatList = jobCat, page = int(page)
                                , work=work, company=company, job_position = job_position)
