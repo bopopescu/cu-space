@@ -172,6 +172,7 @@ def edit_user(user_id):
     try:
         cursor.execute(edituserSQL, (email,username,user_key, firstname, lastname, birthday_date, user_id))
         conn.commit()
+        session['user'] = firstname + ' ' + lastname
     except:
         print("Cannot update user")
     return redirect(url_for('userprofile', user_id = user_id))
@@ -391,6 +392,7 @@ def edit_tutor_profile(tutor_id):
         try:
             cursor.execute(edit_userSQL, (email, firstname, lastname,birthday, tutor_id))
             conn.commit()
+            session['user'] = firstname + ' ' + lastname
         except:
             print("Cannot update user table")
     except:
