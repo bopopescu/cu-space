@@ -1,3 +1,25 @@
+var editor = CKEDITOR.replace('info', {
+    uiColor: '#ffffff'
+});
+var change = 0;
+var detailCheck = 1;
+editor.on('change', function (evt) {
+    // getData() returns CKEditor's HTML content.
+    console.log('Total bytes: ' + evt.editor.getData().length);
+    if (evt.editor.getData().length > 5000) {
+        $("#posstatus").html('X Information is too long');
+        detailCheck = 2;
+    } else if (evt.editor.getData().length == 0) {
+        if(change > 0){
+            $("#posstatus").html('X Please enter your info');
+        }
+        detailCheck = 1;
+    } else {
+        change = 1;
+        $("#posstatus").html('');
+        detailCheck = 0;
+    }
+});
 // $("#coursecategory").focus(function () {
 //     var value = $(this).text().trim()
 //     // $(this).css("border-color", "#0080ff");
@@ -141,11 +163,11 @@ function checkcategory2(value) {
 
 function checkpos(value) {
     document.getElementById('posstatus').style.color = "red";
-    if (value.length <= 1) {
-        document.getElementById('posstatus').innerHTML = 'X Please enter your info';
+    if (detailCheck >= 1) {
+        // document.getElementById('posstatus').innerHTML = 'X Please enter your info';
         return 1;
     } else {
-        document.getElementById('posstatus').innerHTML = '';
+        // document.getElementById('posstatus').innerHTML = '';
         return 0;
     }
 }
