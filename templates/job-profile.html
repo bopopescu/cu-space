@@ -20,7 +20,7 @@
                     <h4 class="modal-title custom_align" id="Heading">Upload Your Resume</h4>
                 </div>
                 <form enctype="multipart/form-data" class="form-horizontal"
-                      action="{{ url_for('applyjob', jobID = job[0]) }}" method="POST">
+                      action="{{ url_for('applyjob', jobID = job[0]) }}" method="POST" onsubmit="return checkuploadresume()" >
                     <div style="text-align: center; width:100%" class="modal-body">
                         <div>
                             <img id="img0" src="#" alt="" style="display: none"/>
@@ -132,5 +132,7 @@
             $("#input-image-3").trigger('click');
             document.getElementById('submitresume').disabled = false;
         }
+
+
     </script>
 {% endblock %}
