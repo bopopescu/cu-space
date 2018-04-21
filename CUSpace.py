@@ -607,46 +607,80 @@ def create_tutor():
         return redirect(url_for("tutor", page=1))
     return redirect(url_for("profile", tutor_id=user_id))
 
-@app.route('/job/' , defaults={'page':1})
-@app.route('/job/page/<page>')
-def job(page):
+@app.route('/job/filter_job', methods=['POST'])
+def filter_job():
+    work = request.form.getlist('work')
+    company = request.form.get('company')
+    if work and company:
+        job = getJob()
+        workname = [name[1] for name in job for worklist in work if int(worklist) == name[0]][0]
+        return redirect(url_for('job', page = 1, work = workname, company = company))
+    else:
+        return redirect(url_for('job', page = 1))
+
+@app.route('/job/filter_job_by_position', methods=['POST'])
+def filter_job_by_position():
+    job_position = request.form.get('search_job_position')
+    if job_position:
+        return redirect(url_for('job', page=1, job_position = job_position))
+    else:
+        return redirect(url_for('job', page=1))
+
+@app.route('/job/' , defaults={'page':1, 'work' : None, 'company': None, 'job_position': None})
+@app.route('/job/page/<page>', defaults={'work' : None, 'company': None, 'job_position': None})
+@app.route('/job/company/<company>/work/<work>' , defaults={'page':1, 'job_position': None})
+@app.route('/job/postion/<job_position>', defaults={'page':1,'work' : None, 'company': None})
+@app.route('/job/postion/<job_position>/page/<page>', defaults={'work' : None, 'company': None})
+@app.route('/job/company/<company>/work/<work>/page/<page>', defaults={'job_position': None})
+
+def job(page, work, company,job_position):
     numDataStart = ((int(page) - 1) * 18)
     # numDataEnd = int(page) * 18
     conn = mysql.connect()
     cursor = conn.cursor()
-    numOfDataSQL = """SELECT COUNT(*)
-                                  FROM `job` WHERE End_date >= CURRENT_DATE() AND status = 1"""
+    if not work and not company and not job_position:
+        sql = """SELECT *
+                 FROM `job` j
+                 INNER JOIN `job_category` jc ON j.job_cat_id = jc.job_cat_id
+                 WHERE j.End_date >= CURRENT_DATE() AND j.status = 1
+                 ORDER BY j.End_date ASC"""
+    elif work and company:
+        sql = """SELECT *
+                 FROM `job` j
+                 INNER JOIN `job_category` jc ON j.job_cat_id = jc.job_cat_id
+                 WHERE j.End_date >= CURRENT_DATE() AND j.status = 1
+                 and jc.Job_cat_name LIKE %s and j.Company LIKE %s
+                 ORDER BY j.End_date ASC"""
+    elif job_position:
+        sql = """SELECT *
+                 FROM `job` j
+                 INNER JOIN `job_category` jc ON j.job_cat_id = jc.job_cat_id
+                 WHERE j.End_date >= CURRENT_DATE() AND j.status = 1
+                 and j.Job_name LIKE %s
+                 ORDER BY j.End_date ASC"""
     try:
-        cursor.execute(numOfDataSQL)
-        numOfData = cursor.fetchone()
-        print(numOfData)
-    except:
-        print("Cannot get number of data in job")
-
-    sql = """SELECT *
-             FROM `job` j
-             INNER JOIN `job_category` jc ON j.job_cat_id = jc.job_cat_id
-             WHERE j.End_date >= CURRENT_DATE() AND j.status = 1
-             ORDER BY j.End_date ASC LIMIT %s OFFSET %s"""
-    try:
-        cursor.execute(sql, (18, numDataStart))
-        numPage = int(math.ceil(float(numOfData[0]) / float(18)))
+        if not work and not company and not job_position:
+            cursor.execute(sql)
+        elif work and company:
+            cursor.execute(sql,('%'+work+'%','%'+company+'%'))
+        elif job_position:
+            cursor.execute(sql,'%' + job_position + '%')
         jobData = cursor.fetchall()
+        numOfData = jobData.__len__()
+        numPage = int(math.ceil(float(numOfData) / float(18)))
+        jobData = jobData[numDataStart:numDataStart+18]
         print(jobData)
     except:
         print("Cannot query job data")
-    jobCatSql = """SELECT Job_cat_name FROM job_category"""
-    try:
-        cursor.execute(jobCatSql)
-        jobCat = cursor.fetchall()
-    except:
-        print("Cannot query job category")
+    jobCat = getJob()
     cursor.close()
     conn.close()
     if g.user:
-        return render_template('job.html', jobList = jobData, numofPage = numPage, page = int(page), jobCatList = jobCat, login = g.user , user_id = g.user_id)
+        return render_template('job.html', jobList = jobData, numofPage = numPage, page = int(page), jobCatList = jobCat,
+                               login = g.user , user_id = g.user_i, work = work, company = company, job_position = job_position)
     else:
-        return render_template('job.html', jobList = jobData, numofPage = numPage, jobCatList = jobCat, page = int(page))
+        return render_template('job.html', jobList = jobData, numofPage = numPage, jobCatList = jobCat, page = int(page)
+                               , work=work, company=company, job_position = job_position)
 
 @app.route('/job/<jobID>')
 def jobProfile(jobID):
@@ -966,6 +1000,17 @@ def getSub():
         print("Cannot query subject name")
     conn.close()
 
+def getJob():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    jobCatSql = """SELECT * FROM job_category"""
+    try:
+        cursor.execute(jobCatSql)
+        jobList = cursor.fetchall()
+        return jobList
+    except:
+        print("Cannot query job category")
+        conn.close()
 def getComment(dis_id):
     conn = mysql.connect()
     cursor = conn.cursor()

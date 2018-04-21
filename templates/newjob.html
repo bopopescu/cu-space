@@ -376,8 +376,8 @@
                     <div class="form-group">
                         <select class="form-control" id="jobcategory" name="jobcategory" required/>
                         <option value="" disabled selected>Select your category</option>
-                        {% for cat in jobCat %}
-                        <option value="{{ cat[0] }}">{{ cat[1] }}</option>
+                        {% for jobList in jobCat %}
+                        <option value="{{ jobList[0] }}">{{ jobList[1] }}</option>
                         {% endfor %}
                         </select>
                     </div>
