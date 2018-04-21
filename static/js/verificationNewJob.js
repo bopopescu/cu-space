@@ -423,14 +423,14 @@ function checkDateApplicationEnd(date1) {
 }
 
 
-$("#applicationstartdate").focusout(function () {
-    // alert('kao leaw')
-    var date1 = $('[name=applicationstartdate]').val();
-    if (checkDateApplicationStart(date1) == 1) {
-    } else {
-        // $('#datepicker').css("border-color", "#00CD00");
-    }
-});
+// $("#applicationstartdate").focusout(function () {
+//     // alert('kao leaw')
+//     var date1 = $('[name=applicationstartdate]').val();
+//     if (checkDateApplicationStart(date1) == 1) {
+//     } else {
+//         // $('#datepicker').css("border-color", "#00CD00");
+//     }
+// });
 $("#applicationenddate").focusout(function () {
     // alert('kao leaw')
     var date1 = $('[name=applicationenddate]').val();
@@ -454,7 +454,7 @@ function checkallpost() {
     var phonenovalue = $('#phonenumber').val();
     var emailvalue = $('#emailvalue').val();
     // var websitevalue = $('#website').val();
-    var startdate = $('[name=applicationstartdate]').val();
+    // var startdate = $('[name=applicationstartdate]').val();
     var enddate = $('[name=applicationenddate]').val();
 
     var $fileUpload = $("#input-image-3");
@@ -471,9 +471,10 @@ function checkallpost() {
         checkphone(phonenovalue) == 2 ||
             checkemail(emailvalue) == 1 ||
             // checkwebsite(websitevalue) ==1 ||
-            checkDateApplicationStart(startdate)==1 ||
-            checkDateApplicationEnd(enddate) ==1 ||
-    checkDate(startdate,enddate) ==1){
+            // checkDateApplicationStart(startdate)==1 ||
+            checkDateApplicationEnd(enddate) ==1)
+    // checkDate(startdate,enddate) ==1)
+    {
         alert("Please enter all of the information");
         // console.log(websitevalue);
         return false;

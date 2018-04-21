@@ -17,16 +17,16 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
     <script>
-        $(document).ready(function () {
-            var date_input = $('input[name="applicationstartdate"]'); //our date input has the name "date"
-            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-            date_input.datepicker({
-                format: 'dd-mm-yyyy',
-                container: container,
-                todayHighlight: true,
-                autoclose: true,
-            })
-        });
+{#        $(document).ready(function () {#}
+{#            var date_input = $('input[name="applicationstartdate"]'); //our date input has the name "date"#}
+{#            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";#}
+{#            date_input.datepicker({#}
+{#                format: 'dd-mm-yyyy',#}
+{#                container: container,#}
+{#                todayHighlight: true,#}
+{#                autoclose: true,#}
+{#            })#}
+{#        });#}
         $(document).ready(function () {
             var date_input = $('input[name="applicationenddate"]'); //our date input has the name "date"
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
@@ -376,11 +376,9 @@
                     <div class="form-group">
                         <select class="form-control" id="jobcategory" name="jobcategory" required/>
                         <option value="" disabled selected>Select your category</option>
-                        <option value="1">HR</option>
-                        <option value="1">Sales</option>
-                        <option value="1">Marketing</option>
-                        <option value="1">IT</option>
-                        <option value="1">Finance</option>
+                        {% for cat in jobCat %}
+                        <option value="{{ cat[0] }}">{{ cat[1] }}</option>
+                        {% endfor %}
                         </select>
                     </div>
 
@@ -410,25 +408,25 @@
 {#                    <input type="text" class="form-control" id="website" placeholder="" name="website" required/>#}
 {#                    <div id="websitestatus">#}
 {#                    </div>#}
-                    <br>
-                    <div class="form-group ">
-                        <label class="control-label " for="date">
-                            Application Start Date
-                        </label>
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar">
-                                </i>
-                            </div>
-                            <input class="form-control" id="applicationstartdate" name="applicationstartdate"
-                                   placeholder="DD-MM-YYYY" type="text" required/>
-                        </div>
-                    </div>
-
-                    <div id="startdatestatus">
-                    </div>
-
-                    <br>
+{#                    <br>#}
+{#                    <div class="form-group ">#}
+{#                        <label class="control-label " for="date">#}
+{#                            Application Start Date#}
+{#                        </label>#}
+{#                        <div class="input-group">#}
+{#                            <div class="input-group-addon">#}
+{#                                <i class="fa fa-calendar">#}
+{#                                </i>#}
+{#                            </div>#}
+{#                            <input class="form-control" id="applicationstartdate" name="applicationstartdate"#}
+{#                                   placeholder="DD-MM-YYYY" type="text" required/>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div id="startdatestatus">#}
+{#                    </div>#}
+{##}
+{#                    <br>#}
 
 
                     <div class="form-group ">

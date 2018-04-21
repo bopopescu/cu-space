@@ -17,6 +17,7 @@ relpath = os.path.relpath(path)
 uploadPictureFolder = os.path.join(relpath,"static/img/user")
 PictureFolder = os.path.join(relpath,"static/img")
 jobFolder = os.path.join(relpath,"static/job")
+resumeFolder = os.path.join(relpath,"static/resume")
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
@@ -24,6 +25,7 @@ app.secret_key = os.urandom(24)
 app.config['uploadPictureFolder'] = uploadPictureFolder
 app.config['PictureFolder'] = PictureFolder
 app.config['JobFolder'] = jobFolder
+app.config['ResumeFolder'] = resumeFolder
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 mysql = MySQL()
@@ -393,21 +395,62 @@ def registernewtutor():
     else:
         return redirect(url_for('tutor',page = 1))
 
+@app.route('/apply/<jobID>', methods = ['POST'])
+def applyjob(jobID):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    file = request.files['input-image']
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(g.user_id+str(datetime.now())+file.filename)
+        if not os.path.exists(os.path.join(app.config['ResumeFolder'], str(jobID[0]))):
+            os.makedirs(os.path.join(app.config['ResumeFolder'], str(jobID[0])))
+        file.save(os.path.join(app.config['ResumeFolder'], str(jobID[0]), filename))
+        cursor = conn.cursor()
+        sql = """INSERT INTO `job_applicant` (`Job_id`, `User_id`, `Resume`) VALUES (%s,%s,%s)"""
+    try:
+        cursor.execute(sql, (jobID, g.user_id, filename))
+        conn.commit()
+    except:
+        print("Cannot insert resume")
+    return redirect(url_for("jobProfile", jobID=jobID))
+
+@app.route('/cancelapplication/<jobID>')
+def cancelapplication(jobID):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = """UPDATE `job_applicant` SET Status = 0 WHERE User_id = %s AND Job_id = %s"""
+    try:
+        cursor.execute(sql, (g.user_id, jobID))
+        conn.commit()
+    except:
+        print("Cannot cancel application")
+    return redirect(url_for("jobProfile", jobID=jobID))
+
+
 @app.route('/newjob')
 def registernewjob():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = """SELECT * FROM `job_category`"""
+    try:
+        cursor.execute(sql)
+        cat = cursor.fetchall()
+    except:
+        print("Cannot get job category")
     if g.user:
-        return render_template('newjob.html', login = g.user, user_id = g.user_id)
+        return render_template('newjob.html', jobCat = cat, login = g.user, user_id = g.user_id)
     else:
-        return render_template('newjob.html')
+        return render_template('newjob.html', jobCat = cat)
 
 @app.route('/newjob/create_new_job', methods = ['POST'])
 def createnewjob():
     if g.user:
         job_name = request.form["jobname"]
         job_info = request.form["jobinfo"]
-        start_date = request.form.get("applicationstartdate")
-        start = datetime.strptime(start_date, "%d-%m-%Y")
-        start = start.strftime('%Y-%m-%d')
+        start = datetime.today().strftime('%Y-%m-%d')
         end_date = request.form.get("applicationenddate")
         end = datetime.strptime(end_date, "%d-%m-%Y")
         end = end.strftime('%Y-%m-%d')
@@ -565,12 +608,23 @@ def jobProfile(jobID):
         print(job)
     except:
         print("Cannot get job informaiton")
+    sql2 = """SELECT j.Resume, u.Firstname, u.Lastname, j.User_id FROM `job_applicant` j INNER JOIN `user` u WHERE u.User_id = j.User_id AND j.Job_id = %s AND j.status = 1 ORDER BY j.Applicant_id"""
+    try:
+        cursor.execute(sql2, jobID)
+        applicant = cursor.fetchall()
+    except:
+        print("Cannot get job informaiton")
     cursor.close()
     conn.close()
+    apply = 0
     if g.user:
-        return render_template('job-profile.html', job = job, login = g.user , user_id = g.user_id)
+        for app in applicant:
+            if app[3] == g.user_id:
+                apply = 1
+                break
+        return render_template('job-profile.html', job = job, applicant = applicant, apply = apply, login = g.user , user_id = g.user_id)
     else:
-        return render_template('job-profile.html', job = job)
+        return render_template('job-profile.html', job = job, apply = 0, applicant = applicant)
 
 @app.route('/<category>/newpost')
 def newpost(category):
