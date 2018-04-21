@@ -16,12 +16,16 @@ relpath = os.path.relpath(path)
 # uploadPictureFolder = "C:/Users/natta/Desktop/Senior Project/static/img"
 uploadPictureFolder = os.path.join(relpath,"static/img/user")
 PictureFolder = os.path.join(relpath,"static/img")
+jobFolder = os.path.join(relpath,"static/job")
+resumeFolder = os.path.join(relpath,"static/resume")
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 app.config['uploadPictureFolder'] = uploadPictureFolder
 app.config['PictureFolder'] = PictureFolder
+app.config['JobFolder'] = jobFolder
+app.config['ResumeFolder'] = resumeFolder
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 mysql = MySQL()
@@ -356,7 +360,7 @@ def add_subject(tutor_id):
     price = request.form.get('addprice')
     conn = mysql.connect()
     cursor = conn.cursor()
-    addSQL =  """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`) 
+    addSQL =  """INSERT INTO `subject_group`(`User_id`, `Subject_id`, `Price`, `Subject_description`)
                  VALUES (%s,%s,%s,%s)"""
     try:
         cursor.execute(addSQL,(tutor_id, coursesubject, price, coursename))
@@ -445,12 +449,117 @@ def registernewtutor():
     else:
         return redirect(url_for('tutor',page = 1))
 
+@app.route('/apply/<jobID>', methods = ['POST'])
+def applyjob(jobID):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    file = request.files['input-image']
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(g.user_id+str(datetime.now())+file.filename)
+        if not os.path.exists(os.path.join(app.config['ResumeFolder'], str(jobID[0]))):
+            os.makedirs(os.path.join(app.config['ResumeFolder'], str(jobID[0])))
+        file.save(os.path.join(app.config['ResumeFolder'], str(jobID[0]), filename))
+        cursor = conn.cursor()
+        sql = """INSERT INTO `job_applicant` (`Job_id`, `User_id`, `Resume`) VALUES (%s,%s,%s)"""
+    try:
+        cursor.execute(sql, (jobID, g.user_id, filename))
+        conn.commit()
+    except:
+        print("Cannot insert resume")
+    return redirect(url_for("jobProfile", jobID=jobID))
+
+@app.route('/cancelapplication/<jobID>')
+def cancelapplication(jobID):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = """UPDATE `job_applicant` SET Status = 0 WHERE User_id = %s AND Job_id = %s"""
+    try:
+        cursor.execute(sql, (g.user_id, jobID))
+        conn.commit()
+    except:
+        print("Cannot cancel application")
+    return redirect(url_for("jobProfile", jobID=jobID))
+
+
 @app.route('/newjob')
 def registernewjob():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = """SELECT * FROM `job_category`"""
+    try:
+        cursor.execute(sql)
+        cat = cursor.fetchall()
+    except:
+        print("Cannot get job category")
     if g.user:
-        return render_template('newjob.html', sub=getSub(), login = g.user, user_id = g.user_id)
+        return render_template('newjob.html', jobCat = cat, login = g.user, user_id = g.user_id)
     else:
-        return render_template('newjob.html', sub = getSub())
+        return render_template('newjob.html', jobCat = cat)
+
+@app.route('/newjob/create_new_job', methods = ['POST'])
+def createnewjob():
+    if g.user:
+        job_name = request.form["jobname"]
+        job_info = request.form["jobinfo"]
+        start = datetime.today().strftime('%Y-%m-%d')
+        end_date = request.form.get("applicationenddate")
+        end = datetime.strptime(end_date, "%d-%m-%Y")
+        end = end.strftime('%Y-%m-%d')
+        company = request.form["companyname"]
+        email = request.form["email"]
+        phone = request.form["phonenumber"]
+        catID = request.form.get("jobcategory")
+        file = request.files['input-image']
+        print(catID)
+        user_id = g.user_id
+        job_sql = """INSERT INTO `job` (`Job_name`, `Job_info`, `Start_date`, `End_date`, `Company`, `Email`, `Phone`, `User_id`, `Job_cat_id`)
+                                  VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
+        getJob = """SELECT Job_id FROM job WHERE User_id = %s ORDER BY Create_time DESC"""
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        try:
+            job_cursor = conn.cursor()
+            job_cursor.execute(job_sql, (job_name, job_info, start, end, company, email, phone, user_id, catID))
+            conn.commit()
+            cursor.execute(getJob, user_id)
+            jobID = cursor.fetchone()
+            print(jobID[0])
+        except:
+            print("Cannot insert job")
+            return redirect(redirect_url())
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            os.makedirs(os.path.join(app.config['JobFolder'], str(jobID[0])))
+            file.save(os.path.join(app.config['JobFolder'], str(jobID[0]), filename))
+            cursor2 = conn.cursor()
+            updatepictureSQL = """UPDATE `job` SET `Job_description`= %s WHERE `Job_id` = %s"""
+            try:
+                cursor2.execute(updatepictureSQL, (filename, jobID[0]))
+                conn.commit()
+            except:
+                print("Cannot update picture to database")
+    else:
+        return redirect(redirect_url())
+    return redirect(url_for("jobProfile", jobID=jobID[0]))
+
+@app.route('/deletejob/<jobID>')
+def deletejob(jobID):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = """UPDATE `job` SET `status`= 0 WHERE `Job_id` = %s"""
+    try:
+        cursor.execute(sql, jobID)
+        conn.commit()
+    except:
+        print("Cannot get number of data in job")
+    return redirect(url_for("job", page=1))
+
 
 @app.route('/newtutor/create_new_tutor', methods = ['POST'])
 def create_tutor():
@@ -506,7 +615,7 @@ def job(page):
     conn = mysql.connect()
     cursor = conn.cursor()
     numOfDataSQL = """SELECT COUNT(*)
-                                  FROM `tutor`"""
+                                  FROM `job` WHERE End_date >= CURRENT_DATE() AND status = 1"""
     try:
         cursor.execute(numOfDataSQL)
         numOfData = cursor.fetchone()
@@ -517,8 +626,8 @@ def job(page):
     sql = """SELECT *
              FROM `job` j
              INNER JOIN `job_category` jc ON j.job_cat_id = jc.job_cat_id
-             WHERE j.End_date >= CURRENT_DATE()
-             ORDER BY j.End_date DESC"""
+             WHERE j.End_date >= CURRENT_DATE() AND j.status = 1
+             ORDER BY j.End_date ASC LIMIT %s OFFSET %s"""
     try:
         cursor.execute(sql, (18, numDataStart))
         numPage = int(math.ceil(float(numOfData[0]) / float(18)))
@@ -526,24 +635,50 @@ def job(page):
         print(jobData)
     except:
         print("Cannot query job data")
+    jobCatSql = """SELECT Job_cat_name FROM job_category"""
+    try:
+        cursor.execute(jobCatSql)
+        jobCat = cursor.fetchall()
+    except:
+        print("Cannot query job category")
+    cursor.close()
+    conn.close()
     if g.user:
-        return render_template('job.html', login = g.user , user_id = g.user_id)
+        return render_template('job.html', jobList = jobData, numofPage = numPage, page = int(page), jobCatList = jobCat, login = g.user , user_id = g.user_id)
     else:
-        return render_template('job.html')
+        return render_template('job.html', jobList = jobData, numofPage = numPage, jobCatList = jobCat, page = int(page))
 
-@app.route('/job-profile')
-def jobProfile():
+@app.route('/job/<jobID>')
+def jobProfile(jobID):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = """SELECT *
+                 FROM `job` j
+                 INNER JOIN `job_category` jc ON j.job_cat_id = jc.job_cat_id
+                 WHERE j.Job_id = %s"""
+    try:
+        cursor.execute(sql, jobID)
+        job = cursor.fetchone()
+        print(job)
+    except:
+        print("Cannot get job informaiton")
+    sql2 = """SELECT j.Resume, u.Firstname, u.Lastname, j.User_id FROM `job_applicant` j INNER JOIN `user` u WHERE u.User_id = j.User_id AND j.Job_id = %s AND j.status = 1 ORDER BY j.Applicant_id"""
+    try:
+        cursor.execute(sql2, jobID)
+        applicant = cursor.fetchall()
+    except:
+        print("Cannot get job informaiton")
+    cursor.close()
+    conn.close()
+    apply = 0
     if g.user:
-        return render_template('job-profile.html', login = g.user , user_id = g.user_id)
+        for app in applicant:
+            if app[3] == g.user_id:
+                apply = 1
+                break
+        return render_template('job-profile.html', job = job, applicant = applicant, apply = apply, login = g.user , user_id = g.user_id)
     else:
-        return render_template('job-profile.html')
-
-@app.route('/company')
-def company():
-    if g.user:
-        return render_template('company.html', login = g.user , user_id = g.user_id)
-    else:
-        return render_template('company.html')
+        return render_template('job-profile.html', job = job, apply = 0, applicant = applicant)
 
 @app.route('/<category>/newpost')
 def newpost(category):

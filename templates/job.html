@@ -169,6 +169,14 @@
             color: #9bd0ff;
         }
 
+        .company-search {
+            border: 1px solid;
+            border-radius: 4px;
+            border-color: #ccc;
+            padding: 6px 12px;
+            color: black;
+        }
+
         @font-face {
             font-family: "Nunito-Regular";
             src: url("static/fonts/Nunito-Regular.ttf");
@@ -199,9 +207,13 @@
                         <button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                         </button>
                     </div>
-                    <div class="form-group">
-                        <a type="button" class="btn btn-outline" id="beatutor" href="{{ url_for('registernewjob') }}">POST A JOB</a>
-                    </div>
+                    {% if login %}
+                        <div class="form-group">
+                            <a type="button" class="btn btn-outline" id="beatutor"
+                               href="{{ url_for('registernewjob') }}">POST
+                                A JOB</a>
+                        </div>
+                    {% endif %}
                 </form>
             </div>
         </div>
@@ -211,22 +223,16 @@
             <form class="form-inline">
                 <div class="form-group">
                     <select class="selectpicker" multiple title="All work">
-                        <option>Technology</option>
-                        <option>Marketing</option>
-                        <option>Operation Management</option>
+                        {% for cat in jobCatList %}
+                            <option>{{ cat[0] }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <label>From</label>
                 <div class="form-group">
                     {#                        <label>From</label>#}
-                    {#                        <input type="text" class="form-control" id="company-name-search" placeholder="All company">#}
-                    <select class="selectpicker" data-live-search="true" multiple title="All company">
-                        <option data-tokens="agoda services">Agoda Services Co., Ltd.</option>
-                        <option data-tokens="ms microsoft thailand">Microsoft Thailand Co., Ltd.</option>
-                        <option data-tokens="bangkok price water house PricewaterhouseCoopers pwc">Bangkok
-                            PricewaterhouseCoopers ABAS Ltd.
-                        </option>
-                    </select>
+                    <input type="text" class="company-search" id="company-name-search" placeholder="All company"
+                           size="26.5">
                 </div>
                 <button type="submit" class="btn btn-secondary">Filter</button>
             </form>
@@ -234,71 +240,61 @@
         <br>
         <!-- Example row of columns -->
         <div class="row">
-            <div class="col-md-4">
-                <div class="job-item-header">
-                    <div class="job-link">
-                        <h4 class="job-name"><a href="/job-profile">Senior Mobile Developer</a></h4>
-                        <h6 class="company-name">Agoda Services Co., Ltd.</h6>
+            {% for job in jobList %}
+                <div class="col-md-4">
+                    <div class="job-item-header">
+                        <div class="job-link">
+                            <h4 class="job-name"><a href="/job/{{ job[0] }}">{{ job[1] }}</a></h4>
+                            <h6 class="company-name">{{ job[6] }}</h6>
+                        </div>
+                    </div>
+                    <p class="job-info">{{ job[2] }}</p>
+                    <div class="job-item-footer">
+                        <div class="job-cat">
+                            {{ job[14] }}
+                        </div>
+                        <div class="job-date">
+                            <span class="glyphicon glyphicon-calendar"></span> {{ job[4].strftime('%b %d, %Y') }}
+                        </div>
                     </div>
                 </div>
-                <p class="job-info">Agoda is the largest and fastest growing online hotel booking platform in Asia, and
-                    is a Booking
-                    Holdings (BKNG) company, the world’s leading provider of brands that help people book great
-                    experiences through technology. We understand the value of a great mobile experience for our
-                    customer.</p>
-                <div class="job-item-footer">
-                    <div class="job-cat">
-                        Technology
-                    </div>
-                    <div class="job-date">
-                        <span class="glyphicon glyphicon-calendar"></span> Apr 12, 2018
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="job-item-header">
-                    {#                <div class="company-img"><img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="42" height="42"></div>#}
-                    <div class="job-link">
-                        <h4 class="job-name"><a href="/job-profile">PPC Coordinator</a></h4>
-                        <h6 class="company-name">Microsoft Thailand Co., Ltd.</h6>
-                    </div>
-                </div>
-                <p class="job-info">The SEM / PPC Coordinator will be responsible for supporting decision making for on-line advertising
-                    (PPC) campaigns, thus experience in working with data would be a big advantage. The responsibilities
-                    would include creating uploading and maintaining advertising assets in online accounts, supe. The responsibilities
-                    would include creating uploading and maintaining advertising assets in online accounts, supe. The responsibilities
-                    would include creating uploading and maintaining advertising assets in online accounts, supe. The responsibilities
-                    would include creating uploading and maintaining advertising assets in online accounts, supe. The responsibilities
-                    would include creating uploading and maintaining advertising assets in online accounts, sup</p>
-                <div class="job-item-footer">
-                    <div class="job-cat">
-                        Marketing
-                    </div>
-                    <div class="job-date">
-                        <span class="glyphicon glyphicon-calendar"></span> Apr 07, 2018
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="job-item-header">
-                    {#                <div class="company-img"><img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="42" height="42"></div>#}
-                    <div class="job-link">
-                        <h4 class="job-name"><a href="/job-profile">Senior Supply Innovation Manager</a></h4>
-                        <h6 class="company-name">Bangkok PricewaterhouseCoopers ABAS Ltd.</h6>
-                    </div>
-                </div>
-                <p class="job-info">Role Purpose: to improve operational efficiencies to achieve objectives of the Partner Service Team.</p>
-                <div class="job-item-footer">
-                    <div class="job-cat">
-                        Operation Management
-                    </div>
-                    <div class="job-date">
-                        <span class="glyphicon glyphicon-calendar"></span> Mar 27, 2018
-                    </div>
-                </div>
-            </div>
-
+            {% endfor %}
         </div>
+        <nav class="navPage" style="text-align: center">
+            <ul class="pagination">
+                {% if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('job', page = page - 1) }}">Previous</a>
+                    </li>
+                {% endif %}
+                {% if numofPage < 10 %}
+                    {% for pages in range(1,numofPage + 1) %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('job', page = pages) }}">{{ pages }}</a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    {% if page <5 %}
+                        {% for pages in range(1,10) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('job', page = pages) }}">{{ pages }}</a>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        {% for pages in range(page - 5,page + 5,1) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('job', page = pages) }}">{{ pages }}</a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+                {% if page < numofPage %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('job', page = page + 1) }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
 
     </div> <!-- /container -->
 {% endblock %}

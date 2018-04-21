@@ -188,14 +188,14 @@ $("#emailvalue").focusout(function () {
         // $(this).css("border-color", "#00CD00");
     }
 });
-$("#website").focusout(function () {
-    var value = $(this).val()
-    if (checkwebsite(value) == 1) {
-        // $(this).css("border-color", "#FF0000");
-    } else {
-        // $(this).css("border-color", "#00CD00");
-    }
-});
+// $("#website").focusout(function () {
+//     var value = $(this).val()
+//     if (checkwebsite(value) == 1) {
+//         // $(this).css("border-color", "#FF0000");
+//     } else {
+//         // $(this).css("border-color", "#00CD00");
+//     }
+// });
 
 function checkcompanyname(value) {
     document.getElementById('companynamestatus').style.color = "red";
@@ -210,7 +210,7 @@ function checkcompanyname(value) {
 function checkjobinfo(value) {
     document.getElementById('jobinfostatus').style.color = "red";
     if (value.length <= 1) {
-        document.getElementById('jobinfostatus').innerHTML = 'X Please enter the job information';
+        document.getElementById('jobinfostatus').innerHTML = 'X Please enter the job summary';
         return 1;
     } else {
         document.getElementById('jobinfostatus').innerHTML = '';
@@ -220,7 +220,7 @@ function checkjobinfo(value) {
 function checkjobname(value) {
     document.getElementById('jobnamestatus').style.color = "red";
     if (value.length <= 1) {
-        document.getElementById('jobnamestatus').innerHTML = 'X Please enter the job name';
+        document.getElementById('jobnamestatus').innerHTML = 'X Please enter the job title';
         return 1;
     } else {
         document.getElementById('jobnamestatus').innerHTML = '';
@@ -277,16 +277,16 @@ function checkemail(value) {
         return 1;
     }
 }
-function checkwebsite(value) {
-    document.getElementById('websitestatus').style.color = "red";
-    if (hasWWW(value) && hasDot(value)) {
-        document.getElementById('websitestatus').innerHTML = '';
-        return 0;
-    } else {
-        document.getElementById('websitestatus').innerHTML = "X Enter a valid website";
-        return 1;
-    }
-}
+// function checkwebsite(value) {
+//     document.getElementById('websitestatus').style.color = "red";
+//     if (hasWWW(value) && hasDot(value)) {
+//         document.getElementById('websitestatus').innerHTML = '';
+//         return 0;
+//     } else {
+//         document.getElementById('websitestatus').innerHTML = "X Enter a valid website";
+//         return 1;
+//     }
+// }
 function hasAt(myString) {
     if ((myString.split("@").length - 1) > 1) {
         return false
@@ -423,14 +423,14 @@ function checkDateApplicationEnd(date1) {
 }
 
 
-$("#applicationstartdate").focusout(function () {
-    // alert('kao leaw')
-    var date1 = $('[name=applicationstartdate]').val();
-    if (checkDateApplicationStart(date1) == 1) {
-    } else {
-        // $('#datepicker').css("border-color", "#00CD00");
-    }
-});
+// $("#applicationstartdate").focusout(function () {
+//     // alert('kao leaw')
+//     var date1 = $('[name=applicationstartdate]').val();
+//     if (checkDateApplicationStart(date1) == 1) {
+//     } else {
+//         // $('#datepicker').css("border-color", "#00CD00");
+//     }
+// });
 $("#applicationenddate").focusout(function () {
     // alert('kao leaw')
     var date1 = $('[name=applicationenddate]').val();
@@ -453,8 +453,8 @@ function checkallpost() {
     var jobinfovalue = $('#jobinfo').val();
     var phonenovalue = $('#phonenumber').val();
     var emailvalue = $('#emailvalue').val();
-    var websitevalue = $('#website').val();
-    var startdate = $('[name=applicationstartdate]').val();
+    // var websitevalue = $('#website').val();
+    // var startdate = $('[name=applicationstartdate]').val();
     var enddate = $('[name=applicationenddate]').val();
 
     var $fileUpload = $("#input-image-3");
@@ -470,12 +470,13 @@ function checkallpost() {
         checkphone(phonenovalue) == 1 ||
         checkphone(phonenovalue) == 2 ||
             checkemail(emailvalue) == 1 ||
-            checkwebsite(websitevalue) ==1 ||
-            checkDateApplicationStart(startdate)==1 ||
-            checkDateApplicationEnd(enddate) ==1 ||
-    checkDate(startdate,enddate) ==1){
+            // checkwebsite(websitevalue) ==1 ||
+            // checkDateApplicationStart(startdate)==1 ||
+            checkDateApplicationEnd(enddate) ==1)
+    // checkDate(startdate,enddate) ==1)
+    {
         alert("Please enter all of the information");
-        console.log(websitevalue);
+        // console.log(websitevalue);
         return false;
     } else {
         return true;
