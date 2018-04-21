@@ -169,7 +169,7 @@
                             <i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i><b>Telephone:</b> {{ tutor[9] }}
                         </p>
 
-                        <hr>
+                        <br>
                         {% if user_id == tutor[0] %}
                         <button type="button" data-toggle="modal" data-title="Edit" class="btn btn-primary"
                                 data-target="#editprofile" style="margin-bottom: 5%;">Edit Profile
@@ -353,7 +353,8 @@
                     <h2 class="w3-text-grey w3-padding-16"><i
                             class="fas fa-info fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Information
                     </h2>
-                    {{ tutor[1] }}
+                    {{ tutor[1]|safe }}
+                    <br>
                 </div>
 
                 <div class="w3-container w3-card w3-white" style="margin-top: 3%;">
@@ -420,7 +421,7 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Edit your profile here</h4>
+                            <h4 class="modal-title">Edit Profile</h4>
                         </div>
                         <div class="modal-body form-horizontal">
                             <div id="endorsement-form-container" class="">
@@ -491,11 +492,13 @@
                                         </div>
                                         <div>
                                             <label for="info"><span style="color: red;">*</span> Information:</label><br>
+                                            <div style="padding-left: 27px">
                                             <textarea type="text" class="form-control" id="info" name="info"
                                                       placeholder="Edit your information here"
                                                       required/> {{ tutor[1] }} </textarea>
+                                            </div>
                                         </div>
-                                        <div id="posstatus" style="margin-left: 5%;">
+                                        <div id="posstatus" style="margin-left: 5%; color: red">
                                         </div>
 
                                         <div>
@@ -575,7 +578,7 @@
     </div>
     </body>
 
-    <script src="/static/js/verificationNewPost.js"></script>
+{#    <script src="/static/js/verificationNewPost.js"></script>#}
     <script src="/static/js/verificationNewTutor.js"></script>
     <script src="/static/js/verificationEditTutor.js"></script>
     <script>
