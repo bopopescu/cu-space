@@ -205,7 +205,7 @@ def edit_user_profile_picture(user_id):
             except:
                 print("Cannot update picture to database")
             return redirect(url_for('userprofile', user_id=user_id))
-@app.route('/tutor/' , defaults={'page':1, 'subject' : None, 'keyword': None})
+@app.route('/tutor' , defaults={'page':1, 'subject' : None, 'keyword': None})
 @app.route('/tutor/subject/<subject>', defaults={'page':1, 'keyword' :None})
 @app.route('/tutor/subject/<subject>/page/<page>', defaults = {'keyword': None})
 @app.route('/tutor/search-keyword/<keyword>', defaults={'page':1, 'subject' : None})
@@ -332,10 +332,9 @@ def profile(tutor_id):
                                        sub=subject, birthdate=tutor_info[10])
         except:
             print("Cannot retrieve subject info")
-            return render_template('error.html')
     except:
         print("Cannot retrieve tutor info")
-        return render_template('error.html')
+    return redirect(url_for('tutor', page = 1))
 
 @app.route('/tutor/<tutor_id>/update_subject/<subject_group_id>' ,methods=["POST"])
 def update_subject(tutor_id, subject_group_id):
@@ -841,6 +840,8 @@ def add_comment_into_discussion(category, dis_id,user_id, page_no):
     try:
         cursor.execute(addcommentSQL,(dis_id,user_id,content))
         conn.commit()
+        cursor.close()
+        conn.close()
     except:
         print("Fail to insert comment into discussion")
     return redirect(url_for('discussion_post', category = category, dis_id=dis_id, page = page_no))
@@ -896,7 +897,7 @@ def discussion(category, page, topic_name):
                     ,cat.Dis_cat_name
                     ,dis.User_id
                     ,dis.Topic
-                    ,dis.Content
+                    ,dis.Content  
                     ,dis.Create_Time
                     ,`user`.firstname
                     ,`user`.lastname
@@ -1010,7 +1011,7 @@ def getJob():
         return jobList
     except:
         print("Cannot query job category")
-        conn.close()
+    conn.close()
 def getComment(dis_id):
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -1018,10 +1019,10 @@ def getComment(dis_id):
     try:
         cursor.execute(sqlComment, dis_id)
         comment = cursor.fetchall()
+        conn.close()
         return comment
     except:
         print("Cannot query subject name")
-    conn.close()
 
 def getNumberofVoteFromComment(comment_id):
     conn = mysql.connect()
@@ -1045,8 +1046,8 @@ def getNumberofVoteFromComment(comment_id):
             vote = cursor.fetchone()
         except:
             print("Cannot query number of comment")
-    return vote
     conn.close()
+    return vote
 
 def getTopComment(dis_id):
     conn = mysql.connect()
@@ -1065,8 +1066,8 @@ def getTopComment(dis_id):
         comment = cursor.fetchone()
     except:
         print("Cannot query number of comment")
-    return comment
     conn.close()
+    return comment
 
 def diduserVote(comment_id, user_id):
     if user_id:
@@ -1106,8 +1107,8 @@ def diduserVote(comment_id, user_id):
                 ListofcheckVoting = ListofcheckVoting + [0]
         else:
             ListofcheckVoting = 0
-    return ListofcheckVoting
     conn.close()
+    return ListofcheckVoting
 
 def calculate_age(born):
     today = date.today()
