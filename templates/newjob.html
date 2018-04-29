@@ -2,14 +2,14 @@
 {% block title %}{% endblock %}
 {% block head %}
     {{ super() }}
-{#    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">#}
-{#    <script src="//code.jquery.com/jquery-1.10.2.js"></script>#}
-{#    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>#}
+    {#    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">#}
+    {#    <script src="//code.jquery.com/jquery-1.10.2.js"></script>#}
+    {#    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>#}
     <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css"/>
 
     <!--Font Awesome (added because you use icons in your prepend/append)-->
     <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css"/>
-{#    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>#}
+    {#    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>#}
     <!-- Include Date Range Picker -->
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
@@ -17,16 +17,16 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
     <script>
-{#        $(document).ready(function () {#}
-{#            var date_input = $('input[name="applicationstartdate"]'); //our date input has the name "date"#}
-{#            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";#}
-{#            date_input.datepicker({#}
-{#                format: 'dd-mm-yyyy',#}
-{#                container: container,#}
-{#                todayHighlight: true,#}
-{#                autoclose: true,#}
-{#            })#}
-{#        });#}
+        {#        $(document).ready(function () {#}
+        {#            var date_input = $('input[name="applicationstartdate"]'); //our date input has the name "date"#}
+        {#            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";#}
+        {#            date_input.datepicker({#}
+        {#                format: 'dd-mm-yyyy',#}
+        {#                container: container,#}
+        {#                todayHighlight: true,#}
+        {#                autoclose: true,#}
+        {#            })#}
+        {#        });#}
         $(document).ready(function () {
             var date_input = $('input[name="applicationenddate"]'); //our date input has the name "date"
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
@@ -340,20 +340,18 @@
                     <p>Upload the job description in PDF format</p>
                     <div>
 
-
                         <br>
                         <img id="img0" src="#" alt="" style="display: none"/>
-                        <button id="b1" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">+
+                        <button id="fileInfo" onclick="btnClick()" type="button" class="btn btn-secondary btn-lg">+
                         </button>
                         <input id="input-image-3" name="input-image" type="file"
                                class="btn btn-secondary btn-lg"
-                               onchange="readURL(this) ;" accept="application/pdf"
+                               onchange="readPDF(this) ;" accept="application/pdf"
                                style="display: none">
                         <br>
-
-
                     </div>
                 </div>
+
                 {#            </div>#}
                 <div class="col-md-6">
                     <label for="discussion">Company</label>
@@ -377,7 +375,7 @@
                         <select class="form-control" id="jobcategory" name="jobcategory" required/>
                         <option value="" disabled selected>Select your category</option>
                         {% for jobList in jobCat %}
-                        <option value="{{ jobList[0] }}">{{ jobList[1] }}</option>
+                            <option value="{{ jobList[0] }}">{{ jobList[1] }}</option>
                         {% endfor %}
                         </select>
                     </div>
@@ -387,7 +385,8 @@
                     <br>
 
                     <label for="jobcategory">Job Summary</label><br><span style="color:#FF9900">This will show on the job list page</span>
-                    <textarea class="form-control" id="jobinfo" placeholder="" name="jobinfo" rows="4" required></textarea>
+                    <textarea class="form-control" id="jobinfo" placeholder="" name="jobinfo" rows="4"
+                              required></textarea>
                     <div id="jobinfostatus">
                     </div>
                     <br>
@@ -403,30 +402,30 @@
                     <div id="phonenumberstatus">
                     </div>
                     <br>
-{##}
-{#                    <label for="jobcategory">Website</label>#}
-{#                    <input type="text" class="form-control" id="website" placeholder="" name="website" required/>#}
-{#                    <div id="websitestatus">#}
-{#                    </div>#}
-{#                    <br>#}
-{#                    <div class="form-group ">#}
-{#                        <label class="control-label " for="date">#}
-{#                            Application Start Date#}
-{#                        </label>#}
-{#                        <div class="input-group">#}
-{#                            <div class="input-group-addon">#}
-{#                                <i class="fa fa-calendar">#}
-{#                                </i>#}
-{#                            </div>#}
-{#                            <input class="form-control" id="applicationstartdate" name="applicationstartdate"#}
-{#                                   placeholder="DD-MM-YYYY" type="text" required/>#}
-{#                        </div>#}
-{#                    </div>#}
-{##}
-{#                    <div id="startdatestatus">#}
-{#                    </div>#}
-{##}
-{#                    <br>#}
+                    {##}
+                    {#                    <label for="jobcategory">Website</label>#}
+                    {#                    <input type="text" class="form-control" id="website" placeholder="" name="website" required/>#}
+                    {#                    <div id="websitestatus">#}
+                    {#                    </div>#}
+                    {#                    <br>#}
+                    {#                    <div class="form-group ">#}
+                    {#                        <label class="control-label " for="date">#}
+                    {#                            Application Start Date#}
+                    {#                        </label>#}
+                    {#                        <div class="input-group">#}
+                    {#                            <div class="input-group-addon">#}
+                    {#                                <i class="fa fa-calendar">#}
+                    {#                                </i>#}
+                    {#                            </div>#}
+                    {#                            <input class="form-control" id="applicationstartdate" name="applicationstartdate"#}
+                    {#                                   placeholder="DD-MM-YYYY" type="text" required/>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                    {##}
+                    {#                    <div id="startdatestatus">#}
+                    {#                    </div>#}
+                    {##}
+                    {#                    <br>#}
 
 
                     <div class="form-group ">

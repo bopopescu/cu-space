@@ -246,7 +246,7 @@ function checkuserDateOfBirth(date1) {
     var inputdate2 = new Date(inputdate[2], inputdate[1] - 1, inputdate[0]);
 
     if (date1.length <= 1) {
-        document.getElementById('userdateofbirthstatuses').innerHTML = "X Please enter the date of birth";
+        // document.getElementById('userdateofbirthstatuses').innerHTML = "X Please enter the date of birth";
         return 1;
     }
     if (inputdate2 == todaydate) {

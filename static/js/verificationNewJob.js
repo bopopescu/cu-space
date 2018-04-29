@@ -397,7 +397,7 @@ function checkDateApplicationEnd(date1) {
 
     var day,year;
      if (date1.length <= 1) {
-        document.getElementById('enddatestatus').innerHTML = "X Please enter the application end date";
+        // document.getElementById('enddatestatus').innerHTML = "X Please enter the application end date";
         return 1;
     }
     if (date1.length !== 10) {
@@ -481,6 +481,10 @@ function checkallpost() {
     } else {
         return true;
     }
+}
+
+function readPDF(input) {
+    document.getElementById("fileInfo").innerHTML = input.files[0].name;
 }
 
 
