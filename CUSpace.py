@@ -496,7 +496,7 @@ def registernewjob():
     if g.user:
         return render_template('newjob.html', jobCat = cat, login = g.user, user_id = g.user_id)
     else:
-        return render_template('newjob.html', jobCat = cat)
+        return redirect(url_for('job', page = 1))
 
 @app.route('/newjob/create_new_job', methods = ['POST'])
 def createnewjob():
